@@ -1,0 +1,10 @@
+data_dirss: /data/mysqldb
+data_dirs: /data/mysqldb/3306
+data_dir: /data/mysqldb/3306/data
+log_path: /data/mysqldb/3306/log
+pid_file: /data/mysqldb/3306/run/mysqld.pid
+log_bin: /data/mysqldb/3306/log/binlog/mysql-bin
+relay_log_index: /data/mysqldb/3306/relay_index_log
+root_pass: geelyadmin
+servent_pass: geelyadmin
+innodb_buffer_pool_size: 4G

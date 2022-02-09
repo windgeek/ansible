@@ -1,0 +1,7 @@
+- name: Install kafkamanager
+  hosts: kafkamanager
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  roles:
+  - roles/kafkamanager

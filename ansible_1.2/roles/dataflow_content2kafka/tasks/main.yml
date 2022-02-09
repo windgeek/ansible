@@ -1,0 +1,56 @@
+---
+# tasks file for content2kafka
+- name: create  dataflow.install_path 
+  file: path={{ dataflow.install_path }} state=directory owner=k19 group=k19
+
+- name: unpack the httpcontent file
+  unarchive: src={{ all.pkgs_path }}/dataflow/{{ dataflow.content2kafka_name }}.tar.gz dest={{ dataflow.install_path }} copy=yes owner=k19 group=k19
+
+- name: copy .s3cmd script to remote
+  copy: src=/tmp/s3cfg/{{ groups.oss_ceph_cluster[0] }}/root/s3cfg dest=/tmp/s3cfg1 owner=root group=root mode=0755
+
+- name: set config for ceph
+  shell: |
+    cat /tmp/s3cfg1 |grep access_key|awk -F "\"" '{print $0}' |awk -F= '{print $2}' |awk '{sub(/^ */, "");sub(/ *$/, "")}1'
+  register: access_key
+- set_fact: access_key={{ access_key.stdout }}
+
+- name: set config for ceph
+  shell: |
+    cat /tmp/s3cfg1 |grep secret_key|awk -F "\"" '{print $0}' |awk -F= '{print $2}' |awk '{sub(/^ */, "");sub(/ *$/, "")}1'
+  register: secret_key
+- set_fact: secret_key={{ secret_key.stdout }}
+
+- name: unpack the dataflow init file
+  unarchive:
+    src: "{{ all.pkgs_path }}/dataflow/{{ dataflow.kafka2ck_init }}.tar.gz"
+    dest: "{{ dataflow.install_path }}"
+    copy: yes
+
+- name: change init file
+  template:
+    src: templates/hbase.json
+    dest: "{{ dataflow.install_path }}/init/message2kafka/json/hbase.json"
+
+- name: dataflow init
+  shell: |
+    sh {{ dataflow.install_path }}/init/start_init_rdc.sh {{ dataflow.namenode }}
+  when: dataflow.init_mode == "rdc"
+
+- name: dataflow init
+  shell: |
+    sh {{ dataflow.install_path }}/init/start_init_ndc.sh {{ dataflow.namenode }}
+  when: dataflow.init_mode == "ndc"
+
+#注意启动前要完成data_init中的内容
+- name: copy content2kafka config 
+  template: src="{{item.key}}" dest="{{item.value}}" owner=k19 group=k19 mode=0755
+  with_dict: 
+      - {"common.yaml.j2":"{{ dataflow.install_path }}/{{ dataflow.content2kafka_name }}/conf/common.yaml"}
+      - {"start_eml.sh":"{{ dataflow.install_path }}/{{ dataflow.content2kafka_name }}/bin"}
+      - {"start_html.sh":"{{ dataflow.install_path }}/{{ dataflow.content2kafka_name }}/bin"}
+
+- name: start region center content2kafka
+  shell: |
+    su k19 -c "nohup sh {{ dataflow.install_path }}/{{ dataflow.content2kafka_name }}/bin/start_eml.sh &"
+    su k19 -c "nohup sh {{ dataflow.install_path }}/{{ dataflow.content2kafka_name }}/bin/start_html.sh &"

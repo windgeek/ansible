@@ -1,0 +1,45 @@
+# 属性配置文件的位置
+# spring会从classpath下的/config目录或者classpath的根目录查找application.properties或application.yml。/config优先于classpath根目录
+# Tomcat
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+  port: 8080
+spring:
+  application:
+    name: oss-app
+  # 环境 dev|test|pro
+  profiles:
+    active: {{env_tag}}
+  http:
+    multipart:
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
+      enabled: true
+  # 指定静态资源的路径
+  resources:
+    static-locations: classpath:/static/,classpath:/views/
+  messages:
+    basename: i18n/messages
+    cache-seconds: 3600
+  cloud:
+    sentinel:
+      transport:
+        port: 9907
+        dashboard: {{ dashboard }}:8080
+management:
+  security:
+    enabled: false
+  metrics:
+    enable:
+      all: true
+    use-global-registry: true
+    export:
+      atlas:
+        enabled: true
+    distribution:
+      percentiles-histogram[http.server.requests]: true
+      sla[http.server.requests]: 50ms
+                                       

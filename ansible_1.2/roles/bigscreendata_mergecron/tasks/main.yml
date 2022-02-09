@@ -1,0 +1,7 @@
+- name: data merge 
+  cron:
+    name: run bigscreen center merge scripts 
+    minute: "*/10"
+    job: /usr/bin/ansible-playbook -i {{inventories}} /etc/ansible/playbooks/bigscreenmerge.yml 
+  run_once: true
+  delegate_to: "{{groups.bigscreen_merge[0]}}"

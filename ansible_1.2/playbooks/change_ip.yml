@@ -1,0 +1,6 @@
+- name: change_ip
+  hosts: ip
+  remote_user: root
+  roles:
+  - change_ip
+  tags: change_ip

@@ -1,0 +1,111 @@
+---
+# tasks file for oss_install
+- name: unpack the oss file
+  unarchive: 
+    src: "{{all.pkgs_path}}/tomcat-oss.tar.gz"
+    dest: /opt/  
+    copy: yes 
+    owner: k19 
+    group: k19
+
+- name: copy .s3cmd script to remote
+  copy: 
+    src: /tmp/s3cfg/{{ groups.oss_ceph_cluster[0] }}/root/s3cfg 
+    dest: /tmp/s3cfg1
+    owner: root 
+    group: root 
+    mode: 0755
+
+- name: set config for ceph
+  shell: |
+    cat /tmp/s3cfg1 |grep access_key|awk -F \" '{print $0}' |awk -F= '{print $2}'
+  register: access_key
+- set_fact: access_key={{ access_key.stdout }}
+
+- name: set config for ceph
+  shell: |
+    cat /tmp/s3cfg1 |grep secret_key|awk -F \" '{print $0}' |awk -F= '{print $2}'
+  register: secret_key
+- set_fact: secret_key={{ secret_key.stdout }}
+
+- name: config application.yml
+  template: 
+    src: "templates/application.yml" 
+    dest: "/opt/tomcat-oss/webapps/oss/WEB-INF/classes/config/application.yml" 
+    owner: k19 
+    group: k19 
+    mode: 0644
+
+- name: config application.yml
+  template: 
+    src: "templates/catalina.sh" 
+    dest: "/opt/tomcat-oss/bin/catalina.sh" 
+    owner: k19 
+    group: k19 
+    mode: 0754
+
+- name: config application-{{env_tag}}.yml
+  template: 
+    src: "application-dev.yml"
+    dest: "/opt/tomcat-oss/webapps/oss/WEB-INF/classes/config/application-{{env_tag}}.yml"
+    owner: k19 
+    group: k19 
+    mode: 0644 
+
+- name: city loops
+  template: 
+    src: "bootstrap-servers-{{city}}.j2"
+    dest: "/tmp/bootstrap-servers"
+    owner: k19 
+    group: k19 
+    mode: 0644     
+
+- name: change application-{{ env_tag }}.yml
+  shell: sed -i s/kafkaip/`cat /tmp/bootstrap-servers | xargs | tr ' ' ','`/ /opt/tomcat-oss/webapps/oss/WEB-INF/classes/config/application-{{env_tag}}.yml
+        
+- name: start
+  shell: su - k19 -c "/bin/sh /opt/tomcat-oss/bin/startup.sh"
+
+- name: Check if oss port
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 8057
+    state: started
+    delay: 10
+    #timeout一定要比上面的delay值大，否侧检测结果不正确
+    timeout: 15
+    connect_timeout: 5
+
+- name: generate lt 1m
+  shell: echo "success" > /tmp/test
+
+- name: check lt 1m upload
+  shell: curl --location --request POST "http://{{ansible_hostname}}:8057/upload_v2/0/txt/10.0.19.254/6666/10.0.19.254/8080/1571644561053/rongzhi.wei/test_1" --header "Content-Type:text/plain" --data-binary "@/tmp/test"
+  register: result1
+
+- name: Show debug info
+  debug: var=result1 verbosity=0
+
+- name: check lt 1m download
+  shell: curl --location --request GET "http://{{ansible_hostname}}:8057/download_v2/test_1"
+  register: result2
+- name: Show debug info
+  debug: var=result2 verbosity=0
+
+- name: generate gt 1m
+  shell: truncate -s 2M /tmp/tests
+
+- name: check gt 1m upload
+  shell: curl --location --request POST "http://{{ansible_hostname}}:8057/upload_v2/0/txt/10.0.19.254/6666/10.0.19.254/8080/1571644561053/rongzhi.wei/tests_1" --header "Content-Type:text/plain" --data-binary "@/tmp/tests"
+  register: result3
+
+- name: Show debug info
+  debug: var=result3 verbosity=0
+
+- name: check gt 1m download
+  shell: curl -O --location --request GET "http://{{ansible_hostname}}:8057/download_v2/tests_1"
+  register: result4
+
+- name: Show debug info
+  debug: var=result4 verbosity=0
+

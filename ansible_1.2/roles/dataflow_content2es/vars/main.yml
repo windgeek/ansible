@@ -1,0 +1,8 @@
+#content2es_version: content2es
+#jar_version: content2es-1.5.jar
+#dataflow_dir: /data1
+#esClusterName: tse
+#esNode: 172.18.9.51,172.18.9.52,172.18.9.53
+#若没做ha，就填入 hdfsActiveNamenode 例如：tsecluster或k182nd-stg-02:8020
+#hdfsHAClusterName: {{ hdfs.namenode }}
+#logLevel: info

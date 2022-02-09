@@ -1,0 +1,136 @@
+---
+# tasks file for kafka2ck
+- name: create dataflow install path
+  file: 
+    path: "{{ dataflow.install_path }}"
+    owner: "{{ all.service_user }}"
+    group: "{{ all.service_group }}"
+    state: directory
+    mode: 0755
+
+- name: unpack the kafka2ck file
+  unarchive: 
+    src: "{{ all.pkgs_path }}/dataflow/{{ dataflow.kafka2ck_name }}.tar.gz"
+    dest: "{{ dataflow.install_path }}"
+    copy: yes
+
+- name: unpack the dataflow init file
+  unarchive:
+    src: "{{ all.pkgs_path }}/dataflow/{{ dataflow.kafka2ck_init }}.tar.gz"
+    dest: "{{ dataflow.install_path }}"
+    copy: yes
+
+- name: change init file
+  template:
+    src: templates/hbase.json
+    dest: "{{ dataflow.install_path }}/init/message2kafka/json/hbase.json"
+
+- name: dataflow init
+  shell: |
+    sh {{ dataflow.install_path }}/init/start_init_rdc.sh {{ dataflow.namenode }}
+  when: dataflow.init_mode == "rdc"
+
+- name: dataflow init
+  shell: |
+    sh {{ dataflow.install_path }}/init/start_init_ndc.sh {{ dataflow.namenode }}
+  when: dataflow.init_mode == "ndc"
+
+- name: chown
+  shell: chown k19:k19 -R {{dataflow.install_path}}
+
+- name: template big and small yaml
+  template:
+    src: templates/common.yaml.j2
+    dest: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/conf/common.yaml"
+  loop: "{{ lookup('dict',region_dict) }}"
+
+- name: template common yaml
+  template:
+    src: templates/common_common.yaml.j2
+    dest: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/common/conf/common.yaml"
+  loop: "{{ lookup('dict',common_dict) }}"
+
+- name: replace common file
+  replace: 
+    path: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/common/conf/common.yaml"
+    regexp: "192.168.162.95:8123"
+    replace: "{{ dataflow.common_clickhouse }}"
+  loop: "{{ lookup('dict',common_dict) }}"
+  
+
+- name: replace big cluster start script
+  replace:
+    path: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/big/bin/{{ item.value.dm }}.sh"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',bigstart_dict) }}"  
+
+- name: replace big cluster start script
+  replace:
+    path: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/big/bin/{{ item.value.http }}.sh"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',bigstart_dict) }}"
+
+- name: replace big cluster start script
+  replace:
+    path: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/big/bin/{{ item.value.record }}.sh"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',bigstart_dict) }}"
+
+- name: replace small cluster start script
+  replace:
+    path: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/small/bin/{{ item.value.mail }}.sh"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',smallstart_dict) }}"
+
+- name: replace small cluster start script
+  replace:
+    path: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/small/bin/{{ item.value.radius }}.sh"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',smallstart_dict) }}"
+
+- name: replace common cluster start script
+  replace:
+    path: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/common/bin/{{ item.value.lbs }}.sh"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',common_dict) }}"
+
+- name: replace common cluster start script
+  replace:
+    path: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/common/bin/{{ item.value.nat }}.sh"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',common_dict) }}"
+
+- name: replace common cluster start script
+  replace:
+    path: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/common/bin/{{ item.value.voip }}.sh"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',common_dict) }}"
+
+- name: replace common cluster start script
+  replace:
+    path: "{{ dataflow.install_path }}/kafka2ck/{{ item.key }}/common/bin/{{ item.value.vpn }}.sh"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',common_dict) }}"
+
+
+- name: start dataflow
+  shell: |
+    su k19 -c "nohup sh {{ dataflow.install_path }}/kafka2ck/{{ item.key }}/big/bin/start_dm_conv.sh &"
+    su k19 -c "nohup sh {{ dataflow.install_path }}/kafka2ck/{{ item.key }}/big/bin/start_ntc_collect_http.sh &"
+    su k19 -c "nohup sh {{ dataflow.install_path }}/kafka2ck/{{ item.key }}/big/bin/start_ntc_conn_record.sh &"
+    su k19 -c "nohup sh {{ dataflow.install_path }}/kafka2ck/{{ item.key }}/small/bin/start_ntc_collect_mail.sh &"
+    su k19 -c "nohup sh {{ dataflow.install_path }}/kafka2ck/{{ item.key }}/small/bin/start_ntc_collect_radius.sh &"
+    su k19 -c "nohup sh {{ dataflow.install_path }}/kafka2ck/{{ item.key }}/common/bin/start_ntc_collect_lbs.sh &"
+    su k19 -c "nohup sh {{ dataflow.install_path }}/kafka2ck/{{ item.key }}/common/bin/start_ntc_collect_nat.sh &"
+    su k19 -c "nohup sh {{ dataflow.install_path }}/kafka2ck/{{ item.key }}/common/bin/start_ntc_collect_voip_log.sh &"
+    su k19 -c "nohup sh {{ dataflow.install_path }}/kafka2ck/{{ item.key }}/common/bin/start_ntc_collect_vpn.sh &"
+  loop: "{{ lookup('dict',common_dict) }}"

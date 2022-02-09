@@ -1,0 +1,11 @@
+---
+#测试时注释掉更改属组属主
+- name: mkdir /opt/hbase_collector
+  file: path=/opt/hbase_collector state=directory #owner=hbase group=hadoop
+
+- name: scp config files 
+  copy: src="{{ item }}" dest=/opt/hbase_collector mode=755
+  with_items:
+    - hbase_jmx_config.yml
+    - jmx_prometheus_javaagent-0.12.0.jar
+

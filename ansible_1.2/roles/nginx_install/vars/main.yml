@@ -1,0 +1,5 @@
+#which_conf: _app
+#which_conf: _oss
+ck_log_dir: /data1/nginx_log
+ssh_port: 3222
+listen_port: 4321

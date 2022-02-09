@@ -1,0 +1,9 @@
+- name: Sys Opt
+  hosts: sysopt
+  become: yes
+  become_method: sudo
+  roles:
+  - roles/sysopt
+  tags: sysopt
+
+

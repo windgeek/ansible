@@ -1,0 +1,74 @@
+---
+# tasks file for kafka_install
+- name: unpack the kafka file
+  unarchive: src={{ all.pkgs_path }}/{{kafka.version}}.tgz dest={{ kafka.install_path }} copy=yes
+
+- name: create group
+  group: name={{item.name}} state=present
+  with_items:
+    - name: "kafka"
+
+- name: create user
+  user: name={{item.key}} group={{item.value}} password=k19k19
+  with_dict:
+    - {"kafka":"kafka"}
+
+- name: create soft link
+  file: path={{ kafka.install_path }}/kafka state=link src={{ kafka.install_path }}/{{ kafka.version }}
+- name: install
+  shell: |
+    chown -R kafka:kafka {{ kafka.install_path }}/kafka
+    chown -R kafka:kafka {{ kafka.install_path }}/{{ kafka.version }}
+
+- name: scp jar 
+  copy: src="jmx_prometheus_javaagent-kafka-0.6.jar" dest="{{ kafka.install_path }}/kafka/libs/jmx_prometheus_javaagent-kafka-0.6.jar" force=yes  owner=kafka group=kafka mode=0644
+
+- name: scp yml
+  copy: src="kafka-0-8-2.yml" dest="{{ kafka.install_path }}/kafka/config/kafka-0-8-2.yml"  force=yes  owner=kafka group=kafka mode=0644
+
+- name: copy config and script
+  template: src="{{item.key}}" dest="{{item.value}}" owner=kafka group=kafka mode=0755
+  with_dict:
+    - {"server.properties":"{{ kafka.install_path }}/kafka/config/server.properties"}
+    - {"kafka-server-start.sh":"{{ kafka.install_path }}/kafka/bin/kafka-server-start.sh"}
+    - {"auto-del-30-days-ago-log.sh":"{{ kafka.install_path }}/kafka/bin/kafka_log_cleaner_script.sh"}
+
+- name: create log dir
+  file:
+    path: "/{{ item.name }}/kafka-logs"
+    state: directory
+    owner: "{{ kafka.user }}"
+    group: "{{ kafka.group }}"
+    mode: 0775
+  with_items:
+    - name: "data1"
+    - name: "data2"
+    - name: "data3"
+    - name: "data4"
+    - name: "data5"
+    - name: "data6"
+
+- name: start kafka
+  command: "nohup /bin/sh {{ kafka.install_path }}/kafka/bin/kafka-server-start.sh {{ kafka.install_path }}/kafka/config/server.properties > /dev/null 2>&1 &"
+  become: yes
+  become_method: su
+  become_user: "{{ kafka.user }}"
+  args:
+    chdir: "{{ kafka.install_path }}/kafka/bin"
+
+- name: add crontab task
+  cron: 
+    name: "clean kafka logs"
+    minute: "*"
+    hour: "*/23"
+    job:  "sh {{ kafka.install_path }}/kafka/bin/kafka_log_cleaner_script.sh"
+
+- name: Check if Kafka is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 6667
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 25
+    connect_timeout: 5

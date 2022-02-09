@@ -1,0 +1,9 @@
+# cluster name
+clickhouse_distribute_small: clickhouse_tse_distribute_small
+clickhouse_distribute_big: clickhouse_tse_distribute_big
+clickhouse_cluster_monitor: clickhouse_tse_distribute_monitor
+clickhouse_cluster_distribute: clickhouse_distribute
+# cluster name
+clickhouse_cluster_distribute_all: clickhouse_distribute_all
+clickhouse_tse_local_small: clickhouse_tse_local_small
+clickhouse_ala_local_small: clickhouse_ala_local_small

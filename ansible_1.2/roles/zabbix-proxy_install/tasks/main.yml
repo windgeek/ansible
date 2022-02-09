@@ -1,0 +1,3 @@
+- include: zabbix_proxy.yml
+- include: zabbix_agent.yml
+- include: optimize_mysql.yml

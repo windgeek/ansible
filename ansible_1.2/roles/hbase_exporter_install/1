@@ -1,0 +1,15 @@
+---
+- name: mkdir /opt/hbase_collector
+  shell: mkdir -p /opt/hbase_collector
+- name: scp config files 
+  copy: src=hbase_jmx_config.yml dest=/opt/hbase_collector mode=755
+- name: scp jar files
+  copy: src=jmx_prometheus_javaagent-0.12.0.jar dest=/opt/hbase_collector mode=755
+- name: chown 
+  shell: |
+    groupadd hbase
+    useradd -g hbase hbase
+    chown -R hbase.hbase /opt/hbase_collector
+- name: change prometheus.yml
+  template: src="prometheus_hbase.yml" dest="opt/prometheus/prometheus_hbase.yml" owner=root group=root mode=0755
+  when: ansible_host="{{prometheus_ip}}"

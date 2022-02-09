@@ -1,0 +1,6 @@
+- name: Install keepalived_grafana
+  hosts: "{{hosts}}"
+  remote_user: root
+  roles:
+  - keepalived_grafana_install
+  tags: keepalived_grafana

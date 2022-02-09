@@ -1,0 +1,35 @@
+---
+# tasks file for mobile
+- name: create  dataflow.install_path 
+  file: path={{ dataflow.install_path }} state=directory owner=k19 group=k19
+
+- name: unpack the httpcontent file
+  unarchive: src={{ all.pkgs_path }}/dataflow/{{ dataflow.mobile_name }}.tar.gz dest={{ dataflow.install_path }} copy=yes owner=k19 group=k19
+
+#注意启动前要完成data_init中的内容
+- name: copy mobile config 
+  template: src="{{item.key}}" dest="{{item.value}}" owner=k19 group=k19 mode=0755
+  with_dict: 
+      - {"common_kafka2ck.yaml.j2":"{{ dataflow.install_path }}/{{ dataflow.mobile_name }}/kafka2ck/conf/common.yaml"}
+
+- name: replace common cluster start script
+  replace:
+    path: "{{ dataflow.install_path }}/{{ dataflow.mobile_name }}/kafka2ck/bin/{{ item.name }}.sh"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  with_items:
+    - name: start_cdr
+    - name: start_profile
+    - name: start_sms
+    - name: start_station
+    - name: start_vlr
+
+- name: start region center mobile
+  shell: |
+    su k19 -c "nohup sh {{ dataflow.install_path }}/{{ dataflow.mobile_name }}/kafka2ck/bin/{{ item.name }}.sh &"
+  with_items:
+    - name: start_cdr
+    - name: start_profile
+    - name: start_sms
+    - name: start_station
+    - name: start_vlr

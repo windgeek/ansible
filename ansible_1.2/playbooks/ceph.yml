@@ -1,0 +1,6 @@
+- name: ceph_install
+  hosts: "{{hosts}}"
+  remote_user: root
+  roles:
+  - ceph_install
+  tags: ceph

@@ -1,0 +1,4 @@
+drop table k19_ods.ntc_mail_log_local_group_s_ip_view;
+drop table k19_ods.ntc_mail_log_local_group_d_ip_view;
+drop table k19_ods.ntc_mail_log_local_group_mail_from_view;
+drop table k19_ods.ntc_mail_log_local_group_mail_to_view;

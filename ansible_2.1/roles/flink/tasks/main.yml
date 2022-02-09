@@ -1,0 +1,33 @@
+- name: unpack the flink file
+  unarchive: src={{all.files}}/{{flink.file}} dest={{flink.dir}} copy=yes
+- name: create soft link
+  file: path={{flink.dir}}/flink state=link src={{flink.dir}}/{{flink.version}}
+- name: config flink-conf masters workers
+  template: src={{item.name}} dest={{flink.dir}}/flink/conf
+  with_items: 
+    - name: flink-conf.yaml
+    - name: masters
+    - name: workers
+  tags:
+    - conf
+- name: config config.sh
+  copy: src=config.sh dest={{flink.dir}}/flink/bin owner={{flink.user}}
+  tags:
+    - conf2
+# 1.11之后已经不需要了
+# - name: add flink-shaded-hadoop jar
+#   copy: src=flink-shaded-hadoop-2-uber-2.7.3-9.0.jar dest=/data/flink/lib owner=data-infra
+#   tags:
+#     - addjar
+# 也不需要了，新版本会自动读取plug下，而且也支持新版本的pushgateway
+# - name: add prometheus jar
+#   shell: mv {{flink.dir}}/flink/plugins/metrics-prometheus/flink-metrics-prometheus-1.14.2.jar {{flink.dir}}/flink/lib
+- name: chown  
+  shell: |
+    chown -R {{flink.user}}:{{flink.user}} {{flink.dir}}/flink {{flink.dir}}/{{flink.version}}
+  tags:
+    - chown
+# - name: start
+#   shell: su {{flink.user}} -c "{{flink.dir}}/flink/bin/start-cluster.sh"
+#   run_once: true
+#   delegate_to: "{{flink.first}}"

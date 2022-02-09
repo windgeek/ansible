@@ -1,0 +1,9 @@
+- name: cat
+  hosts: tob
+  gather_facts: no
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: print all 内置 vars
+      debug: var=hostvars[inventory_hostname]

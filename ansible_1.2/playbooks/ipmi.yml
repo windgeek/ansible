@@ -1,0 +1,7 @@
+- name: change ipmi
+  hosts: ipmi
+  remote_user: root
+  roles:
+  - ipmi_change
+  tags: ipmi_change
+  

@@ -1,0 +1,19 @@
+#安装位置
+agentTrap: /opt/K19AgentTrap
+# redis 密码、hosts
+password: percent
+# redis_hosts: 10.0.40.13:7000,10.0.40.14:7000,10.0.40.15:7000,10.0.40.13:7001,10.0.40.14:7001,10.0.40.15:7001
+# mysql vip 地址
+#mysql_vip: 172.18.9.106 
+# clickhouse 集群用户、密码
+# clickhouse_ip: 172.18.9.106
+# clickhouse_user: writer
+# clickhouse_pwd: k19
+# mysql_vip: 172.18.9.106
+# mysql_user: k18
+# mysql_pwd: k18k18
+# region code
+# region_code: 1
+# serverId, 分为1，2 提取到hosts 中
+# 故障监听程序vip地址
+# fault_monitor_vip: 172.18.9.200

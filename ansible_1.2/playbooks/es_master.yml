@@ -1,0 +1,6 @@
+- name: Install es
+  hosts: "{{hosts}}"
+  remote_user: root
+  roles:
+  - es_master_install
+  tags: es

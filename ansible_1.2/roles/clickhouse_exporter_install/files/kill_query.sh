@@ -1,0 +1,1 @@
+* * * * * clickhouse-client -m -h `hostname` -u writer --password k18  --query="kill query where query_id in (select query_id from system.processes where elapsed>toUInt16(arrayElement(Settings.Values,indexOf(Settings.Names,'max_execution_time'))));"

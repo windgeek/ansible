@@ -1,0 +1,6 @@
+#kafka2ck_version: kafka2ck-4.8.zip
+#kafka2ck_dir: kafka2ck
+jar_version: kafka2ck-4.8.jar
+#dataflow_dir: /data1
+#region: TSE
+logLevel: info

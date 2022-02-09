@@ -1,0 +1,5 @@
+scriptsdir: /opt/scripts
+shard_port: 9000
+http_port: 8123
+zk_port: 2181
+data_dir: '/data1/clickhouse-server'

@@ -1,0 +1,4 @@
+{% for i in range(121,145,1) %}
+{{kafka_hosts}}{{i}}:6667
+{% endfor %}
+

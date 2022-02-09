@@ -1,0 +1,6 @@
+- name: Install dataflow_content2kafka
+  hosts: dataflow_hosts
+  remote_user: root
+  roles:
+  - dataflow_content2kafka
+  tags: dataflow_content2kafka

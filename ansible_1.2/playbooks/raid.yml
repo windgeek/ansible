@@ -1,0 +1,6 @@
+- name: raid0 config
+  hosts: "{{hosts}}""
+  remote_user: root
+  roles:
+  - raid_config
+  - auto_mount

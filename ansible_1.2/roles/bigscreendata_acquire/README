@@ -1,0 +1,11 @@
+大屏遗留问题
+1. 同一中心多个数据采集程序
+
+脚本逻辑顺序：
+1. 删除mergedir 下ip 为10 段的文件夹。该文件夹中包含的是从子服务器上收集到的已经处理好的json文件
+2. 在主服务器创建汇总目录mergedir 
+3. 在子服务器上创建存放生成json文件的目录
+4. 在子服务器创建getcpumem.log getother.log (非json文件、清洗过的原始数据)
+5. 将region 插入上述两个json文件
+6. 将两个json文件返回
+7. python 程序合并json 文件

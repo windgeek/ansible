@@ -1,0 +1,73 @@
+---
+- name: install zabbix-proxy-mysql
+  yum: name=zabbix-proxy-mysql  state=present
+
+- name: scp create_proxy_user.sql
+  template: src="templates/create_proxy_user.sql.j2" dest=/etc/zabbix/create_proxy_user.sql
+
+- name: create zabbix_proxy database
+  shell: mysql -uroot -pk19k19 < /etc/zabbix/create_proxy_user.sql
+  
+- name: init mysql data
+  shell: zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz | mysql -uzabbix_proxy -pzabbix_proxy zabbix_proxy
+
+- name: modify zabbix_proxy.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_proxy.conf
+    regexp: "Server=127.0.0.1"
+    line: "Server={{ zabbix_server_vip }}"
+    backrefs: yes
+
+
+- name: modify zabbix_proxy.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_proxy.conf
+    regexp: 'Hostname=Zabbix proxy'
+    line: 'Hostname={{ hostname }}'
+    backrefs: yes
+
+- name: modify zabbix_proxy.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_proxy.conf
+    regexp: '# DBHost=localhost'
+    line: 'DBHost={{inventory_hostname}}'
+    backrefs: yes
+
+- name: modify zabbix_proxy.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_proxy.conf
+    regexp: '{{item.key}}'
+    line: '{{item.value}}'
+    backrefs: yes
+  with_dict:
+   - {"DBUser=zabbix": "DBUser=zabbix_proxy"}
+   - {"# DBPassword=": "DBPassword=zabbix_proxy"}
+   - {"# DBSocket=/tmp/mysql.sock": "DBSocket=/tmp/mysql.sock"}
+   - {"# ProxyLocalBuffer=0": "ProxyLocalBuffer=1"}
+   - {"# ProxyOfflineBuffer=1": "ProxyOfflineBuffer=24"}
+   - {"# ConfigFrequency=3600": "ConfigFrequency=100"}
+   - {"# StartPingers=1": "StartPingers=4"}
+   - {"# CacheSize=8M": "CacheSize=1024M"}
+   - {"# HistoryCacheSize=16M": "HistoryCacheSize=1024M"}
+   - {"Timeout=": "Timeout=10"}
+
+- name: modify zabbix-proxy.conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_proxy.conf
+    regexp: 'LogFileSize=.*'
+    line: 'LogFileSize=50'
+    backrefs: yes
+
+- name: systemctl start zabbix-proxy
+  shell: |
+    systemctl start zabbix-proxy
+    systemctl enable zabbix-proxy
+
+- name: Check if zabbix-proxy is accessible
+  wait_for:
+    port: 10051
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 15
+    connect_timeout: 5

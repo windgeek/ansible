@@ -1,0 +1,26 @@
+# 初始化ck iplog集群
+- name: create dir
+  file:
+   path: "{{clickhouse.scriptsdir}}/clickhouse_create_table_by_cluster/sql/{{clickhouse.region}}"
+   state: directory
+
+- name: scp file
+  copy: 
+   src: "/etc/ansible/roles/dataflow_init/clickhouse_create_table_by_cluster/{{item}}"
+   dest: "{{clickhouse.scriptsdir}}/clickhouse_create_table_by_cluster/{{item}}"
+   owner: root
+   group: root
+   mode: 0755
+  with_items:
+   - ["{{clickhouse.region}}_small_table.sh","sql/{{clickhouse.region}}/ck_{{clickhouse.region}}_small_local.sql","users"] 
+
+- name: run init file
+  shell: |
+    cd {{clickhouse.scriptsdir}}/clickhouse_create_table_by_cluster
+    /bin/bash "{{clickhouse.region}}_small_table.sh"
+  run_once: true
+  delegate_to: "{{groups.clickhouse_cluster_small_hosts[0]}}"
+  register: result
+
+- name: Show debug info
+  debug: var=result.stdout verbosity=0

@@ -1,0 +1,36 @@
+---
+# tasks file for message2kafka
+- name: unpack the messagekafka file
+  unarchive: src={{ all.pkgs_path }}/dataflow/{{ dataflow.message2kafka_name }}.tar.gz dest={{ dataflow.install_path }} copy=yes
+
+- name: copy hbase json
+  shell: |
+    cp -r {{ dataflow.install_path }}/init/message2kafka/json {{ dataflow.install_path }}/message2kafka
+
+- name: copy .s3cmd script to remote
+  copy: src=/tmp/s3cfg/{{ groups.oss_ceph_cluster[0] }}/root/s3cfg dest=/tmp/s3cfg1 owner=root group=root mode=0755
+
+- name: set config for ceph
+  shell: |
+    cat /tmp/s3cfg1 |grep access_key|awk -F "\"" '{print $0}' |awk -F= '{print $2}' |awk '{sub(/^ */, "");sub(/ *$/, "")}1'
+  register: access_key
+- set_fact: access_key={{ access_key.stdout }}
+
+- name: set config for ceph
+  shell: |
+    cat /tmp/s3cfg1 |grep secret_key|awk -F "\"" '{print $0}' |awk -F= '{print $2}' |awk '{sub(/^ */, "");sub(/ *$/, "")}1'
+  register: secret_key
+- set_fact: secret_key={{ secret_key.stdout }}
+
+- name: chown
+  shell: chown k19:k19 -R {{ dataflow.install_path }}
+
+- name: copy message2kafka start script to client
+  template: src="{{item.var}}" dest={{item.dect}} owner=k19 group=k19 mode=0755
+  with_items:
+     - { var: "templates/start.sh", dect: "{{dataflow.install_path}}/{{dataflow.message2kafka_name}}/bin" }
+     - { var: "templates/common.yaml", dect: "{{dataflow.install_path}}/{{dataflow.message2kafka_name}}/conf/common.yaml" }
+     - { var: "templates/hbase.json", dect: "{{dataflow.install_path}}/{{dataflow.message2kafka_name}}/json" }
+
+- name: start http-content task
+  shell: su k19 -c "nohup sh {{ dataflow.install_path }}/{{ dataflow.message2kafka_name }}/bin/start.sh > /dev/null &"

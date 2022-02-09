@@ -1,0 +1,12 @@
+- name: run bigscreendata ansible
+  cron: 
+    name: get bigscreendata file
+    minute: "*/10"
+    job: /usr/bin/ansible-playbook -i {{inventories}} /etc/ansible/playbooks/bigscreen.yml  --extra-vars "region={{region}} ansibleip={{ansibleip}}" | grep ok=  > /data1/outoftouch1.log
+
+- name: run bigscreenuntouch file
+  cron:
+    name: get untoch file
+    minute: "*/11"
+    job: /bin/bash /etc/ansible/roles/bigscreendata_acquire/files/execute_cront.sh 
+

@@ -1,0 +1,8 @@
+  - job_name: hbase_metric
+    static_configs:
+{% for hbase_ip_port, hbase_hostname in hbase_export_configs.items() %}
+    - targets: ['{{hbase_ip_port}}']
+      labels:
+        group: '{{hbase_group1}}'
+        instance: '{{hbase_hostname}}'
+{% endfor %}

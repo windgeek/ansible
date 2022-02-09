@@ -1,0 +1,8 @@
+---
+- name: copy file
+  copy: src="check_size.sh" dest=/root/
+- name: start
+  shell: sh /root/check_size.sh
+  register: check
+- name: show
+  debug: var=check.stdout_lines verbosity=0

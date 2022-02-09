@@ -1,0 +1,13 @@
+---
+# tasks file for keepalived_install
+- name: install
+  shell: yum install keepalived -y
+
+- name: add script
+  copy: src="nginx_check.sh" dest=/etc/keepalived/nginx_check.sh mode=0755
+
+- name: config update
+  template: src="templates/keepalived.conf" dest="/etc/keepalived/keepalived.conf" owner=root group=root mode=0644
+
+- name: start
+  shell: systemctl start keepalived

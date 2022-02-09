@@ -1,0 +1,5 @@
+- name: crontab merge bigscreencenterdata to one node 
+  hosts: bigscreen_merge
+  remote_user: root #以root账户执行
+  roles:
+  - bigscreendata_mergecron 

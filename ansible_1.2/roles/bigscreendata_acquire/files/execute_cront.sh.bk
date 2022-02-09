@@ -1,0 +1,11 @@
+#!/bin/bash
+function execute_getuntouch() {
+if [ -f "/data1/outoftouch.log" ];then
+	sleep 5s
+	/bin/bash /data1/mergedata/getuntouchinfo.sh
+else
+        sleep 30s
+        execute_getuntouch
+fi
+}
+execute_getuntouch

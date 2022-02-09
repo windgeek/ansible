@@ -1,0 +1,14 @@
+#慢查询的定时任务，每分钟执行一次，部署在除了monitor集群的所有机器上
+- name: create  a directory if it does not exits
+  file: 
+    path: /opt/scripts
+    state: directory
+    mode: '0755'
+
+- name: copy file
+  copy: 
+    src: "ck_slow_query.sql"
+    dest: "/opt/scripts"
+
+- name: insert crontab
+  shell: echo -e "* * * * *  clickhouse-client -m -h `/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d 'addr'` -u writer --password k19  -d k19_ods -n < /opt/scripts/ck_slow_query.sql &" >> /var/spool/cron/root 

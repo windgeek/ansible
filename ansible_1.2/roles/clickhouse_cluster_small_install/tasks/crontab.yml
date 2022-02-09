@@ -1,0 +1,19 @@
+# 该crontab 仅作用于iplog 集群
+- name: create  a directory if it does not exits
+  file:
+    path: /opt/scripts
+    state: directory
+    mode: '0755'
+
+- name: copy file
+  copy:
+    src: "{{item}}"
+    dest: "/opt/scripts"
+  with_items:
+   - ["ch_optimize.sh","ck_slow_query.sql"]
+- name: insert iplog crontab
+  shell:
+    /bin/bash /opt/scripts/ch_optimize.sh 
+
+- name: insert slow query crontab
+  shell: echo -e "* * * * *  clickhouse-client -m -h `/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d 'addr'` -u writer --password k19  -d k19_ods -n < /opt/scripts/ck_slow_query.sql &" >> /var/spool/cron/root

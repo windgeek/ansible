@@ -1,0 +1,6 @@
+- name: Install ssh
+  hosts: ssh
+  become: yes
+  become_method: sudo
+  roles:
+  - roles/ssh

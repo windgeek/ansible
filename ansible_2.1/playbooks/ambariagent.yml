@@ -1,0 +1,6 @@
+- name: ambariagent_install
+  hosts: ambariagent
+  become: yes
+  become_method: sudo
+  roles:
+  - roles/ambariagent

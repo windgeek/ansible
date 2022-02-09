@@ -1,0 +1,10 @@
+---
+- name: unpack the MegaRAID file
+  unarchive: src={{ all.pkgs_path }}/MegaRAID.tar.gz dest=/opt copy=yes
+- name: copy
+  copy: src="check_disk.sh" dest=/tmp
+- name: start
+  shell: sh /tmp/check_disk.sh
+  register: check
+- name: show
+  debug: var=check.stdout_lines verbosity=0

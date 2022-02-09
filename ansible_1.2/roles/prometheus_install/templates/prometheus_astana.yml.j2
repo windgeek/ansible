@@ -1,0 +1,232 @@
+# my global config
+# my global config
+global:
+  scrape_interval:     30s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+    - targets: ["{{groups.prometheus_hosts[0]}}:9090"]
+
+  - job_name: 'linux_metric'
+    static_configs:
+{% for i in range(1,116,1) %}
+    - targets: ['10.4.64.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,96,1) %}
+    - targets: ['10.4.65.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,18,1) %}
+    - targets: ['10.4.66.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,77,1) %}
+    - targets: ['10.4.67.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,91,1) %}
+    - targets: ['10.4.68.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,214,1) %}
+    - targets: ['10.4.69.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,148,1) %}
+    - targets: ['10.4.70.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,143,1) %}
+    - targets: ['10.4.71.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,89,1) %}
+    - targets: ['10.4.72.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,57,1) %}
+    - targets: ['10.4.73.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,11,1) %}
+    - targets: ['10.4.74.{{i}}:9100']
+{% endfor %}
+
+  - job_name: 'clickhouse_metric'
+    static_configs:
+{% for i in range(1,113,1) %}
+    - targets: ['10.4.64.{{i}}:9116']
+{% endfor %}
+{% for i in range(1,93,1) %}
+    - targets: ['10.4.65.{{i}}:9116']
+{% endfor %}
+{% for i in range(1,12,1) %}
+    - targets: ['10.4.66.{{i}}:9116']
+{% for i in range(14,18,1) %}
+    - targets: ['10.4.66.{{i}}:9116']
+
+  - job_name: 'pushgateway_metric'
+    static_configs:
+{% for i in range(1,113,1) %}
+    - targets: ['10.4.64.{{i}}:9091']
+{% endfor %}
+{% for i in range(1,93,1) %}
+    - targets: ['10.4.65.{{i}}:9091']
+{% endfor %}
+{% for i in range(1,12,1) %}
+    - targets: ['10.4.66.{{i}}:9091']
+{% for i in range(14,18,1) %}
+    - targets: ['10.4.66.{{i}}:9091']
+
+  - job_name: 'spring'
+    metrics_path: '/prometheus'
+    static_configs:
+{% for i in range(44,51,1) %}
+    - targets: ['10.4.68.{{i}}:8057']
+{% endfor %}
+
+  - job_name: 'hbase_metric'
+    static_configs:
+{% for i in range(4,33,1) %}
+    - targets: ['10.4.68.{{i}}:7070']
+{% endfor %}
+{% for i in range(34,41,1) %}
+    - targets: ['10.4.73.{{i}}:7070']
+{% endfor %}
+
+  - job_name: 'ceph_metric'
+    static_configs:
+{% for i in range(55,63,1) %}
+    - targets: ['10.4.68.{{i}}:9128']
+{% endfor %}
+
+  - job_name: 'kafka_burrow'
+    static_configs:
+{% for i in range(121,122,1) %}
+    - targets: ['10.4.70.{{i}}:9254']
+{% endfor %}
+
+  - job_name: 'kafka_metric'
+    static_configs:
+{% for i in range(121,145,1) %}
+    - targets: ['10.4.70.{{i}}:9991']
+{% endfor %}
+
+  - job_name: 'zookeeper_metrics'
+    static_configs:
+{% for i in range(113,116,1) %}
+    - targets: ['10.4.64.{{i}}:9141']
+      labels:
+       cluster_name: 'Clickhouse_zk'
+{% endfor %}
+{% for i in range(1,4,1) %}
+    - targets: ['10.4.68.{{i}}:9141']
+      labels:
+       cluster_name: 'HBase_zk'
+{% endfor %}
+{% for i in range(145,148,1) %}
+    - targets: ['10.4.70.{{i}}:9141']
+      labels:
+       cluster_name: 'Kafka_zk'
+{% endfor %}
+  - job_name: 'buiness_spring'
+    metrics_path: '/prometheus'
+    static_configs:
+{% for i in range(1,3,1) %}
+    - targets: ['10.4.73.{{i}}:19005']
+      labels:
+        instance: 'Analysis-Service'
+{% endfor %}
+{% for i in range(1,3,1) %}
+    - targets: ['10.4.73.{{i}}:48888']
+      labels:
+        instance: 'Warn-Service'
+{% endfor %}
+{% for i in range(3,5,1) %}
+    - targets: ['10.4.73.{{i}}:8888']
+      labels:
+        instance: 'Ontology-Service'
+{% endfor %}
+{% for i in range(3,5,1) %}
+    - targets: ['10.4.73.{{i}}:19006']
+      labels:
+        instance: 'Bi-Service'
+{% endfor %}
+{% for i in range(5,7,1) %}
+    - targets: ['10.4.73.{{i}}:8018']
+      labels:
+        instance: 'Favorite-Service'
+{% endfor %}
+{% for i in range(5,7,1) %}
+    - targets: ['10.4.73.{{i}}:8082']
+      labels:
+        instance: 'System-Service'
+{% endfor %}
+{% for i in range(7,9,1) %}
+    - targets: ['10.4.73.{{i}}:16618']
+      labels:
+        instance: 'Rule-Service'
+{% endfor %}
+{% for i in range(7,9,1) %}
+    - targets: ['10.4.73.{{i}}:19008']
+      labels:
+        instance: 'Schedule-Service'
+{% endfor %}
+    - targets: ['10.4.73.9:9905']
+      labels:
+        instance: 'Network-Warning-Service'
+    - targets: ['10.4.73.9:9903']
+      labels:
+        instance: 'Network-Euraka-Service'
+    - targets: ['10.4.73.9:9904']
+      labels:
+        instance: 'Network-Base-Service'
+    - targets: ['10.4.73.9:9906']
+      labels:
+        instance: 'Network-Access-Service'
+    - targets: ['10.4.73.9:9018']
+      labels:
+        instance: 'Word_Clond'
+    - targets: ['10.4.73.9:5018']
+      labels:
+        instance: 'Synonym'
+    - targets: ['10.4.73.10:9905']
+      labels:
+        instance: 'Network-Warning-Service'
+    - targets: ['10.4.73.10:9903']
+      labels:
+        instance: 'Network-Euraka-Service'
+    - targets: ['10.4.73.10:9904']
+      labels:
+        instance: 'Network-Base-Service'
+    - targets: ['10.4.73.10:9906']
+      labels:
+        instance: 'Network-Access-Service'
+    - targets: ['10.4.73.10:9018']
+      labels:
+        instance: 'Word_Clond'
+    - targets: ['10.4.73.10:5018']
+      labels:
+        instance: 'Synonym'
+    - targets: ['10.4.73.11:9097']
+      labels:
+        instance: 'Xxl-Job-Admin'
+    - targets: ['10.4.73.11:9198']
+      labels:
+        instance: 'Xxl-Job-Import'
+    - targets: ['10.4.73.11:9904']
+      labels:
+        instance: 'Xxl-Job-Merge'

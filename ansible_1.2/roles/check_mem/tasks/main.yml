@@ -1,0 +1,8 @@
+---
+- name: copy file
+  copy: src="check_mem.sh" dest=/root/
+- name: start
+  shell: sh /root/check_mem.sh
+  register: check
+- name: show
+  debug: var=check.stdout verbosity=0

@@ -1,0 +1,17 @@
+# 初始化ck iplog集群
+- name: create dir
+  file:
+   path: "{{clickhouse.scriptsdir}}/ch_drop"
+   state: directory
+
+- name: scp file
+  copy: 
+   src: "/etc/ansible/roles/dataflow_init/housekeeping/ch_clean_simple.sh"
+   dest: "{{clickhouse.scriptsdir}}/ch_drop/ch_clean_simple.sh"
+   owner: root
+   group: root
+   mode: 0755
+
+- name: run init file
+  shell:
+   echo -e "* 1 *  * * /bin/sh  /opt/scripts/ch_drop/ch_clean_simple.sh" >>  /var/spool/cron/root 

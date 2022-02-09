@@ -1,0 +1,354 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "$$hashKey": "object:10",
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 131,
+  "iteration": 1591956989379,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 5,
+      "panels": [],
+      "title": "HBase",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "-- Mixed --",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "interval": null,
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "${Datasource}",
+          "url": "/d/xQ1v32jZ1/oss-hbase?orgId=1&var-DataCenter=${Datasource}&var-Node=All&var-TopK=10"
+        }
+      ],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:640",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:641",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "repeat": "Datasource",
+      "repeatDirection": "h",
+      "scopedVars": {
+        "Datasource": {
+          "selected": false,
+          "text": "ALA",
+          "value": "ALA"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "datasource": "TSE",
+          "expr": " ((sum(hadoop_hbase_numdeadregionservers) >=bool 1) + (max(hadoop_hbase_averageload) >bool 600) + (sum(hadoop_hbase_ritcount) >bool 0)) >bool 0",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$Datasource Cluster Status",
+      "type": "singlestat",
+      "valueFontSize": "100%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:643",
+          "op": "=",
+          "text": "Health",
+          "value": "0"
+        },
+        {
+          "$$hashKey": "object:644",
+          "op": "=",
+          "text": "Warning",
+          "value": "1"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "-- Mixed --",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 9,
+      "interval": null,
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "${Datasource}",
+          "url": "/d/xQ1v32jZ1/oss-hbase?orgId=1&var-DataCenter=${Datasource}&var-Node=All&var-TopK=10"
+        }
+      ],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:640",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:641",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1591956989379,
+      "repeatPanelId": 2,
+      "scopedVars": {
+        "Datasource": {
+          "selected": false,
+          "text": "TSE",
+          "value": "TSE"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "datasource": "TSE",
+          "expr": " ((sum(hadoop_hbase_numdeadregionservers) >=bool 1) + (max(hadoop_hbase_averageload) >bool 600) + (sum(hadoop_hbase_ritcount) >bool 0)) >bool 0",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$Datasource Cluster Status",
+      "type": "singlestat",
+      "valueFontSize": "100%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:643",
+          "op": "=",
+          "text": "Health",
+          "value": "0"
+        },
+        {
+          "$$hashKey": "object:644",
+          "op": "=",
+          "text": "Warning",
+          "value": "1"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "activeThemeId": 0,
+      "datasource": null,
+      "disableThemePicker": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 8,
+      "targets": [
+        {
+          "expr": "",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "themes": [
+        {
+          "name": "aquamarine",
+          "styles": [
+            {
+              "props": {
+                "theme": "default"
+              },
+              "type": "basetheme"
+            },
+            {
+              "props": {
+                "url": "http://10.0.40.1:8082/aquamarine.css"
+              },
+              "type": "url"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "yesoreyeram-boomtheme-panel"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [
+    "Daliy"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "hide": 2,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "Datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "\\w{3}",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "Oss HBase Summary",
+  "uid": "KZ04NBjZz",
+  "variables": {
+    "list": []
+  },
+  "version": 48
+}

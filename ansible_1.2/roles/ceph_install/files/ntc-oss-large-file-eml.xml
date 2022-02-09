@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<LifecycleConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+        <Rule>
+                <ID>ntc-oss-large-file-eml</ID>
+                <Prefix/>
+                <Status>Enabled</Status>
+                <Expiration>
+                        <Days>90</Days>
+                </Expiration>
+        </Rule>
+</LifecycleConfiguration>

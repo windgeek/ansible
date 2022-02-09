@@ -1,0 +1,58 @@
+[client]
+port = 3306
+socket = /tmp/mysql.sock
+default-character-set = utf8
+
+[mysqld]
+user = mysql
+port = 3306
+basedir = /usr/local/mysql
+datadir = {{data_dir}}
+socket = /tmp/mysql.sock
+server-id = 1
+log_slave_updates = 1
+
+#混合类型的复制
+binlog_format = mixed
+#开启二进制日志
+#主主模式的主键自增配置
+log-bin={{log_bin}}
+auto_increment_increment = 2
+auto_increment_offset = 1
+#binlog日志文件保留时间
+expire_logs_days = 10
+max_binlog_size= 1024M
+#需要记录进制日志的数据库,若备份全部数据库,最好不指定以避免数据同步失败
+#binlog-do-db = event_warning
+#不需要记录进制日志的数据库
+binlog-ignore-db = mysql
+
+symbolic-links = 0
+innodb_file_per_table = 1
+skip_name_resolve = 1
+slow_query_log = 1
+long_query_time = 2
+pid-file = {{pid_file}}
+log-error = /data1/mysqldb/3306/log/error/mysql-error.log
+gtid-mode = on
+log-slave-updates = 1
+relay-log-index={{relay_log_index}}/slave-relay-bin.index
+relay_log={{data_dirs}}/log/relay/relay.log
+relay_log_info_file={{data_dirs}}/log/relay/relay_log.info
+tmpdir={{data_dirs}}/tmp
+
+wait_timeout = 86400
+interactive_timeout = 36000
+max_connections=1000
+
+enforce-gtid-consistency
+character-set-server = utf8mb4
+default-storage-engine = INNODB
+lower_case_table_names = 1
+innodb_file_per_table=true
+innodb_file_format=BARRACUDA
+innodb_large_prefix=on
+
+# include all files from the config directory
+#
+!includedir /etc/my.cnf.d

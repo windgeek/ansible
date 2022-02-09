@@ -1,0 +1,5 @@
+mysql_password: geelyadmin
+ambari_mysql_password: geelyadmin
+hive_mysql_password: geelyadmin
+mysql_port: 3306
+java_home: /data/jdk1.8.0_202

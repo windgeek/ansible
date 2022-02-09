@@ -1,0 +1,3 @@
+DROP DATABASE k19_ods;
+DROP DATABASE k19_monitor;
+DROP DATABASE k19_distribute;

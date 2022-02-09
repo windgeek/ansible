@@ -1,0 +1,35 @@
+---
+# tasks file for ceph_install
+#- name: send script
+#  template: src="templates/{{item.key}}" dest="{{dir}}/{{item.value}}"
+#  with_dict:
+#    - {"ceph_install.sh":"ceph_install.sh"}
+#    - {"ceph.conf":"ceph.conf"}
+#    - {"ceph_rgw.conf":"ceph_rgw.conf"}
+#    - {"osdadd.sh":"osdadd.sh"}
+#- name: scp the archive package
+#  unarchive: src=distribute-0.7.3.zip dest={{dir}} copy=yes
+#- name: send the installation package
+#  copy: src="{{item.key}}" dest="{{dir}}/{{item.value}}"
+#  with_dict:
+#    - {"faq.1":"faq.1"}
+#    - {"MarkupSafe-1.1.1-cp27-cp27mu-manylinux1_x86_64.whl":"MarkupSafe-1.1.1-cp27-cp27mu-manylinux1_x86_64.whl"}
+#    - {"ntc-oss-large-file-html":"ntc-oss-large-file-html"}
+#- name: install dependencies
+#  yum: name={{item.name}} state={{item.state|default("installed")}}
+#  with_items:
+#    - name: "zlib"
+#    - name: "zlib-devel"
+#    - name: "ceph-deploy"
+#    - name: "s3cmd"
+#- name: install
+#  shell: sh {{dir}}/ceph_install.sh
+#  register: result
+#- name: show debug info
+#  debug: var=result verbosity=0
+- name: scp s3cfg 
+  template: src="s3cfg" dest="/root/.s3cfg"
+- name: get access_key
+  shell: |
+        sed -i s/access/`radosgw-admin user info --uid=admin |grep access_key|awk -F \" '{print $4}'`/ .s3cfg
+        sed -i s/secret/`radosgw-admin user info --uid=admin |grep secret_key|awk -F \" '{print $4}'`/ .s3cfg

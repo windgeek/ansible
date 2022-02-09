@@ -1,0 +1,52 @@
+#!/bin/bash
+base_dir=$(cd "$(dirname "$0")";pwd)
+
+regionnum={{region}}
+region=`echo "\"Region\": \"$regionnum\""`
+
+function get_total() {
+	totalcount=`cat /data1/outoftouch.log  |wc -l`
+	total=`echo "\"Total\": "\"$totalcount\"`
+}
+
+function untouchdata() {
+	cat /data1/outoftouch.log |grep unreachable=1 | awk '{print $1}' > ${base_dir}/ipfiles.log
+        cd ${base_dir}
+	if [[ -s ${base_dir}/ipfiles.log ]]
+	then
+	    echo "[" >  ${base_dir}/lost_result.json
+	    for line in `cat ${base_dir}/ipfiles.log`
+		do
+			echo -e '\t{' >> ${base_dir}/lost_result.json
+			echo -e '\t'${region}\, >> ${base_dir}/lost_result.json
+			echo -e '\t'"\"Address\": \"$line\""\, >> ${base_dir}/lost_result.json
+			echo -e '\t'$total >>  ${base_dir}/lost_result.json
+			echo -e '\t}' >>  ${base_dir}/lost_result.json
+			echo -e '\t,' >> ${base_dir}/lost_result.json
+		done
+	   sed -i '$d' ${base_dir}/lost_result.json
+           echo "]"  >> ${base_dir}/lost_result.json
+	else
+			echo "[" >  ${base_dir}/lost_result.json
+			echo -e '\t{' >> ${base_dir}/lost_result.json
+                        echo -e '\t'${region}\, >> ${base_dir}/lost_result.json
+			echo -e '\t'"\"Address\": \"0\""\, >> ${base_dir}/lost_result.json
+			echo -e '\t'$total >>  ${base_dir}/lost_result.json
+                        echo -e '\t}' >>  ${base_dir}/lost_result.json
+                        echo "]" >>  ${base_dir}/lost_result.json
+	fi
+}
+
+function cleandata() {
+	lastline=`cat ${base_dir}/lost_result.json | awk 'END {print}'`
+	if [ "$lastline" == "	 ," ]
+	then
+		sed -i 's/	 ,]/]/g' ${base_dir}/lost_result.json
+	fi
+}
+
+get_total
+#getip
+#sleep 2
+untouchdata
+cleandata

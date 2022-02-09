@@ -1,0 +1,9 @@
+http_port: 9600
+logstash_version: logstash-6.7.2
+path_data: '/data1/logstash'
+syslog_port: 7777
+syslog_bootstrap_servers: "172.24.9.50:9092,172.24.9.56:9092"
+syslog_topic_id: "K19-BIGSCREEN-ATTACK-CONV-LOG"
+Xms_memery: 2g
+Xmx_memery: 2g
+#pipeline_batch_size: 3000

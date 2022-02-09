@@ -1,0 +1,54 @@
+---
+# tasks file for ceph_install
+- name: send script
+  template: src="templates/{{item.key}}" dest="{{dir}}/{{item.value}}"
+  with_dict:
+    - {"ceph_install.sh":"ceph_install.sh"}
+    - {"ceph.conf":"ceph.conf"}
+    - {"osdadd.sh":"osdadd.sh"}
+    - {"ceph_create_bucket.sh":"ceph_create_bucket.sh"}
+    - {"ceph_unload.sh":"ceph_unload.sh"}
+- name: rgw conf loops
+  template: src="templates/ceph_rgw.conf.j2" dest="{{dir}}/ceph_rgw.conf"
+- name: scp the archive package
+  unarchive: src=distribute-0.7.3.zip dest={{dir}} copy=yes
+- name: send the installation package
+  copy: src="{{item.key}}" dest="{{dir}}/{{item.value}}"
+  with_dict:
+    - {"faq.1":"faq.1"}
+    - {"MarkupSafe-1.1.1-cp27-cp27mu-manylinux1_x86_64.whl":"MarkupSafe-1.1.1-cp27-cp27mu-manylinux1_x86_64.whl"}
+    - {"ntc-oss-large-file-html.xml":"ntc-oss-large-file-html.xml"}
+    - {"ntc-oss-large-file-bda.xml":"ntc-oss-large-file-bda.xml"}
+    - {"ntc-oss-large-file-eml.xml":"ntc-oss-large-file-eml.xml"}
+    - {"ntc-oss-large-file.xml":"ntc-oss-large-file.xml"}
+- name: install dependencies
+  yum: name={{item.name}} state={{item.state|default("installed")}}
+  with_items: 
+    - name: "zlib"
+    - name: "zlib-devel"
+    - name: "ceph-deploy"
+    - name: "s3cmd"
+- name: install
+  shell: |
+        sh {{dir}}/ceph_install.sh
+  register: result
+- name: show debug info
+  debug: var=result verbosity=0
+- name: scp s3cfg 
+  template: src="s3cfg" dest="/root/.s3cfg"
+- name: ceate bucket
+  shell: |
+        sed -i s/testa/`radosgw-admin user info --uid=admin |grep access_key|awk -F \" '{print $4}'`/ .s3cfg
+        sed -i s/tests/`radosgw-admin user info --uid=admin |grep secret_key|awk -F \" '{print $4}'`/ .s3cfg
+        /usr/bin/bash {{dir}}/ceph_create_bucket.sh
+  register: bucket
+- name: show create bucket info
+  debug: var=bucket verbosity=0
+
+- name: find .s3cmd
+  shell: find /root/ -name .s3cfg |xargs -I {} cp {} /root/s3cfg
+
+- name: fatch .s3cmd file
+  fetch:
+    src: /root/s3cfg
+    dest: /tmp/s3cfg

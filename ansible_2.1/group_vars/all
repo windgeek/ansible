@@ -1,0 +1,74 @@
+all:
+  files: /Users/wind/Downloads/project/ansible/ansible_sy_2/app_files
+
+ssh:
+  jump: 192.168.160.237
+
+
+jdk:
+  file: jdk-8u202-linux-x64.tar.gz
+  version: jdk1.8.0_202
+  dir: /data
+
+mariadb:
+  file: mariadb/mariadb-10.4.13-linux-x86_64.tar.gz
+  version: mariadb-10.4.13-linux-x86_64
+  dir: /data
+  id: 186
+
+ambariagent:
+  ambari_server: ambari16019
+
+
+zookeeper:
+  file: zookeeper-3.4.6.tar.gz
+  dir: /data
+  dataDir: /data/zookeeper/data
+  dataLogDir: /data/zookeeper/logs
+  zk1: 192.168.154.40
+  zk2: 192.168.152.94
+  zk3: 192.168.152.96
+  
+
+kafka:
+  file: kafka_2.11-1.1.1.tgz
+  dir: /data
+  version: kafka_2.11-1.1.1
+  #多个目录的话写成 /data1/kafka-logs,/data2/kafka-logs这种形式
+  logdirs: /data/kafka-logs
+  #多个目录的话写成 /{data1,data2}/kafka-logs 这种形式
+  mkdirs: /data/kafka-logs
+  #zookeeper: 192.168.152.30:2181/kafka
+  zookeeper: 192.168.154.40:2181,192.168.152.94:2181,192.168.152.96:2181/kafka
+
+kafkamanager:
+  file: kafka-manager-2.0.0.2.zip
+  version: kafka-manager-2.0.0.2
+  dir: /data
+  #zk_addr: 192.168.152.30:2181
+  zk_addr: 172.28.9.159:2181,172.28.9.160:2181,172.28.9.161:2181
+
+pag:
+  prometheus_file: prometheus-2.23.0.linux-amd64.tar.gz
+  alertmanager_file: alertmanager-0.21.0.linux-amd64.tar.gz
+  grafana_file: grafana-7.3.6.linux-amd64.tar.gz
+  prometheus_version: prometheus-2.23.0.linux-amd64
+  alertmanager_version: alertmanager-0.21.0.linux-amd64
+  grafana_version: grafana-7.3.6
+  dir: /data
+
+
+node_exporter:
+  node_exporter_version: "node_exporter-1.1.2.linux-amd64"
+  dir: /data1
+  start_user: "node_exporter"
+  exec_file: "/data1/node_exporter/node_exporter"
+
+
+
+flink:
+  file: flink-1.14.2-bin-scala_2.12.tgz
+  version: flink-1.14.2
+  dir: /data
+  user: data-infra
+  first: 192.168.160.237

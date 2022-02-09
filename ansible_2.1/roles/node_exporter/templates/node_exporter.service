@@ -1,0 +1,11 @@
+[Unit]
+Description=node_exporter
+After=network.target
+[Service]
+Type=simple
+User={{node_exporter.start_user}}
+ExecStart={{node_exporter.exec_file}}
+# Restart=always 只要不是通过systemctl stop来停止服务，任何情况下都必须要重启服务，默认值为no
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target

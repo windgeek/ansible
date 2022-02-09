@@ -1,0 +1,26 @@
+# init ipbig cluster
+- name: create dir
+  file:
+   path: "{{scriptsdir}}/clickhouse_create_table_by_cluster/sql/bigscreen"
+   state: directory
+
+- name: scp file
+  copy: 
+   src: "/etc/ansible/roles/dataflow_init/clickhouse_create_table_by_cluster/{{item}}"
+   dest: "{{scriptsdir}}/clickhouse_create_table_by_cluster/{{item}}"
+   owner: root
+   group: root
+   mode: 0755
+  with_items:
+   - ["bigscreen.sh","sql/bigscreen/bigscreen.sql","users"] 
+
+- name: run init file
+  shell: |
+    cd {{scriptsdir}}/clickhouse_create_table_by_cluster
+    /bin/bash "bigscreen.sh"
+  run_once: true
+  delegate_to: "{{groups.bigscreen_clickhouse_hosts[0]}}"
+  register: result
+
+- name: Show debug info
+  debug: var=result.stdout verbosity=0

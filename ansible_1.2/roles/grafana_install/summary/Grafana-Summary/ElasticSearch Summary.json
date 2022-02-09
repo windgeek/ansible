@@ -1,0 +1,541 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "$$hashKey": "object:653",
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 147,
+  "iteration": 1591957012343,
+  "links": [],
+  "panels": [
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "ES-TSE",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "interval": "",
+      "links": [
+        {
+          "title": "$Cluster",
+          "url": "/d/w2HhCc9Wk/$Cluster?orgId=1&var-Cluster=$Cluster&var-Node=All&var-nodename=name.keyword"
+        }
+      ],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:239",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:240",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "repeat": "Cluster",
+      "repeatDirection": "h",
+      "scopedVars": {
+        "Cluster": {
+          "selected": false,
+          "text": "es",
+          "value": "es"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:7332",
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:7330",
+              "field": "status_code",
+              "id": "1",
+              "meta": {},
+              "settings": {},
+              "type": "max"
+            }
+          ],
+          "query": "cluster_name:$Cluster",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "thresholds": "1,2",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$Cluster Cluster Status",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:242",
+          "op": "=",
+          "text": "Health",
+          "value": "0"
+        },
+        {
+          "$$hashKey": "object:243",
+          "op": "=",
+          "text": "Warning",
+          "value": "1"
+        },
+        {
+          "$$hashKey": "object:244",
+          "op": "=",
+          "text": "Error",
+          "value": "2"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "ES-TSE",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "id": 5,
+      "interval": "",
+      "links": [
+        {
+          "title": "$Cluster",
+          "url": "/d/w2HhCc9Wk/$Cluster?orgId=1&var-Cluster=$Cluster&var-Node=All&var-nodename=name.keyword"
+        }
+      ],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:239",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:240",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1591957012343,
+      "repeatPanelId": 2,
+      "scopedVars": {
+        "Cluster": {
+          "selected": false,
+          "text": "es-df",
+          "value": "es-df"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:7332",
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:7330",
+              "field": "status_code",
+              "id": "1",
+              "meta": {},
+              "settings": {},
+              "type": "max"
+            }
+          ],
+          "query": "cluster_name:$Cluster",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "thresholds": "1,2",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$Cluster Cluster Status",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:242",
+          "op": "=",
+          "text": "Health",
+          "value": "0"
+        },
+        {
+          "$$hashKey": "object:243",
+          "op": "=",
+          "text": "Warning",
+          "value": "1"
+        },
+        {
+          "$$hashKey": "object:244",
+          "op": "=",
+          "text": "Error",
+          "value": "2"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "ES-TSE",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 6,
+      "interval": "",
+      "links": [
+        {
+          "title": "$Cluster",
+          "url": "/d/w2HhCc9Wk/$Cluster?orgId=1&var-Cluster=$Cluster&var-Node=All&var-nodename=name.keyword"
+        }
+      ],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:239",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:240",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1591957012343,
+      "repeatPanelId": 2,
+      "scopedVars": {
+        "Cluster": {
+          "selected": false,
+          "text": "index_data",
+          "value": "index_data"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:7332",
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:7330",
+              "field": "status_code",
+              "id": "1",
+              "meta": {},
+              "settings": {},
+              "type": "max"
+            }
+          ],
+          "query": "cluster_name:$Cluster",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "thresholds": "1,2",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$Cluster Cluster Status",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:242",
+          "op": "=",
+          "text": "Health",
+          "value": "0"
+        },
+        {
+          "$$hashKey": "object:243",
+          "op": "=",
+          "text": "Warning",
+          "value": "1"
+        },
+        {
+          "$$hashKey": "object:244",
+          "op": "=",
+          "text": "Error",
+          "value": "2"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "activeThemeId": 0,
+      "datasource": null,
+      "disableThemePicker": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 4,
+      "targets": [
+        {
+          "expr": "",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "themes": [
+        {
+          "name": "aquamarine",
+          "styles": [
+            {
+              "props": {
+                "theme": "default"
+              },
+              "type": "basetheme"
+            },
+            {
+              "props": {
+                "url": "http://10.0.40.1:8082/aquamarine.css"
+              },
+              "type": "url"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "yesoreyeram-boomtheme-panel"
+    }
+  ],
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [
+    "Daliy"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "ES-TSE",
+        "definition": "{\"find\":\"terms\",\"field\":\"cluster_name.keyword\"}",
+        "hide": 2,
+        "includeAll": true,
+        "index": -1,
+        "label": null,
+        "multi": true,
+        "name": "Cluster",
+        "options": [],
+        "query": "{\"find\":\"terms\",\"field\":\"cluster_name.keyword\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "ElasticSearch Summary",
+  "uid": "8owrEL3Zk",
+  "variables": {
+    "list": []
+  },
+  "version": 35
+}

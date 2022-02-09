@@ -1,0 +1,6 @@
+- name: Install MySQL
+  hosts: "{{hosts}}"
+  remote_user: root
+  roles:
+  - mysql_msmode_install
+  tags: mysql_msmode

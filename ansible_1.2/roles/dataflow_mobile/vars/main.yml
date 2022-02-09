@@ -1,0 +1,14 @@
+#content2kafka_version: content2kafka
+#jar_version: content2kafka-1.5.jar
+#dataflow_dir: /data1
+#kafkaBrokerList: 172.24.9.56:6667,172.24.9.57:6667
+#monKafkaBrokerList: 192.168.162.95:6667,192.168.162.96:6667
+#cephEndPoint: 172.18.9.51:8899
+#cephAccessKeyId: 9F8YOOSILYZ4ZBFXTHXE
+#cephAccessKeySecret: skMSk9RF6gn0rMiocsQPxEDLG9kPhnx0mMyI8O6i
+#emlDownloadPath: http://k19-bigdata-2:8057/download_v2/
+#hbaseZkNodes: 172.18.9.51,172.18.9.52
+#region: TSE
+#若没做ha，就填入 hdfsActiveNamenode 例如：tsecluster或k182nd-stg-02:8020
+#hdfsHAClusterName: othercluster
+#logLevel: info

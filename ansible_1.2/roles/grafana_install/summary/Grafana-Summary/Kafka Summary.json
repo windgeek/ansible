@@ -1,0 +1,336 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "$$hashKey": "object:746",
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 108,
+  "iteration": 1591957004694,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "panels": [],
+      "title": "Kafka",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#d44a3a",
+        "#299c46",
+        "#299c46"
+      ],
+      "datasource": "$DataCenter",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 4,
+      "interval": "",
+      "links": [
+        {
+          "title": "${DataCenter}  Cluster",
+          "url": "http://10.0.40.2:3000/d/LVAk4jaWz/kafka?orgId=1&refresh=5s&var-DataCenter=ALA&from=1586361600000&to=1586447999999"
+        }
+      ],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [],
+      "repeat": "DataCenter",
+      "repeatDirection": "h",
+      "scopedVars": {
+        "DataCenter": {
+          "selected": false,
+          "text": "ALA",
+          "value": "ALA"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "((sum(kafka_controller_kafkacontroller_activecontrollercount) ==bool 1) + (max(kafka_controller_kafkacontroller_offlinepartitionscount) ==bool 0) + (max(kafka_server_replicafetchermanager_maxlag) <bool 10000000) + (max(sum(kafka_burrow_total_lag{group!=\"burrow-ontology\"}) by (group)) <bool 50000000) + (sum(kafka_cluster_partition_underreplicated) / sum(kafka_server_replicamanager_partitioncount) <bool 0.1)) ==bool 5",
+          "instant": false,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1,1",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "${DataCenter} Cluster Status",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "Problem",
+          "value": "0"
+        },
+        {
+          "op": "=",
+          "text": "Health",
+          "value": "1"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#d44a3a",
+        "#299c46",
+        "#299c46"
+      ],
+      "datasource": "$DataCenter",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 10,
+      "interval": "",
+      "links": [
+        {
+          "title": "${DataCenter}  Cluster",
+          "url": "http://10.0.40.2:3000/d/LVAk4jaWz/kafka?orgId=1&refresh=5s&var-DataCenter=ALA&from=1586361600000&to=1586447999999"
+        }
+      ],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "maxPerRow": 6,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [],
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1591957004694,
+      "repeatPanelId": 4,
+      "scopedVars": {
+        "DataCenter": {
+          "selected": false,
+          "text": "TSE",
+          "value": "TSE"
+        }
+      },
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "((sum(kafka_controller_kafkacontroller_activecontrollercount) ==bool 1) + (max(kafka_controller_kafkacontroller_offlinepartitionscount) ==bool 0) + (max(kafka_server_replicafetchermanager_maxlag) <bool 10000000) + (max(sum(kafka_burrow_total_lag{group!=\"burrow-ontology\"}) by (group)) <bool 50000000) + (sum(kafka_cluster_partition_underreplicated) / sum(kafka_server_replicamanager_partitioncount) <bool 0.1)) ==bool 5",
+          "instant": false,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1,1",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "${DataCenter} Cluster Status",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "Problem",
+          "value": "0"
+        },
+        {
+          "op": "=",
+          "text": "Health",
+          "value": "1"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "activeThemeId": 0,
+      "datasource": null,
+      "disableThemePicker": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 9,
+      "targets": [
+        {
+          "expr": "",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "themes": [
+        {
+          "name": "aquamarine",
+          "styles": [
+            {
+              "props": {
+                "theme": "default"
+              },
+              "type": "basetheme"
+            },
+            {
+              "props": {
+                "url": "http://10.0.40.1:8082/aquamarine.css"
+              },
+              "type": "url"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "yesoreyeram-boomtheme-panel"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [
+    "Daliy"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "hide": 2,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "DataCenter",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "TSE|ALA",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "Kafka Summary",
+  "uid": "UEYbLzCWz",
+  "variables": {
+    "list": []
+  },
+  "version": 52
+}

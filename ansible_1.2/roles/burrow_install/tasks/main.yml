@@ -1,0 +1,50 @@
+- name: unpack the Burrow file
+  unarchive: src=Burrow-master.tar.gz dest=/opt/ copy=yes
+- name: src kafka.yml
+  template: src="templates/kafka.yml" dest="/opt/Burrow-master/config/kafka.yml"
+- name: src zk.yml
+  template: src="templates/zk.yml" dest="/opt/Burrow-master/config/zk.yml"
+- name: src kafka.sh
+  template: src="templates/kafka.sh" dest="/opt/Burrow-master/config/kafka.sh"
+- name : sh kafka.sh
+  shell: |
+    cd /opt/Burrow-master/config/
+    sh kafka.sh
+- name: src zk.sh
+  template: src="templates/zk.sh" dest="/opt/Burrow-master/config/zk.sh"
+- name : sh zk.sh
+  shell: |
+    cd /opt/Burrow-master/config/
+    sh zk.sh
+- name: config burrow.yml
+  template: src="templates/burrow.yml" dest="/opt/Burrow-master/config/burrow.toml"
+- name:
+  shell: |
+    cd /opt/Burrow-master/config/
+    sed -i '25r kafka.txt' burrow.toml
+    sed -i '33r kafka.txt' burrow.toml
+    sed -i '16r zk.txt' burrow.toml
+    sed -i '44r zk.txt' burrow.toml
+- name: start Burrow
+  shell: nohup /opt/Burrow-master/Burrow --config-dir /opt/Burrow-master/config &
+- name: Check if Burrow is accessible
+  wait_for:
+    port: 8000
+    state: started
+    delay: 10
+    timeout: 15
+    connect_timeout: 5
+- name: start burrow-exporter
+  shell: |
+    cd /opt/Burrow-master/
+    nohup /opt/Burrow-master/burrow-exporter --burrow-addr="http://{{burrow_server}}:8000" --metrics-addr="0.0.0.0:9254" --interval="15" --api-version="3" &
+  register: result
+- name: show debug info
+  debug: var=result verbosity=0
+- name: Check if burrow-exporter is accessible
+  wait_for:
+    port: 9254
+    state: started
+    delay: 10
+    timeout: 15
+    connect_timeout: 5

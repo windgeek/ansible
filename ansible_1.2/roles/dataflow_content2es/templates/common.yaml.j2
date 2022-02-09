@@ -1,0 +1,30 @@
+kafka:
+  consumerMap:
+    "bootstrap.servers":"{{ item.value.kafka }}"
+    "client.id":"spark_c"
+    "auto.offset.reset":"latest"
+    "enable.auto.commit": false
+    "max.poll.records":300
+    "session.timeout.ms":60000
+    "heartbeat.interval.ms":10000
+    "max.partition.fetch.bytes":5242880
+    "request.timeout.ms":90000
+    "fetch.max.wait.ms":1000
+es:
+  clusterName: "index_data"
+  nodes: "{{ item.value.ip }}"
+  tcpPorts: "9300"
+spark:
+  intervalTime: 5
+mysql:
+  driver: "com.mysql.cj.jdbc.Driver"
+  url: "jdbc:mysql://{{ dataflow.mysql_host }}/geo_ip?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true"
+  userName: "{{ dataflow.mysql_user }}"
+  password: "{{ dataflow.mysql_password }}"
+  tableName: "ip_location"
+monitor:
+  offSwitch: true
+  errorMessageTopic: "K19-SPARK-EXCEPTION-LOG"
+  kafkaBrokerList: "{{ item.value.kafka }}"
+  exceptionSize: 10000
+  flushSwitch: false

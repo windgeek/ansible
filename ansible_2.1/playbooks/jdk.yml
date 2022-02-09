@@ -1,0 +1,6 @@
+- name: Install Jdk
+  hosts: jdk
+  become: yes
+  become_method: sudo
+  roles:
+  - roles/jdk

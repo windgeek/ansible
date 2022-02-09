@@ -1,0 +1,6 @@
+- name: Install ssh
+  hosts: host_name
+  gather_facts: no
+  roles:
+  - ssh_install
+  tags: ssh

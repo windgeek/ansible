@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+mysql  -uroot << EOF
+set password = password("k19k19");
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'k19k19';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@localhost IDENTIFIED BY 'k19k19';
+CREATE USER 'servent'@'%' IDENTIFIED BY 'k19k19';
+GRANT ALL PRIVILEGES ON *.* TO 'servent'@'%' IDENTIFIED BY 'k19k19' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'servent'@'localhost' IDENTIFIED BY 'k19k19' WITH GRANT OPTION;
+GRANT REPLICATION SLAVE,REPLICATION CLIENT ON *.* to 'servent'@'%' identified by 'k19k19';
+GRANT REPLICATION SLAVE,REPLICATION CLIENT ON *.* to 'servent'@'localhost' identified by 'k19k19';
+flush privileges;
+EOF

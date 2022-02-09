@@ -1,0 +1,8 @@
+---
+- name: check disk
+  hosts: host_name
+  gather_facts: no
+  remote_user: root
+  roles:
+  - check_disk
+  tags: check_disk

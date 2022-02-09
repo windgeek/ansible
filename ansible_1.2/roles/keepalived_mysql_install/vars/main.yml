@@ -1,0 +1,8 @@
+# vip1: 172.18.9.199
+#port: 8057
+#master_weight: 100
+#backup_weight: 90
+#ip_list1: ["172.18.9.52","172.18.9.53"]
+#e: eth0
+#proxy_style: DR
+#virtual_router_id: 50

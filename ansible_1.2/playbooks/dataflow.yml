@@ -1,0 +1,4 @@
+- include: dataflow_content2es.yml
+- include: dataflow_content2kafka.yml
+- include: dataflow_message2kafka.yml
+- include: dataflow_kafka2ck.yml

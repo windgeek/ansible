@@ -1,0 +1,6 @@
+- name: INSTALL dataflow_monitor
+  hosts: dataflow_hosts
+  remote_user: root 
+  roles:
+  - dataflow_monitor
+  tags: dataflow_monitor

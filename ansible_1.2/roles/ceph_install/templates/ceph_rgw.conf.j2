@@ -1,0 +1,15 @@
+#注意：此文件的最底部要留有最少一个空行
+[rgw]
+rgw_lifecycle_work_time = "00:00-24:00"
+rgw_lc_debug_interval = 10
+
+{% for rgw_host in groups.ceph_rgw_hosts %}
+[client.rgw.{{ rgw_host }}]
+rgw_frontends = "civetweb port={{ rgw_port }} num_threads=5000"
+
+{% endfor %}
+
+
+
+
+

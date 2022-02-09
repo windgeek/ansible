@@ -1,0 +1,6 @@
+- name: Install pag
+  hosts: node_exporter
+  become: yes
+  become_method: sudo
+  roles:
+  - roles/node_exporter

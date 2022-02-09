@@ -1,0 +1,6 @@
+- name: Install dataflow_mobile
+  hosts: dataflow_hosts
+  remote_user: root
+  roles:
+  - dataflow_mobile
+  tags: dataflow_mobile

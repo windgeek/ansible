@@ -1,0 +1,6 @@
+- name: Install fault_monitoring 
+  hosts: fault_monitor_hosts
+  remote_user: root
+  roles:
+  - fault_monitoring_install 
+  tags: fault_monitoring_install

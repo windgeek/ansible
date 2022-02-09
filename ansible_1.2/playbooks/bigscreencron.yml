@@ -1,0 +1,5 @@
+- name: run bigscreen cron 
+  hosts: bigscreen_cron_hosts
+  remote_user: root #以root账户执行
+  roles:
+  - bigscreendata_cron 

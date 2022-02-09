@@ -1,0 +1,6 @@
+# ck 集群类型
+type: monitor 
+#ck集群名称
+#ck ip prefix 
+ip_pre: 10.4.66.
+clickhouse_tse_local_monitor: clickhouse_tse_local_monitor 

@@ -1,0 +1,5 @@
+redis_version: redis-5.0.2
+redis1: 10.4.73.19
+redis2: 10.4.73.20
+redis3: 10.4.73.21
+redis_master: 10.4.73.19

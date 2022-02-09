@@ -1,0 +1,11 @@
+---
+- name: copy init script
+  copy: src="kafka_init.sh" dest="{{ kafka.install_path }}/kafka/bin/kafka_init.sh"  force=yes  owner=kafka group=kafka mode=0755
+
+- name: kafka init
+  command: "{{ kafka.install_path }}/kafka/bin/kafka_init.sh {{ kafka.zookeeper }} 2 {{ kafka.region }}"
+  become: yes
+  becomr_method: su
+  become_user: "{{ kafka.user }}"
+  args:
+    chdir: "{{ kafka.install_path }}/kafka/bin"

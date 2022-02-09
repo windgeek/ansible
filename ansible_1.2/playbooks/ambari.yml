@@ -1,0 +1,6 @@
+- name: ambari_install
+  hosts: "{{ hosts }}"
+  remote_user: root
+  roles:
+  - ambari_install
+  tags: ambari

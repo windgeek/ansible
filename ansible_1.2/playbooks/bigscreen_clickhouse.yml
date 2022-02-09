@@ -1,0 +1,5 @@
+- name: Install bigscreen clickhouse
+  hosts: bigscreen_clickhouse_hosts  #hosts 定义单个主机或组
+  remote_user: root #以root账户执行
+  roles:
+  - bigscreen_clickhouse

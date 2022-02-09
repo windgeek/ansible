@@ -1,0 +1,441 @@
+all:
+  pkgs_path: /opt/software_package/componet
+  app_nginx_vip: 10.4.73.231
+  ck_nginx_vip: 10.4.66.231
+  appweb_path: /opt/application/kweb
+  service_user: k2
+  service_group: k2
+
+ntp:
+  ntp_server: 10.4.64.1
+  timezone: 'Asia/Shanghai'
+
+#dataflow bigdata cluster
+hdfs:
+  namenode: 10.4.67.1
+  zookeeper: 10.4.67.3:2181,10.4.67.4:2181,10.4.67.5:2181
+  kafka: 10.4.70.121~144
+
+fault_monitor:
+  redis_hosts: 10.0.40.13:7000,10.0.40.14:7000,10.0.40.15:7000,10.0.40.13:7001,10.0.40.14:7001,10.0.40.15:7001
+  clickhouse_ip: 172.18.9.106
+  clickhouse_user: writer
+  clickhouse_pwd: k2
+  mysql_vip: 172.18.9.106
+  mysql_user: k
+  mysql_pwd: kk
+
+
+kafka:
+  log_path: /data1/kafka-logs,/data2/kafka-logs,/data3/kafka-logs,/data4/kafka-logs,/data5/kafka-logs,/data6/kafka-logs
+  version: kafka_2.11-1.1.1 
+  zookeeper: 10.4.70.145:2181,10.4.70.146:2181,10.4.70.147:2181/kafka
+  mk_logdirs: /{data1,data2,data3,data4,data5,data6}/kafka-logs
+  install_path: /opt
+  user: kafka
+  group: kafka
+  region: Nursultan
+
+zookeeper:
+  install_path: /data1
+  dataDir: /data1/zookeeper/data
+  dataLogDir: /data1/zookeeper/logs
+
+monitor:
+  host: 172.18.9.52
+
+dataflow:
+  install_path: /data1/data-streaming-v1
+  mysql_host: 10.4.73.46:3306
+  mysql_user: root
+  mysql_password: k2k2
+  content2es_name: content2es_xxx
+  content2kafka_name: content2kafka
+  message2kafka_name: message2kafka
+  kafka2ck_name: kafka2ck_xxx
+  mobile_name: mobile
+  monitor_name: monitor
+  monitor_yarn: 10.4.67.9
+  namenode: nursultan_dataflow
+  hbaseZkNodes: 10.4.67.3,10.4.67.4,10.4.67.5
+  cephEndPoint: 10.4.68.232:8899
+  ossdownloadUrl: https://bigdata.kf.kz/oss/xxx/download_v2
+  ossuploadUrl: http://10.4.68.230:8057/upload_v2
+  kafka: 10.4.70.121~144
+  common_clickhouse: 10.4.65.10~91
+  region: xxx
+  init_mode: ndc
+  kafka2ck_init: init
+  eml_num_executors: 40
+  http_num_executors: 100
+  message_num_executors: 100
+
+clickhouse:
+  region: astana
+  scriptsdir: /opt/scripts
+  shard_port: 9000
+  http_port: 8123
+  zk_port: 2181
+  data_dir: '/data1/clickhouse-server'
+  clickhouse_local_big: clickhouse_xxx_local_big
+  clickhouse_local_small: clickhouse_xxx_local_small
+
+
+appmysql:
+  data_dirss: /data1/mysqldb
+  data_dirs: /data1/mysqldb/3306
+  data_dir: /data1/mysqldb/3306/data
+  log_path: /data1/mysqldb/3306/log
+  pid_file: /data1/mysqldb/3306/run/mysqld.pid
+  log_bin: /data1/mysqldb/3306/log/binlog/mysql-bin
+  relay_log_index: /data1/mysqldb/3306/relay_index_log
+  root_pass: k2k2
+  servent_pass: k2k2
+  innodb_buffer_pool_size: 4G
+
+seed_map:
+  http_xxx_a1: '10.4.69.4:9300,10.4.69.5:9300,10.4.69.6:9300,10.4.69.7:9300,10.4.69.8:9300,10.4.69.9:9300'
+  http_xxx_a2: '10.4.69.114:9300,10.4.69.115:9300,10.4.69.116:9300,10.4.69.117:9300,10.4.69.118:9300,10.4.69.119:9300'
+  http_xxx_a3: '10.4.70.4:9300,10.4.70.5:9300,10.4.70.6:9300,10.4.70.7:9300,10.4.70.8:9300,10.4.70.9:9300'
+  mail_xxx_a1: '10.4.71.4:9300,10.4.71.5:9300,10.4.71.6:9300,10.4.71.7:9300,10.4.71.8:9300,10.4.71.9:9300'
+  struct_xxx_a1: '10.4.72.4:9300,10.4.72.5:9300,10.4.72.6:9300,10.4.72.7:9300,10.4.72.8:9300,10.4.72.9:9300'
+  monitor_xxx_a1: '10.4.72.83:9300,10.4.72.84:9300,10.4.72.85:9300'
+  http_ala_a1: '10.3.69.10.4:9300,10.3.69.5:9300,10.3.69.6:9300,10.3.69.7:9300,10.3.69.8:9300,10.3.69.9:9300'
+  http_ala_a2: '10.3.69.118:9300,10.3.69.119:9300,10.3.69.120:9300,10.3.69.121:9300,10.3.69.122:9300,10.3.69.123:9300'
+  http_ala_a3: '10.3.70.4:9300,10.3.70.5:9300,10.3.70.6:9300,10.3.70.7:9300,10.3.70.8:9300,10.3.70.9:9300'
+  mail_ala_a1: '10.3.71.4:9300,10.3.71.5:9300,10.3.71.6:9300,10.3.71.7:9300,10.3.71.8:9300,10.3.71.9:9300'
+  struct_ala_a1: '10.3.72.4:9300,10.3.72.5:9300,10.3.72.6:9300,10.3.72.7:9300,10.3.72.8:9300,10.3.72.9:9300'
+
+ftp2kafka:
+  ftp2kafka_version: ftp2kafka
+  port: 22
+  remoteDir: /nl-pull-test
+  localDir: /data1/nl-pull-test
+  username: sftp
+  password: k2k2
+  bootstrapServers: "172.24.9.56:6667,172.24.9.57:6667,172.24.9.58:6667"
+
+
+fault_monitor:
+  redis_hosts: 10.0.40.13:7000,10.0.40.14:7000,10.0.40.15:7000,10.0.40.13:7001,10.0.40.14:7001,10.0.40.15:7001
+  clickhouse_ip: 172.18.9.106
+  clickhouse_user: writer
+  clickhouse_pwd: k2
+  mysql_vip: 172.18.9.106
+  mysql_user: k
+  mysql_pwd: kk
+  fault_monitor_vip: 172.18.9.200
+
+# dataflow config dict
+bigstart_dict:
+  Nursultan:
+    dm: start_dm_conv
+    http: start_ntc_collect_http
+    record: start_ntc_conn_record
+  Aktubinsk:
+    dm: start_dm_conv
+    http: start_ntc_collect_http
+    record: start_ntc_conn_record
+  Kokshetau:
+    dm: start_dm_conv
+    http: start_ntc_collect_http
+    record: start_ntc_conn_record
+  Kostanay:
+    dm: start_dm_conv
+    http: start_ntc_collect_http
+    record: start_ntc_conn_record
+  Pavlodar:
+    dm: start_dm_conv
+    http: start_ntc_collect_http
+    record: start_ntc_conn_record
+  Petropavl:
+    dm: start_dm_conv
+    http: start_ntc_collect_http
+    record: start_ntc_conn_record
+  Uralsk:
+    dm: start_dm_conv
+    http: start_ntc_collect_http
+    record: start_ntc_conn_record
+  Zhezkazgan:
+    dm: start_dm_conv
+    http: start_ntc_collect_http
+    record: start_ntc_conn_record
+  Zhezkazgan:
+    dm: start_dm_conv
+    http: start_ntc_collect_http
+    record: start_ntc_conn_record
+
+smallstart_dict:
+  Nursultan:
+    mail: start_ntc_collect_mail
+    radius: start_ntc_collect_radius
+  Aktubinsk:
+    mail: start_ntc_collect_mail
+    radius: start_ntc_collect_radius
+  Kokshetau:
+    mail: start_ntc_collect_mail
+    radius: start_ntc_collect_radius
+  Kostanay:
+    mail: start_ntc_collect_mail
+    radius: start_ntc_collect_radius
+  Pavlodar:
+    mail: start_ntc_collect_mail
+    radius: start_ntc_collect_radius
+  Petropavl:
+    mail: start_ntc_collect_mail
+    radius: start_ntc_collect_radius
+  Uralsk:
+    mail: start_ntc_collect_mail
+    radius: start_ntc_collect_radius
+  Zhezkazgan:
+    mail: start_ntc_collect_mail
+    radius: start_ntc_collect_radius
+  Zhezkazgan:
+    mail: start_ntc_collect_mail
+    radius: start_ntc_collect_radius
+  
+region_dict:
+  Nursultan/big: 
+    ip: 10.4.64.1~41
+    region: xxx
+    kafka: 10.4.70.121~144
+  Nursultan/small: 
+    ip: 10.4.65.10~27
+    region: xxx
+    kafka: 10.4.70.121~144
+  Aktubinsk/big: 
+    ip: 10.4.64.42~66
+    region: AKX
+    kafka: 10.2.64.37~51
+  Aktubinsk/small: 
+    ip: 10.4.65.28~39
+    region: AKX
+    kafka: 10.2.64.37~51
+  Kokshetau/big: 
+    ip: 10.4.64.67~85
+    region: KOV
+    kafka: 10.7.64.29~39
+  Kokshetau/small: 
+    ip: 10.4.65.40~47
+    region: KOV
+    kafka: 10.7.64.29~39
+  Kostanay/big: 
+    ip: 10.4.64.86~106
+    region: KSN
+    kafka: 10.8.64.32~41
+  Kostanay/small: 
+    ip: 10.4.65.48~55
+    region: KSN
+    kafka: 10.8.64.32~41
+  Pavlodar/big: 
+    ip: 10.4.64.107~147
+    region: PWQ
+    kafka: 10.10.64.54~77
+  Pavlodar/small: 
+    ip: 10.4.65.56~73
+    region: PWQ
+    kafka: 10.10.64.54~77
+  Petropavl/big: 
+    ip: 10.4.64.148~165
+    region: PKC
+    kafka: 10.11.64.29~39
+  Petropavl/small: 
+    ip: 10.4.64.148~165
+    region: PKC
+    kafka: 10.11.64.29~39
+  Uralsk/big: 
+    ip: 10.4.64.166~183
+    region: URA
+    kafka: 10.16.64.29~39
+  Uralsk/small: 
+    ip: 10.4.65.82~89
+    region: URA
+    kafka: 10.16.64.29~39
+  Zhezkazgan/big: 
+    ip: 10.4.64.184~186
+    region: DZA
+    kafka: 10.18.64.17~19
+  Zhezkazgan/small: 
+    ip: 10.4.65.90~91
+    region: DZA
+    kafka: 10.18.64.17~19
+
+common_dict:
+  Aktubinsk:
+    code: AKX
+    kafka: 10.2.64.37~51
+    lbs: start_ntc_collect_lbs
+    nat: start_ntc_collect_nat
+    voip: start_ntc_collect_voip_log
+    vpn: start_ntc_collect_vpn
+  Kokshetau:
+    code: KOV
+    kafka: 10.7.64.29~39
+    lbs: start_ntc_collect_lbs
+    nat: start_ntc_collect_nat
+    voip: start_ntc_collect_voip_log
+    vpn: start_ntc_collect_vpn
+  Kostanay:
+    code: KSN
+    kafka: 10.8.64.32~41
+    lbs: start_ntc_collect_lbs
+    nat: start_ntc_collect_nat
+    voip: start_ntc_collect_voip_log
+    vpn: start_ntc_collect_vpn
+  Nursultan:
+    code: xxx
+    kafka: 10.4.70.121~144
+    lbs: start_ntc_collect_lbs
+    nat: start_ntc_collect_nat
+    voip: start_ntc_collect_voip_log
+    vpn: start_ntc_collect_vpn
+  Pavlodar:
+    code: PWQ
+    kafka: 10.10.64.54~77
+    lbs: start_ntc_collect_lbs
+    nat: start_ntc_collect_nat
+    voip: start_ntc_collect_voip_log
+    vpn: start_ntc_collect_vpn
+  Petropavl:
+    code: PKC
+    kafka: 10.11.64.29~39
+    lbs: start_ntc_collect_lbs
+    nat: start_ntc_collect_nat
+    voip: start_ntc_collect_voip_log
+    vpn: start_ntc_collect_vpn
+  Uralsk:
+    code: URA
+    kafka: 10.16.64.29~39
+    lbs: start_ntc_collect_lbs
+    nat: start_ntc_collect_nat
+    voip: start_ntc_collect_voip_log
+    vpn: start_ntc_collect_vpn
+  Zhezkazgan:
+    code: DZA
+    kafka: 10.18.64.17~19
+    lbs: start_ntc_collect_lbs
+    nat: start_ntc_collect_nat
+    voip: start_ntc_collect_voip_log
+    vpn: start_ntc_collect_vpn
+    
+    
+regiones_dict:
+  es-clusterA/Nursultan:
+    ip: 10.4.69.1~79
+    kafka: 10.4.70.121~144
+    stat: start_html.sh
+  es-clusterA/Uralsk:
+    ip: 10.4.69.1~79
+    kafka: 10.16.64.29~39
+    stat: start_html.sh
+  es-clusterA/Zhezkazgan:
+    ip: 10.4.69.1~79
+    kafka: 10.18.64.17~19
+    stat: start_html.sh
+  es-clusterB/Kostanay:
+    ip: 10.4.69.111~189
+    kafka: 10.8.64.32~41
+    stat: start_html.sh
+  es-clusterB/Pavlodar:
+    ip: 10.4.69.111~189
+    kafka: 10.10.64.54~77
+    stat: start_html.sh
+  es-clusterC/Aktubinsk:
+    ip: 10.4.70.1~79
+    kafka: 10.2.64.37~51
+    stat: start_html.sh
+  es-clusterC/Kokshetau:
+    ip: 10.4.70.1~79
+    kafka: 10.7.64.29~39
+    stat: start_html.sh
+  es-clusterC/Petropavl:
+    ip: 10.4.70.1~79
+    kafka: 10.11.64.29~39
+    stat: start_html.sh
+  es-clusterC/Taldykurgan:
+    ip: 10.4.70.1~79
+    kafka: 10.14.64.29~35
+    stat: start_html.sh
+  es-clusterE/Aktubinsk:
+    ip: 10.4.71.1~93
+    kafka: 10.2.64.37~51
+    stat: start_eml.sh
+  es-clusterE/Kokshetau:
+    ip: 10.4.71.1~93
+    kafka: 10.7.64.29~39
+    stat: start_eml.sh
+  es-clusterE/Kostanay:
+    ip: 10.4.71.1~93
+    kafka: 10.8.64.32~41
+    stat: start_eml.sh
+  es-clusterE/Nursultan:
+    ip: 10.4.71.1~93
+    kafka: 10.4.70.121~144
+    stat: start_eml.sh
+  es-clusterE/Pavlodar:
+    ip: 10.4.71.1~93
+    kafka: 10.10.64.54~77
+    stat: start_eml.sh
+  es-clusterE/Petropavl:
+    ip: 10.4.71.1~93
+    kafka: 10.11.64.29~39
+    stat: start_eml.sh
+  es-clusterE/Uralsk:
+    ip: 10.4.71.1~93
+    kafka: 10.16.64.29~39
+    stat: start_eml.sh
+  es-clusterE/Zhezkazgan:
+    ip: 10.4.71.1~93
+    kafka: 10.18.64.17~19
+    stat: start_eml.sh
+
+regionesfg_dict:
+  es-clusterG/Aktubinsk:
+    ip: 10.4.72.1~33
+    kafka: 10.2.64.37~51
+    stat: start_account.sh
+    stata: start_im.sh
+    statb: start_message.sh
+  es-clusterG/Kokshetau:
+    ip: 10.4.72.1~33
+    kafka: 10.7.64.29~39
+    stat: start_account.sh
+    stata: start_im.sh
+    statb: start_message.sh
+  es-clusterG/Kostanay:
+    ip: 10.4.72.1~33
+    kafka: 10.8.64.32~41
+    stat: start_account.sh
+    stata: start_im.sh
+    statb: start_message.sh
+  es-clusterG/Nursultan:
+    ip: 10.4.72.1~33
+    kafka: 10.4.70.121~144
+    stat: start_account.sh
+    stata: start_im.sh
+    statb: start_message.sh
+  es-clusterG/Pavlodar:
+    ip: 10.4.72.1~33
+    kafka: 10.10.64.54~77
+    stat: start_account.sh
+    stata: start_im.sh
+    statb: start_message.sh
+  es-clusterG/Petropavl:
+    ip: 10.4.72.1~33
+    kafka: 10.11.64.29~39
+    stat: start_account.sh
+    stata: start_im.sh
+    statb: start_message.sh
+  es-clusterG/Uralsk:
+    ip: 10.4.72.1~33
+    kafka: 10.16.64.29~39
+    stat: start_account.sh
+    stata: start_im.sh
+    statb: start_message.sh
+  es-clusterG/Zhezkazgan:
+    ip: 10.4.72.1~33
+    kafka: 10.18.64.17~19
+    stat: start_account.sh
+    stata: start_im.sh
+    statb: start_message.sh
+

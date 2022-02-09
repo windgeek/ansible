@@ -1,0 +1,40 @@
+---
+- name: useradd and chown
+  user: name=hbase group=hadoop state=present
+
+- name: mkdir /opt/hbase_collector
+  file: path=/opt/hbase_collector state=directory owner=hbase group=hadoop
+
+- name: scp config files 
+  copy: src=hbase_jmx_config.yml dest=/opt/hbase_collector mode=755
+
+- name: scp jar files
+  copy: src=jmx_prometheus_javaagent-0.12.0.jar dest=/opt/hbase_collector mode=755
+
+#- name: chown 
+#  shell: |
+#    groupadd hbase
+#    useradd -g hbase hbase
+#    chown -R hbase.hbase /opt/hbase_collector
+#
+#- name: scp prometheus_hbase.yml
+#  template: src="prometheus_hbase.yml" dest="/opt/prometheus/prometheus_hbase.yml" owner=root group=root mode=0755
+#  when: inventory_hostname == groups.prometheus_hosts[0]
+#
+#- name: input prometheus.yml and hot restart prometheus
+#  shell: |
+#    cat /opt/prometheus/prometheus_hbase.yml >> /opt/prometheus/prometheus.yml
+#    curl -XPOST http://{{prometheus_ip}}:9090/-/reload
+#  when: inventory_hostname == groups.prometheus_hosts[0]
+#
+#- name: Check if prometheus is accessible
+#  wait_for:
+#    port: 9090
+#    host: "{{prometheus_ip}}"
+#    state: started
+#    delay: 10
+#    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+#    #    timeout: 15
+#    #        connect_timeout: 5
+#    timeout: 15
+#    connect_timeout: 5

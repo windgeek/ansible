@@ -1,0 +1,4 @@
+- include: install.yml
+- include: initdata.yml
+- include: crontab.yml
+- include: housekeeping.yml 

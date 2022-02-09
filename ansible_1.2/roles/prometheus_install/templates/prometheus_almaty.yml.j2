@@ -1,0 +1,130 @@
+# my global config
+# my global config
+global:
+  scrape_interval:     30s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+    - targets: ["{{groups.prometheus_hosts[0]}}:9090"]
+
+  - job_name: 'linux_metric'
+    static_configs:
+{% for i in range(1,208,1) %}
+    - targets: ['10.3.64.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,112,1) %}
+    - targets: ['10.3.65.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,125,1) %}
+    - targets: ['10.3.67.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,152,1) %}
+    - targets: ['10.3.68.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,230,1) %}
+    - targets: ['10.3.69.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,165,1) %}
+    - targets: ['10.3.70.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,148,1) %}
+    - targets: ['10.3.71.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,148,1) %}
+    - targets: ['10.3.72.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,57,1) %}
+    - targets: ['10.3.73.{{i}}:9100']
+{% endfor %}
+{% for i in range(1,11,1) %}
+    - targets: ['10.3.74.{{i}}:9100']
+{% endfor %}
+
+  - job_name: 'clickhouse_metric'
+    static_configs:
+{% for i in range(1,129,1) %}
+    - targets: ['10.3.64.{{i}}:9116']
+{% endfor %}
+{% for i in range(1,109,1) %}
+    - targets: ['10.3.65.{{i}}:9116']
+{% endfor %}
+
+  - job_name: 'pushgateway_metric'
+    static_configs:
+{% for i in range(1,129,1) %}
+    - targets: ['10.3.64.{{i}}:9091']
+{% endfor %}
+{% for i in range(1,109,1) %}
+    - targets: ['10.3.65.{{i}}:9091']
+{% endfor %}
+
+  - job_name: 'spring'
+    metrics_path: '/prometheus'
+    static_configs:
+{% for i in range(62,72,1) %}
+    - targets: ['10.3.68.{{i}}:8057']
+{% endfor %}
+
+  - job_name: 'hbase_metric'
+    static_configs:
+{% for i in range(4,46,1) %}
+    - targets: ['10.3.68.{{i}}:7070']
+{% endfor %}
+
+  - job_name: 'ceph_metric'
+    static_configs:
+{% for i in range(76,88,1) %}
+    - targets: ['10.3.68.{{i}}:9128']
+{% endfor %}
+
+  - job_name: 'kafka_burrow'
+    static_configs:
+{% for i in range(117,118,1) %}
+    - targets: ['10.3.70.{{i}}:9254']
+{% endfor %}
+
+  - job_name: 'kafka_metric'
+    static_configs:
+{% for i in range(117,152,1) %}
+    - targets: ['10.3.70.{{i}}:9991']
+{% endfor %}
+
+  - job_name: 'zookeeper_metrics'
+    static_configs:
+{% for i in range(129,132,1) %}
+    - targets: ['10.3.64.{{i}}:9141']
+      labels:
+       cluster_name: 'Clickhouse_zk'
+{% endfor %}
+{% for i in range(1,4,1) %}
+    - targets: ['10.3.68.{{i}}:9141']
+      labels:
+       cluster_name: 'HBase_zk'
+{% endfor %}
+{% for i in range(152,155,1) %}
+    - targets: ['10.3.70.{{i}}:9141']
+      labels:
+       cluster_name: 'Kafka_zk'
+{% endfor %}

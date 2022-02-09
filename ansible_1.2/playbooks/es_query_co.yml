@@ -1,0 +1,6 @@
+- name: Install es_query_co
+  hosts: "{{hosts}}"
+  remote_user: root
+  roles:
+  - es_query_co_install
+  tags: es_query_co_install

@@ -1,0 +1,44 @@
+sourceKafka:
+  consumerMap:
+    "bootstrap.servers":"{{ dataflow.kafka }}"
+    "client.id":"spark_c"
+    "auto.offset.reset":"latest"
+    "max.poll.records":300
+    "session.timeout.ms":60000
+    "heartbeat.interval.ms":10000
+    "max.partition.fetch.bytes":5242880
+    "request.timeout.ms":90000
+    "fetch.max.wait.ms":1000
+targetKafka:
+  kafkaBrokerList: "{{ dataflow.kafka }}"
+  lengthLimit: 2000
+  producerMap:
+    "acks":"all"
+    "batch.size":102400
+    "linger.ms":10
+    "client.id":"spark_p"
+    "buffer.memory":33554432
+    "compression.type":"lz4"
+    "max.request.size":1048576
+    "retries":0
+    "key.serializer":"org.apache.kafka.common.serialization.StringSerializer"
+    "value.serializer":"org.apache.kafka.common.serialization.StringSerializer"
+oss:
+  endPoint: "{{ dataflow.cephEndPoint }}"
+  accessKeyId: "{{ access_key }}"
+  accessKeySecret: "{{ secret_key }}"
+  uploadUrl: "{{ dataflow.ossuploadUrl }}"
+hbase:
+  zkNodes: "{{ dataflow.hbaseZkNodes }}"
+  port: "2181"
+  tableName: "k19_media:ntc_oss_small_file"
+spark:
+  intervalTime: 5
+monitor:
+  offSwitch: true
+  errorMessageTopic: "K19-SPARK-EXCEPTION-LOG"
+  kafkaBrokerList: "{{ dataflow.kafka }}"
+  exceptionSize: 10000
+  flushSwitch: false
+region: "{{ dataflow.region }}"
+threadPoolSize: 5

@@ -1,0 +1,18 @@
+- name: copy partitiontables file
+  copy: 
+    src: "{{item.key}}"
+    dest: "{{item.value}}"
+    mode: 0755
+  with_dict:
+    - {"optimize_mysql.sh": "/etc/zabbix/scripts/"}
+
+- name: scp optimition files
+  template: src="templates/partitiontables_zabbix.sh.j2" dest="/usr/sbin/partitiontables_zabbix.sh"  owner=root group=root mode=0755
+- name: run scripts
+  shell: |
+    sh /etc/zabbix/scripts/optimize_mysql.sh
+    /bin/sh /usr/sbin/partitiontables_zabbix.sh 
+
+- name: create crontab
+  shell: echo -e "1 0 * * * /usr/bin/sh /usr/sbin/partitiontables_zabbix.sh" >> /var/spool/cron/root
+

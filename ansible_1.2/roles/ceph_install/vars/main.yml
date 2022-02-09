@@ -1,0 +1,14 @@
+dir: /opt
+#三个主节点  现场评审都为三个主节点 
+# mon1: m8-9p51-duanzhengnan
+# mon2: m8-9p52-duanzhengnan
+# mon3: m8-9p53-duanzhengnan
+#包括主节点在内的所有节点
+# node:  
+ssh_port: 3222
+rgw_port: 8899
+# disk_number+1 (现场一共六块盘，除了系统盘其他六个盘都挂载)
+number: 7
+# 物理机一般是sd，虚拟机一般是vd
+disk_lable: sd
+

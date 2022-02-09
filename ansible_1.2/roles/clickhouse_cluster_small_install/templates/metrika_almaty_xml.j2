@@ -1,0 +1,50 @@
+<yandex>
+    <clickhouse_remote_servers>
+        <!-- ala small cluster 10.3.66.10-10.3.66.103 -->
+        <{{clickhouse.clickhouse_local_small}}>
+            {% for i in range(10,104,2) %}
+                <shard>
+                    <replica>
+                        <host>10.3.66.{{i}}</host>
+                        <port>{{clickhouse.shard_port}}</port>
+                    </replica>
+                    <replica>
+                        <host>10.3.66.{{i+1}}</host>
+                        <port>{{clickhouse.shard_port}}</port>
+                    </replica>
+                </shard>
+            {% endfor %}
+	    </{{clickhouse.clickhouse_local_small}}>
+    </clickhouse_remote_servers>
+
+    <macros>
+        	<shard>{{ macros_shard }}</shard>
+        	<replica>{{ macros_replica }}</replica>
+	</macros>
+	
+    <!--10.3.66.1-10.3.66.3 -->
+	<zookeeper-servers>
+        {% for i in range(1,4,1) %}
+		<node index="{{i}}">
+                <host>10.3.66.{{i}}</host>
+                <port>{{clickhouse.zk_port}}</port>
+		</node>
+        {% endfor %}
+        <!-- ClickHouse与Zookeeper保持的会话时长，超过该时间Zookeeper还是不到ClikHouse的心跳信息，会将与ClickHouse的session断开  -->
+        <session_timeout_ms>120000</session_timeout_ms>
+	</zookeeper-servers>
+
+    <!-- 数据压缩算法  -->
+    <clickhouse_compression>
+        <case>
+                <min_part_size>10000000000</min_part_size>
+                <min_part_size_ratio>0.01</min_part_size_ratio>
+                <method>lz4</method>
+        </case>
+    </clickhouse_compression>
+
+    <networks>
+        <ip>::/0</ip>
+    </networks>
+
+</yandex>

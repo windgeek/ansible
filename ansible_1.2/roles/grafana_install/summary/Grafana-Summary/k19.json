@@ -1,0 +1,1078 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "$$hashKey": "object:375",
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 249,
+  "iteration": 1593398309257,
+  "links": [],
+  "panels": [
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "avg"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "sparkline": {
+        "fillColor": "#5794F2",
+        "full": false,
+        "lineColor": "#1F60C4",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((1-(node_memory_MemAvailable_bytes{instance=~\"$node\"} / (node_memory_MemTotal_bytes{instance=~\"$node\"})))* 100)",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Memory Usage Avg",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "max"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "id": 4,
+      "sparkline": {
+        "fillColor": "rgba(19, 193, 91, 0.32)",
+        "full": false,
+        "lineColor": "rgb(145, 200, 16)",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((1 - (node_memory_MemAvailable_bytes{instance=~\"$node\"} / (node_memory_MemTotal_bytes{instance=~\"$node\"})))* 100)",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Memory Usage  Max",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "min"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 6,
+      "sparkline": {
+        "fillColor": "rgba(19, 193, 91, 0.32)",
+        "full": false,
+        "lineColor": "rgb(145, 200, 16)",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((1 - (node_memory_MemAvailable_bytes{instance=~\"$node\"} / (node_memory_MemTotal_bytes{instance=~\"$node\"})))* 100)",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Memory Usage Min",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "avg"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 5
+      },
+      "id": 8,
+      "pluginVersion": "6.7.1",
+      "sparkline": {
+        "fillColor": "rgba(19, 193, 91, 0.32)",
+        "full": false,
+        "lineColor": "rgb(145, 200, 16)",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((node_load5))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "CPU load5 Avg",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "max"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 5
+      },
+      "id": 10,
+      "sparkline": {
+        "fillColor": "rgba(19, 193, 91, 0.32)",
+        "full": false,
+        "lineColor": "rgb(145, 200, 16)",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((node_load5))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "CPU load5 Max",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "min"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 5
+      },
+      "id": 12,
+      "sparkline": {
+        "fillColor": "rgba(19, 193, 91, 0.32)",
+        "full": false,
+        "lineColor": "rgb(145, 200, 16)",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((node_load5))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "CPU load5 Min",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "avg"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 10
+      },
+      "id": 14,
+      "sparkline": {
+        "fillColor": "rgba(19, 193, 91, 0.32)",
+        "full": false,
+        "lineColor": "rgb(145, 200, 16)",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((node_filesystem_size_bytes{mountpoint=\"/\"}-node_filesystem_free_bytes{mountpoint=\"/\"}) *100/(node_filesystem_avail_bytes {mountpoint=\"/\"}+(node_filesystem_size_bytes{mountpoint=\"/\"}-node_filesystem_free_bytes{mountpoint=\"/\"})))",
+          "interval": "",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "System disk Avg",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "max"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 10
+      },
+      "id": 16,
+      "sparkline": {
+        "fillColor": "rgba(19, 193, 91, 0.32)",
+        "full": false,
+        "lineColor": "rgb(145, 200, 16)",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((node_filesystem_size_bytes{mountpoint=\"/\"}-node_filesystem_free_bytes{mountpoint=\"/\"}) *100/(node_filesystem_avail_bytes {mountpoint=\"/\"}+(node_filesystem_size_bytes{mountpoint=\"/\"}-node_filesystem_free_bytes{mountpoint=\"/\"})))",
+          "interval": "",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "System disk Max",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "min"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 10
+      },
+      "id": 18,
+      "sparkline": {
+        "fillColor": "rgba(19, 193, 91, 0.32)",
+        "full": false,
+        "lineColor": "rgb(145, 200, 16)",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((node_filesystem_size_bytes{mountpoint=\"/\"}-node_filesystem_free_bytes{mountpoint=\"/\"}) *100/(node_filesystem_avail_bytes {mountpoint=\"/\"}+(node_filesystem_size_bytes{mountpoint=\"/\"}-node_filesystem_free_bytes{mountpoint=\"/\"})))",
+          "interval": "",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "System disk Min",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "avg"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 15
+      },
+      "id": 20,
+      "sparkline": {
+        "fillColor": "rgba(19, 193, 91, 0.32)",
+        "full": false,
+        "lineColor": "rgb(145, 200, 16)",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((node_filesystem_size_bytes{mountpoint=\"/opt\"}-node_filesystem_free_bytes{mountpoint=\"/opt\"}) *100/(node_filesystem_avail_bytes {mountpoint=\"/opt\"}+(node_filesystem_size_bytes{mountpoint=\"/opt\"}-node_filesystem_free_bytes{mountpoint=\"/opt\"})))",
+          "interval": "",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Data disk Avg",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "max"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 15
+      },
+      "id": 22,
+      "sparkline": {
+        "fillColor": "rgba(19, 193, 91, 0.32)",
+        "full": false,
+        "lineColor": "rgb(145, 200, 16)",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((node_filesystem_size_bytes{mountpoint=\"/opt\"}-node_filesystem_free_bytes{mountpoint=\"/opt\"}) *100/(node_filesystem_avail_bytes {mountpoint=\"/opt\"}+(node_filesystem_size_bytes{mountpoint=\"/opt\"}-node_filesystem_free_bytes{mountpoint=\"/opt\"})))",
+          "interval": "",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Data disk Max",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "LowerLimit": {
+        "Color": "rgb(2, 17, 249)",
+        "Decimals": 1,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 20
+      },
+      "LowerWarning": {
+        "Color": "rgb(9, 115, 102)",
+        "DisplayOption": "disabled",
+        "Value": 25
+      },
+      "Metric": {
+        "Color": "#3274D9",
+        "Decimals": 3,
+        "FontSize": "100%",
+        "Format": "percent",
+        "Name": "min"
+      },
+      "MetricValueRange": "",
+      "Postfix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "Prefix": {
+        "FontSize": "hide",
+        "Text": ""
+      },
+      "UpperLimit": {
+        "Color": "rgb(247, 90, 7)",
+        "Decimals": 2,
+        "DisplayOption": "disabled",
+        "FontSize": "50%",
+        "Value": 80
+      },
+      "UpperWarning": {
+        "Color": "rgb(247, 2, 2)",
+        "DisplayOption": "disabled",
+        "Value": 75
+      },
+      "datasource": "ALA",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 15
+      },
+      "id": 24,
+      "sparkline": {
+        "fillColor": "rgba(19, 193, 91, 0.32)",
+        "full": false,
+        "lineColor": "rgb(145, 200, 16)",
+        "show": false
+      },
+      "targets": [
+        {
+          "expr": "avg((node_filesystem_size_bytes{mountpoint=\"/opt\"}-node_filesystem_free_bytes{mountpoint=\"/opt\"}) *100/(node_filesystem_avail_bytes {mountpoint=\"/opt\"}+(node_filesystem_size_bytes{mountpoint=\"/opt\"}-node_filesystem_free_bytes{mountpoint=\"/opt\"})))",
+          "interval": "",
+          "legendFormat": "{{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Data disk Min",
+      "type": "michaeldmoore-annunciator-panel"
+    },
+    {
+      "activeThemeId": 0,
+      "datasource": null,
+      "disableThemePicker": true,
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "id": 26,
+      "targets": [
+        {
+          "expr": "",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "themes": [
+        {
+          "name": "aquamarine",
+          "styles": [
+            {
+              "props": {
+                "theme": "default"
+              },
+              "type": "basetheme"
+            },
+            {
+              "props": {
+                "url": "https://gilbn.github.io/theme.park/CSS/themes/grafana/aquamarine.css"
+              },
+              "type": "url"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "yesoreyeram-boomtheme-panel"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [
+    "node_exporter ",
+    "StarsL.cn",
+    "Prometheus "
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "text": "linux_metric",
+          "value": "linux_metric"
+        },
+        "datasource": "ALA",
+        "definition": "label_values(node_uname_info, job)",
+        "hide": 2,
+        "includeAll": true,
+        "index": -1,
+        "label": "JOB",
+        "multi": false,
+        "name": "job",
+        "options": [],
+        "query": "label_values(node_uname_info, job)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "bd-server-11",
+          "value": "bd-server-11"
+        },
+        "datasource": "ALA",
+        "definition": "label_values(node_uname_info{job=~\"$job\"}, nodename)",
+        "hide": 0,
+        "includeAll": true,
+        "index": -1,
+        "label": "主机名",
+        "multi": false,
+        "name": "hostname",
+        "options": [],
+        "query": "label_values(node_uname_info{job=~\"$job\"}, nodename)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "10.0.40.11:9100",
+          "value": "10.0.40.11:9100"
+        },
+        "datasource": "ALA",
+        "definition": "label_values(node_uname_info{job=~\"$job\",nodename=~\"$hostname\"},instance)",
+        "hide": 0,
+        "includeAll": true,
+        "index": -1,
+        "label": "Instance",
+        "multi": false,
+        "name": "node",
+        "options": [],
+        "query": "label_values(node_uname_info{job=~\"$job\",nodename=~\"$hostname\"},instance)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "p5p1",
+          "value": "p5p1"
+        },
+        "datasource": "ALA",
+        "definition": "label_values(node_network_info{device!~'tap.*|veth.*|br.*|docker.*|virbr.*|lo.*|cni.*'},device)",
+        "hide": 2,
+        "includeAll": true,
+        "index": -1,
+        "label": "网卡",
+        "multi": true,
+        "name": "device",
+        "options": [],
+        "query": "label_values(node_network_info{device!~'tap.*|veth.*|br.*|docker.*|virbr.*|lo.*|cni.*'},device)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "/opt",
+          "value": "/opt"
+        },
+        "datasource": "ALA",
+        "definition": "query_result(topk(1,sort_desc (max(node_filesystem_size_bytes{instance=~'$node',fstype=~\"xfs\",mountpoint!~\".*pods.*\"}) by (mountpoint))))",
+        "hide": 2,
+        "includeAll": false,
+        "index": -1,
+        "label": "最大挂载目录",
+        "multi": false,
+        "name": "maxmount",
+        "options": [],
+        "query": "query_result(topk(1,sort_desc (max(node_filesystem_size_bytes{instance=~'$node',fstype=~\"xfs\",mountpoint!~\".*pods.*\"}) by (mountpoint))))",
+        "refresh": 2,
+        "regex": "/.*\\\"(.*)\\\".*/",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "bd-server-11",
+          "value": "bd-server-11"
+        },
+        "datasource": "ALA",
+        "definition": "label_values(node_uname_info{job=~\"$job\",instance=~\"$node\"}, nodename)",
+        "hide": 2,
+        "includeAll": false,
+        "index": -1,
+        "label": "展示使用的主机名",
+        "multi": false,
+        "name": "show_hostname",
+        "options": [],
+        "query": "label_values(node_uname_info{job=~\"$job\",instance=~\"$node\"}, nodename)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "k19",
+  "uid": "-BUEoWZGz",
+  "variables": {
+    "list": []
+  },
+  "version": 34
+}

@@ -1,0 +1,40 @@
+# init ck distribute
+- name: create dir
+  file:
+   path: "{{clickhouse.scriptsdir}}/clickhouse_create_table_by_cluster/sql/{{clickhouse.region}}"
+   state: directory
+
+- name: scp file
+  copy: 
+   src: "/etc/ansible/roles/dataflow_init/clickhouse_create_table_by_cluster/{{item}}"
+   dest: "{{clickhouse.scriptsdir}}/clickhouse_create_table_by_cluster/{{item}}"
+   owner: root
+   group: root
+   mode: 0755
+  with_items:
+   - ["distribute.sh","sql/ck_distribute.sql","users"] 
+
+- name: run init file
+  shell: |
+    cd {{clickhouse.scriptsdir}}/clickhouse_create_table_by_cluster
+    /bin/bash distribute.sh
+  run_once: true
+  delegate_to: "{{groups.clickhouse_distribute_cluster_hosts[0]}}" 
+
+- name: copy replicas queue file
+  copy:
+   src: "clickhouse_table_replicas_queue.sh"
+   dest: "{{clickhouse.scriptsdir}}"
+   owner: root
+   group: root
+   mode: 0755
+
+- name: push replicas queue metric to pushgateway
+  shell: /usr/bin/sh "{{clickhouse.scriptsdir}}/clickhouse_table_replicas_queue.sh"
+  run_once: true
+  delegate_to: "{{groups.clickhouse_distribute_cluster_hosts[0]}}"
+  register: result
+
+- name: Show debug info
+  debug: var=result.stdout verbosity=0
+

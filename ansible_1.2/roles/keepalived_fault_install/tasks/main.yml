@@ -1,0 +1,20 @@
+---
+# tasks file for keepalived_proxy_install
+- name: install
+  shell: yum install keepalived -y
+
+- name: add script
+  copy: src="fault_monitor.sh" dest="/etc/keepalived/fault_monitor.sh" owner=root group=root mode=0755
+
+- name: config master
+  template: src="templates/keepalived_master.conf.j2" dest="/etc/keepalived/keepalived.conf" owner=root group=root mode=0644
+  run_once: true
+  delegate_to: "{{master_ip}}"
+
+- name: config backup
+  template: src="templates/keepalived_backup.conf.j2" dest="/etc/keepalived/keepalived.conf" owner=root group=root mode=0644
+  run_once: true
+  delegate_to: "{{backup_ip}}"
+
+- name: start
+  shell: systemctl start keepalived

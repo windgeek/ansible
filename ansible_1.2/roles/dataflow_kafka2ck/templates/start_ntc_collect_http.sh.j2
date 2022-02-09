@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+# 配置启动参数
+#dm_conv
+export dm_conv_application_name="{{item.value.region}}-K19-DM-CONV-LOG-Application"
+export dm_conv_executor_memory="3G"
+export dm_conv_num_executors=1
+export dm_conv_executor_cores=1
+
+#dm monitor
+export dm_monitor_application_name="{{item.value.region}}-K19-LOGSTASH-MONITOR-LOG-Application"
+export dm_monitor_executor_memory="2G"
+export dm_monitor_num_executors=1
+export dm_monitor_executor_cores=1
+
+#ntc account
+export ntc_account_application_name="{{item.value.region}}-K19-NTC-ACCOUNT-LOG-Application"
+export ntc_account_executor_memory="3G"
+export ntc_account_num_executors=1
+export ntc_account_executor_cores=1
+
+#ntc http
+export ntc_http_application_name="{{item.value.region}}-K19-NTC-HTTP-LOG-Application"
+export ntc_http_executor_memory="4G"
+export ntc_http_num_executors=1
+export ntc_http_executor_cores=1
+
+#ntc im
+export ntc_im_application_name="{{item.value.region}}-K19-NTC-IM-LOG-Application"
+export ntc_im_executor_memory="3G"
+export ntc_im_num_executors=1
+export ntc_im_executor_cores=1
+
+#ntc lbs
+export ntc_lbs_application_name="{{item.value.region}}-K19-NTC-LBS-LOG-Application"
+export ntc_lbs_executor_memory="2G"
+export ntc_lbs_num_executors=1
+export ntc_lbs_executor_cores=1
+
+#ntc mail
+export ntc_mail_application_name="{{item.value.region}}-K19-NTC-MAIL-LOG-Application"
+export ntc_mail_executor_memory="3G"
+export ntc_mail_num_executors=1
+export ntc_mail_executor_cores=1
+
+#ntc nat
+export ntc_nat_application_name="{{item.value.region}}-K19-NTC-NAT-LOG-Application"
+export ntc_nat_executor_memory="2G"
+export ntc_nat_num_executors=1
+export ntc_nat_executor_cores=2
+
+#ntc radius
+export ntc_radius_application_name="{{item.value.region}}-K19-NTC-RADIUS-LOG-Application"
+export ntc_radius_executor_memory="4G"
+export ntc_radius_num_executors=1
+export ntc_radius_executor_cores=1
+
+#ntc voip_data_log
+export ntc_voip_data_log_application_name="{{item.value.region}}-K19-NTC-VOIP-LOG-DATA-Application"
+export ntc_voip_data_log_executor_memory="3G"
+export ntc_voip_data_log_num_executors=1
+export ntc_voip_data_log_executor_cores=1
+
+#ntc voip_log
+export ntc_voip_log_application_name="{{item.value.region}}-K19-NTC-VOIP-LOG-Application"
+export ntc_voip_log_executor_memory="3G"
+export ntc_voip_log_num_executors=1
+export ntc_voip_log_executor_cores=1
+
+#ntc conn record
+export ntc_conn_record_application_name="{{item.value.region}}-K19-NTC-IP-LOG-Application"
+export ntc_conn_record_executor_memory="3G"
+export ntc_conn_record_num_executors=2
+export ntc_conn_record_executor_cores=1
+
+#oss monitor
+export oss_monitor_application_name="{{item.value.region}}-K19-OSS-MONITOR-LOG-Application"
+export oss_monitor_executor_memory="2G"
+export oss_monitor_num_executors=1
+export oss_monitor_executor_cores=1
+
+#flow limit
+export flow_limit_application_name="{{item.value.region}}-K19-FLOW-LIMIT-LOG-Application"
+export flow_limit_executor_memory="2G"
+export flow_limit_num_executors=1
+export flow_limit_executor_cores=1
+
+#ntc vpn
+export ntc_vpn_application_name="{{item.value.region}}-K19-NTC-VPN-LOG-Application"
+export ntc_vpn_executor_memory="4G"
+export ntc_vpn_num_executors=1
+export ntc_vpn_executor_cores=2
+
+export hdfsDir="hdfs://{{ dataflow.namenode }}:8020/user/k18/kafka2ck/lib"
+
+env="conf"
+
+fullName=$(readlink -f $0)
+fullPath=$(dirname ${fullName})
+cd $fullPath/../
+
+pwdPath=`pwd`
+jarName=$(ls -lt kafka2ck* | awk  '{print $9}' |head -n 1)
+source ./bin/init.sh
+jar uvf ${jarName} ${env}/ntc_collect_http.yaml
+jar uvf ${jarName} ${env}/common.yaml
+spark-submit --class com.bfd.k19.application.Dm2CKApplication \
+	--master yarn \
+  --name ${ntc_http_application_name} \
+	--deploy-mode cluster \
+	--executor-memory 4G \
+	--num-executors ${ntc_http_num_executors} \
+	--files ${pwdPath}/conf/log4j.properties \
+	--conf spark.streaming.kafka.maxRatePerPartition=20000 \
+	--conf spark.streaming.backpressure.initialRate=10000 \
+	--conf spark.streaming.backpressure.enabled=true \
+	--conf spark.memory.fraction=0.2 \
+	--conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
+	--conf spark.executor.cores=${ntc_http_executor_cores} \
+	--conf spark.yarn.jars=${hdfsDir}/*.jar \
+	${jarName} ${env} ntc_collect_http.yaml

@@ -1,0 +1,14 @@
+- name: create  a directory if it does not exits
+  file: 
+    path: /opt/scripts
+    state: directory
+    mode: '0755'
+
+- name: copy file
+  copy: 
+    src: "auto_start_{{service}}.sh"
+    dest: "/opt/scripts/"
+    mode: '0755'
+
+- name: insert crontab
+  shell: echo -e "* * * * * /usr/bin/sh /opt/scripts/auto_start_{{service}}.sh" >> /var/spool/cron/root

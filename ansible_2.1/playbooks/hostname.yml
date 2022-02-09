@@ -1,0 +1,7 @@
+- name: change hostname
+  hosts: hostname
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  roles:
+  - roles/hostname

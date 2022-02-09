@@ -1,0 +1,43 @@
+global:
+  resolve_timeout: 5m
+  smtp_smarthost: 'smtp.qiye.163.com:25'
+  smtp_from: 'xxx@xxx.com'
+  smtp_auth_username: 'xxx@xxx.com'
+  smtp_auth_password: 'xxxpassword'
+
+templates:
+- '/data/alertmanager/*.tmpl'
+
+route:
+  group_by: ['type']
+  group_wait: 20s
+  group_interval: 20s
+  repeat_interval: 8h
+  receiver: 'default_alert'
+  routes:
+    - receiver: 'default_alert'
+      continue: true
+      group_wait: 20s
+    - receiver: 'ex_alert'
+      group_wait: 20s
+      match:
+        job: xxx
+
+
+receivers:
+- name: 'default_alert'
+  email_configs:
+  - to: 'song.li@xxx.com'
+    send_resolved: true
+    html: '{{ template "mail.html" . }}'
+
+
+- name: 'ex_alert'
+  email_configs:
+  - to: 'xxx@xxx.com'
+    send_resolved: true
+    html: '{{ template "mail.html" . }}'
+  webhook_configs:
+    - url: 'http://172.28.xx.xx:23333/bot'
+
+

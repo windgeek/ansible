@@ -1,0 +1,6 @@
+- name: Install logstash
+  hosts: bigscreen_logstash_hosts 
+  remote_user: root
+  roles:
+  - logstash_syslog_install
+  tags: Install logstash

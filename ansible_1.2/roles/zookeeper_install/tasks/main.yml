@@ -1,0 +1,50 @@
+---
+# tasks file for zookeeper_install
+- name: unpack the zookeeper file
+  unarchive: src={{ all.pkgs_path }}/zookeeper-3.4.6.tar.gz dest=/opt/ copy=yes
+
+- name: unpack the zookeeper_exporter file
+  unarchive: src={{ all.pkgs_path }}/zookeeper_exporter.tar.gz dest={{ zookeeper.install_path }} copy=yes
+
+- name: create group
+  group: name={{item.name}} state=present
+  with_items:
+    - name: "zookeeper"
+
+- name: create user
+  user: name={{item.key}} group={{item.value}} password=k19k19
+  with_dict:
+    - {"zookeeper":"zookeeper"}
+
+- name: config
+  template: src="templates/zoo.cfg" dest="/opt/zookeeper/conf/zoo.cfg" owner=zookeeper group=zookeeper mode=0644
+
+- name: Create a directory if it does not exist
+  file: path={{item.name}} state=directory owner=zookeeper group=zookeeper mode=0755
+  with_items:
+    - name: "{{ zookeeper.dataDir }}"
+    - name: "{{ zookeeper.dataLogDir }}"
+
+- name: add myid file
+  shell: echo {{myid}} > {{zookeeper.dataDir}}/myid
+
+- name: install
+  shell: |
+    chown -R zookeeper:zookeeper {{ zookeeper.install_path }}/zookeeper
+    chown -R zookeeper:zookeeper /opt/zookeeper
+
+- name: start zookeeper
+  shell: su - zookeeper -c "sh /opt/zookeeper/bin/zkServer.sh start"
+
+- name: start zookeeper_exporter
+  shell: nohup /bin/sh {{ zookeeper.install_path }}/zookeeper_exporter/zookeeper_exporter > /dev/null 2>&1 &
+
+- name: Check if Zookeeper is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 2181
+    state: started
+    delay: 10
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 60
+    connect_timeout: 5

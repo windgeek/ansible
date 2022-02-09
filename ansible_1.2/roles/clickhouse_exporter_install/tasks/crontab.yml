@@ -1,0 +1,18 @@
+- name: create  a directory if it does not exits
+  file:
+    path: /opt/scripts
+    state: directory
+    mode: '0755'
+
+- name: copy ck_status file
+  copy:
+    src: "{{item}}"
+    dest: "/opt/scripts"
+  with_items:
+    - ["count_clickhouse_status_connections.sh","kill_query.sh"]
+    
+- name: get ck status 
+  shell: echo -e "*/1 * * * * /usr/bin/sh /opt/scripts/count_clickhouse_status_connections.sh" >> /var/spool/cron/root
+
+- name: kill sql
+  shell: cat /opt/scripts/kill_query.sh >> /var/spool/cron/root

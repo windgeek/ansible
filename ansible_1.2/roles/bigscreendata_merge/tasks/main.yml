@@ -1,0 +1,77 @@
+- name: create merge directory in master server
+  file:
+   path: "{{mergedir}}"
+   state: directory
+  run_once: true
+  delegate_to: "{{groups.bigscreen_merge[0]}}"
+
+- name: delete old mergecenter
+  file:
+   path: "{{mergecenter}}"
+   state: absent
+  run_once: true
+  delegate_to: "{{groups.bigscreen_merge[0]}}"
+
+- name: create mergecenter directory in master server
+  file:
+   path: "{{mergecenter}}"
+   state: directory
+  run_once: true
+  delegate_to: "{{groups.bigscreen_merge[0]}}"
+
+- name: get acquired mergecenter to mergedir
+  fetch: src="{{mergedir}}/{{item}}"  dest="{{mergecenter}}" force=yes  owner=root  group=root  mode=0644
+  with_items:
+   - cpumem_result.json
+   - lost_result.json
+   - other_result.json
+  when: inventory_hostname != groups.bigscreen_merge[0]
+
+- name: copy procedure  file
+  copy: src="{{item}}" dest="{{mergecenter}}/{{item}}" force=yes owner=root group=root mode=0755
+  with_items:
+   - mergebasedata.py
+   - sedlastjson.sh
+   - changelostjson.py
+   - changelostformat.sh
+  run_once: true
+  delegate_to: "{{groups.bigscreen_merge[0]}}"
+
+- name: delete old json file
+  shell: |
+     rm -rf {{mergecenter}}/*.json
+  run_once: true
+  delegate_to: "{{groups.bigscreen_merge[0]}}"
+
+- name: run procedure
+  shell: |
+    cd {{mergecenter}}
+    /usr/bin/python {{mergecenter}}/mergebasedata.py
+    /bin/bash {{mergecenter}}/sedlastjson.sh
+    /usr/bin/python   {{mergecenter}}/changelostjson.py
+    /bin/bash {{mergecenter}}/changelostformat.sh
+  run_once: true
+  delegate_to: "{{groups.bigscreen_merge[0]}}"
+
+- name: copy prepared file to mergedate directory
+  shell: yes | cp {{mergecenter}}/mergecpumem.json {{mergedir}}/cpumem_result.json
+  run_once: true
+  delegate_to: "{{groups.bigscreen_merge[0]}}"
+
+- name: copy prepared file to mergedate directory
+  shell: yes | cp {{mergecenter}}/mergeother.json {{mergedir}}/other_result.json
+  run_once: true
+  delegate_to: "{{groups.bigscreen_merge[0]}}"
+
+- name: copy prepared file to mergedate directory
+  shell: yes | cp {{mergecenter}}/lost_result.json {{mergedir}}/lost_result.json
+  run_once: true
+  delegate_to: "{{groups.bigscreen_merge[0]}}"
+#- name: copy prepared file to mergedate directory
+#  copy: src="{{mergecenter}}/{{item.key}}" dest="{{mergedir}}/{{item.value}}" force=yes owner=root group=root mode=0755
+#  with_dict:
+#    - {"mergecpumem.json": "cpumem_result.json"} 
+#    - {"mergeother.json": "other_result.json"} 
+#    - {"lost_result.json": "lost_result.json"} 
+#  run_once: true
+#  delegate_to: "{{groups.bigscreen_merge[0]}}"

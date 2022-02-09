@@ -1,0 +1,43 @@
+[all:vars]
+ansible_ssh_user="sudo_user"
+ansible_ssh_pass="xxxxxx"
+ansible_ssh_port="22"
+# ansible_sudo_pass='xxxxxx'
+
+[jdk]
+192.168.151.[1..95]
+
+[sysopt]
+
+[zookeeper]
+192.168.151.178 myid="1"
+192.168.151.178 myid="1"
+
+
+[kafka]
+192.168.151.105 brokerid="0"
+
+
+[mysql_hosts]
+172.24.9.50
+
+[mysql_ha_hosts]
+10.186.82.157
+10.186.82.158
+
+[mysql57_hosts]
+172.24.9.51
+172.24.9.52
+
+
+[ambari_server]
+10.186.82.157
+
+
+[node_exporter]
+
+
+
+[hostname]
+#10.186.98.75 ansible_ssh_user="root" ansible_ssh_pass="xxxxxx" ansible_ssh_port="2992" host_name='hdp-13-9875'
+10.186.98.75 host_name='hdp-13-9875'

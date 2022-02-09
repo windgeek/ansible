@@ -1,0 +1,107 @@
+---
+- name: unpack the mariadb file
+  unarchive: src={{all.files}}/{{mariadb.file}} dest={{mariadb.dir}} copy=yes
+- name: mysql user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf mysql && rm -rf /var/spool/mail/mysql
+  when: info.stdout.find('mysql') != -1
+- name: create user
+  shell: useradd mysql
+- name: install
+  shell: |
+    ln -s {{mariadb.dir}}/{{mariadb.version}} {{mariadb.dir}}/mariadb
+    mkdir {{mariadb.dir}}/mariadb/logs
+    rm -rf  {{mariadb.dir}}/mariadb/data/*
+    chown -R mysql:mysql {{mariadb.dir}}/mariadb {{mariadb.dir}}/{{mariadb.version}}
+- name: config
+  template: src="templates/my.cnf" dest="/etc/my.cnf" owner=mysql group=mysql mode=0644
+- name: init && start
+  shell: su mysql -c "{{mariadb.dir}}/mariadb/scripts/mysql_install_db --defaults-file=/etc/my.cnf"
+- name: autostart config
+  shell: |
+    cp {{mariadb.dir}}/mariadb/support-files/mysql.server  /etc/init.d/mysqld
+    sed -i -e 's/^basedir=$/basedir=\{{mariadb.dir}}\/mariadb/g' /etc/init.d/mysqld
+    chmod +x /etc/init.d/mysqld
+- name: environment
+  shell: |
+    echo -e 'export MYSQL_HOME={{mariadb.dir}}/mysql\nexport PATH=${MYSQL_HOME}/bin:$PATH'>> /etc/profile.d/mysql.sh
+    source /etc/profile
+- name: start
+  shell: /etc/init.d/mysqld start
+- name: copy change shell
+  copy: src="change.sh" dest={{mariadb.dir}}/mariadb/
+- name: run change shell
+  shell: sh {{mariadb.dir}}/mariadb/change.sh
+- name: change admin password
+  shell: mysqladmin -uroot -p password {{mariadb.password}}
+- name: Check if Mysql is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 3306
+    state: started
+    delay: 5
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 10
+    connect_timeout: 5
+
+
+#如果是单机部署注释掉下面所有
+#将mysql1设置成mysql2的主服务器
+- name: get master file and position
+  mysql_replication:
+    login_host: "{{ groups.mariadbha[0] }}"
+    login_user: "root"
+    login_password: "{{mariadb.rootpass}}"
+    mode: getmaster
+  register: log_file_pos_one
+  when: inventory_hostname == groups.mysql_ha_hosts[1]
+
+- name: MySQL | change master status
+  command: "
+    mysql -uroot -p{{root_pass}} -e
+    \"
+    STOP SLAVE;
+    CHANGE MASTER TO MASTER_HOST='{{ groups.mysql_ha_hosts[0] }}', MASTER_USER='servent', MASTER_PASSWORD='{{servent_pass}}', MASTER_LOG_FILE='{{ log_file_pos_one.File }}', MASTER_LOG_POS = {{ log_file_pos_one.Position }};
+    START SLAVE;
+    \"
+    "
+  when: inventory_hostname == groups.mysql_ha_hosts[1]
+
+- name: wait for complete sync
+  pause: seconds=10
+
+#如果只开启主从复制，而不是主主复制，则注释掉下面所有
+#将mysql2设置成mysql1的主服务器
+# - name: get master file and position
+#   mysql_replication:
+#     login_host: "{{ groups.mysql_ha_hosts[1] }}"
+#     login_user: "root"
+#     login_password: "{{root_pass}}"
+#     mode: getmaster
+#   register: log_file_pos_two
+#   when: inventory_hostname == groups.mysql_ha_hosts[0]
+
+# - name: MySQL | change master status
+#   command: "
+#     mysql -uroot -p{{root_pass}} -e
+#     \"
+#     STOP SLAVE;
+#     CHANGE MASTER TO MASTER_HOST='{{ groups.mysql_ha_hosts[1] }}', MASTER_USER='servent', MASTER_PASSWORD='{{servent_pass}}', MASTER_LOG_FILE='{{ log_file_pos_two.File }}', MASTER_LOG_POS = {{ log_file_pos_two.Position }};
+#     START SLAVE;
+#     \"
+#     "
+#   when: inventory_hostname == groups.mysql_ha_hosts[0]
+
+#uninstall
+#systemctl stop mysqld
+#sleep 5s
+#rm -rf /usr/local/mysql*
+#rm -rf /etc/my.cnf
+#rm -rf /etc/init.d/mysqld
+#rm -rf /data1/mysqldb
+#rm -rf /usr/bin/mysqld
+#rm -rf /etc/profile.d/mysql.sh
+#rm -rf /tmp/mysql.sock
+#ps aux | grep mysql | grep -v grep | awk '{print $2}' | xargs kill -9

@@ -1,0 +1,6 @@
+- name: Install lvs
+  hosts: "{{hosts}}"
+  remote_user: root
+  roles:
+  - lvs_install
+  tags: lvs

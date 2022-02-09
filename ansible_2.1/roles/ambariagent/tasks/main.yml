@@ -1,0 +1,9 @@
+# tasks file for ambari_install
+- name: install ambari-agent
+  shell: yum install ambari-agent -y
+- name: config ambari-agent and start
+  shell: |
+    sed -i 's/^hostname=.*/hostname={{ambariagent.ambari_server}}/' /etc/ambari-agent/conf/ambari-agent.ini
+    sed -i 's/verify=platform_default/verify=disable/g' /etc/python/cert-verification.cfg
+    sed -i '/\[security\]/a force_https_protocol=PROTOCOL_TLSv1_2' /etc/ambari-agent/conf/ambari-agent.ini
+    ambari-agent start

@@ -1,0 +1,16 @@
+- name: all_in_one
+  hosts: all
+  remote_user: root
+  roles:
+  - ssh_install_single
+  - host_name
+  - hosts
+#  - repo.yml
+  - sys_opt
+  - java_install
+#  - npm.yml
+#  - pag.yml
+#  - node_exporter.yml
+#  - mysqlha.yml
+#  - ambari.yml
+#  - nginx.yml

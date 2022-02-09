@@ -1,0 +1,6 @@
+- name: Install dataflow_message2kafka
+  hosts: dataflow_hosts
+  remote_user: root
+  roles:
+  - dataflow_message2kafka
+  tags: dataflow_message2kafka

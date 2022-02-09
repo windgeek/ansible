@@ -1,0 +1,6 @@
+- name: Install ftp2kafka 
+  hosts: ftp2kafka_hosts 
+  remote_user: root
+  roles:
+  - ftp2kafka_install 
+  tags: ftp2kafka_install 

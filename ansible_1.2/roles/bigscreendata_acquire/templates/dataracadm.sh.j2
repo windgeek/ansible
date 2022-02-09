@@ -1,0 +1,26 @@
+#!/bin/bash
+PowerStatus=`racadm get System.Power.Status | tr -s '\n' | awk '{print "PowerStatus="$0}'`
+echo $PowerStatus >> {{datafile}}/getother.log
+BoarletTemp=`racadm getsensorinfo | grep "System Board Inlet Temp" | awk '{print "BoardInletStatus="$5}'`
+echo ${BoarletTemp} >>  {{datafile}}/getother.log
+BoExhautTemp=`racadm getsensorinfo |grep  "System Board Exhaust Temp" | awk '{print "BoardExhautStatus="$5}'`
+echo ${BoExhautTemp} >>  {{datafile}}/getother.log
+racadm getsensorinfo |grep  "Temp" |grep CPU |awk 'END {print $3}' | sort -u | while read line
+do
+        if [ $line != "Ok" ]
+        then
+                echo "CpuStatus=0" >> {{datafile}}/getother.log
+        else
+                echo "CpuStatus=1" >> {{datafile}}/getother.log
+        fi
+done
+
+racadm getsensorinfo |grep  " RPM" |awk 'END {print $5}' |sort -u | while read line
+do
+        if [ $line != "Ok" ]
+        then
+                echo "FanStatus=0" >> {{datafile}}/getother.log
+        else
+                echo "FanStatus=1" >> {{datafile}}/getother.log
+        fi
+done

@@ -1,0 +1,33 @@
+---
+#tasks file for monitor
+- name: unarchive file
+  unarchive: src={{ all.pkgs_path }}/dataflow/{{dataflow.monitor_name}}.tar.gz dest={{dataflow.install_path}} copy=yes
+
+- name: chown
+  shell: chown k19:k19 -R {{dataflow.install_path}}
+
+- name: copy monitor exception and oss common file
+  template: src="common.yaml.j2" dest="{{dataflow.install_path}}/monitor/{{ item.name }}/conf/common.yaml" owner=k19 group=k19 mode=0755
+  with_items:
+   - name: exception
+   - name: oss
+
+- name: copy monitor exception and oss common file
+  template: src="{{ item.key }}" dest="{{dataflow.install_path}}/monitor/{{ item.value }}/bin/{{ item.key }}" owner=k19 group=k19 mode=0755
+  with_dict: 
+    - {"start_exception_monitor.sh":"exception"}
+    - {"start_flow_limit.sh":"oss"}
+    - {"start_oss_monitor.sh":"oss"}
+
+- name: copy monitor yarn config file
+  template: src="{{ item.name }}" dest="{{dataflow.install_path}}/monitor/yarn/{{ item.name }}" owner=k19 group=k19 mode=0755
+  with_items:
+   - name: config.properties
+   - name: druid.properties
+
+- name: start dataflow monitor
+  shell: |
+    su k19 -c "sh /data1/data-streaming-v1/monitor/exception/bin/start_exception_monitor.sh"
+    su k19 -c "sh /data1/data-streaming-v1/monitor/oss/bin/start_flow_limit.sh"
+    su k19 -c "sh /data1/data-streaming-v1/monitor/oss/bin/start_oss_monitor.sh"
+    su k19 -c "sh /data1/data-streaming-v1/monitor/yarn/start.sh"

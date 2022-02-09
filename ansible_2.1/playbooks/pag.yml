@@ -1,0 +1,6 @@
+- name: Install pag
+  hosts: pag
+  become: yes
+  become_method: sudo
+  roles:
+  - roles/pag

@@ -1,0 +1,6 @@
+- name: Install hbase_exporter
+  hosts: hbase_monitor_hosts
+  remote_user: root
+  roles:
+  - hbase_exporter_install 
+  tags: hbase_exporter

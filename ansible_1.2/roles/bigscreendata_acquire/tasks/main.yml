@@ -1,0 +1,97 @@
+- name: delete legacy data directory in master server
+  shell: rm -rf {{mergedir}}/10.*
+  run_once: true
+  delegate_to: "{{ansibleip}}"
+
+- name: create merge directory in master server
+  file:
+   path: "{{mergedir}}"
+   state: directory
+  run_once: true
+  delegate_to: "{{ansibleip}}"
+
+- name: create  collection dir in subserver
+  file:
+    path: "{{datafile}}" 
+    state: directory 
+
+- name: create file to store basic data in subserver
+  file: 
+    path: "{{datafile}}/{{item}}"
+    state: touch 
+    mode: '0755'
+  with_items:
+   - getcpumem.log
+   - getother.log
+
+- name: write region field basic log 
+  shell: | 
+   echo -e "Region="{{region}} | tee -a {{datafile}}/getcpumem.log  {{datafile}}/getother.log 
+
+- name: copy procedure  file 
+  copy: src="{{item}}" dest="{{datafile}}/{{item}}" force=yes owner=root group=root mode=0755
+  with_items:
+   - datacollection.sh
+   - format_json.sh 
+
+- name: run procedure 
+  shell: 
+    /bin/bash  "{{datafile}}/datacollection.sh"
+
+- name: copy  racadm file
+  template: src="dataracadm.sh.j2" dest="{{datafile}}/dataracadm.sh" owner=root group=root mode=0755 force=yes
+
+- name: acquire hardware data
+  shell:
+   /bin/bash "{{datafile}}/dataracadm.sh"
+
+- name: change basic log to json format
+  shell: 
+    /bin/bash "{{datafile}}/format_json.sh"
+
+- name: get acquired datafile to mergedir 
+  fetch: src="{{datafile}}/{{item}}"  dest="{{mergedir}}" force=yes  owner=k18  group=k18  mode=0644
+  with_items:
+   - getcpumem01.log
+   - getother01.log
+
+
+- name: copy collect procedure
+  copy: src="{{item}}" dest="{{mergedir}}" force=yes owner=root group=root mode=0755
+  with_items:
+   - changejson.py 
+   - sedlastjson.sh
+  run_once: true
+  delegate_to: "{{ansibleip}}"
+
+
+- name: delete old collect datafile
+  file:
+   path: "{{mergedir}}/{{item}}"
+   state: absent
+  with_items:
+   - cpumem_result.json
+   - other_result.json
+
+- name: run collect procedure
+  shell: |
+    cd {{mergedir}}
+    /usr/bin/python "{{mergedir}}/changejson.py"
+    /bin/bash "{{mergedir}}/sedlastjson.sh"
+  run_once: true
+  delegate_to: "{{ansibleip}}"
+
+- name: delete datafile
+  file:
+   path: "{{datafile}}/{{item}}"
+   state: absent
+  with_items:
+   - getcpumem.log
+   - getother.log
+   - getcpumem01.log
+   - getother01.log
+
+- name: copy  getuntouchinfo  file
+  template: src="getuntouchinfo.sh.j2" dest="{{mergedir}}/getuntouchinfo.sh" owner=root group=root mode=0755 force=yes
+  run_once: true
+  delegate_to: "{{ansibleip}}"

@@ -1,0 +1,38 @@
+---
+# tasks file for prometheus alertmanager grafana install
+- name: copy file
+  unarchive: src="{{all.files}}/{{item.name}}" dest="{{pag.dir}}/"
+  with_items:
+    - name: "{{pag.prometheus_file}}"
+    - name: "{{pag.alertmanager_file}}"
+    - name: "{{pag.grafana_file}}"
+- name: create soft link
+  shell: |
+    cd {{pag.dir}}
+    ln -s {{pag.prometheus_version}} prometheus
+    ln -s {{pag.alertmanager_version}} alertmanager
+    ln -s {{pag.grafana_version}} grafana
+- name: config
+  template: src="{{item.key}}" dest="{{pag.dir}}/{{item.value}}"
+  with_dict:
+    - {"prometheus.yml":"prometheus"}
+    - {"start-prometheus.sh":"prometheus"}
+    - {"stop-prometheus.sh":"prometheus"}
+    - {"reload-prometheus.sh":"prometheus"}
+    - {"start-alertmanager.sh":"alertmanager"}
+    - {"stop-alertmanager.sh":"alertmanager"}
+    - {"start-grafana.sh":"grafana"}
+    - {"stop-grafana.sh":"grafana"}
+- name: config1
+  copy: src="{{item.key}}" dest="{{pag.dir}}/{{item.value}}"
+  with_dict:
+    - {"rules.yml":"prometheus"}
+    - {"mail.tmpl":"alertmanager"}
+    - {"alertmanager.yml":"alertmanager"}
+- name: start alertmanager
+  shell: nohup {{pag.dir}}/alertmanager/alertmanager --config.file={{pag.dir}}/alertmanager/alertmanager.yml --data.retention=720h &
+- name: start prometheus
+  shell: nohup {{pag.dir}}/prometheus/prometheus --config.file={{pag.dir}}/prometheus/prometheus.yml --storage.tsdb.retention=365d --web.enable-admin-api --web.enable-lifecycle &
+- name: start grafana
+  shell: nohup {{pag.dir}}/grafana/bin/grafana-server web &
+

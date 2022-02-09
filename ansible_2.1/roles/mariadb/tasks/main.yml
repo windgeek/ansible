@@ -1,0 +1,46 @@
+---
+
+- name: unpack the mariadb file
+  unarchive: src={{all.files}}/{{mariadb.file}} dest={{mariadb.dir}} copy=yes
+- name: mysql user check
+  shell: cat /etc/passwd
+  register: info
+- name: user delete
+  shell: userdel -rf mysql && rm -rf /var/spool/mail/mysql
+  when: info.stdout.find('mysql') != -1
+- name: create user
+  shell: useradd mysql
+- name: install
+  shell: |
+    ln -s {{mariadb.dir}}/{{mariadb.version}} {{mariadb.dir}}/mariadb
+    mkdir {{mariadb.dir}}/mariadb/logs
+    rm -rf  {{mariadb.dir}}/mariadb/data/*
+    chown -R mysql:mysql {{mariadb.dir}}/mariadb {{mariadb.dir}}/{{mariadb.version}}
+- name: config
+  template: src="templates/my.cnf" dest="/etc/my.cnf" owner=mysql group=mysql mode=0644
+- name: init && start
+  shell: su mysql -c "{{mariadb.dir}}/mariadb/scripts/mysql_install_db --defaults-file=/etc/my.cnf"
+- name: autostart config
+  shell: |
+    cp {{mariadb.dir}}/mariadb/support-files/mysql.server  /etc/init.d/mysqld
+    sed -i -e 's/^basedir=$/basedir=\{{mariadb.dir}}\/mariadb/g' /etc/init.d/mysqld
+    chmod +x /etc/init.d/mysqld
+- name: environment
+  shell: |
+    echo -e 'export MYSQL_HOME={{mariadb.dir}}/mariadb\nexport PATH=${MYSQL_HOME}/bin:$PATH'>> /etc/profile.d/mysql.sh
+    source /etc/profile
+- name: start
+  shell: /etc/init.d/mysqld start
+- name: copy change shell
+  copy: src="change.sh" dest={{mariadb.dir}}/mariadb/
+- name: run change shell
+  shell: sh {{mariadb.dir}}/mariadb/change.sh
+- name: Check if Mysql is accessible
+  wait_for:
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    port: 3306
+    state: started
+    delay: 5
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 10
+    connect_timeout: 5

@@ -1,0 +1,30 @@
+# tasks file for es_master_install
+- name: create K19AgentTrap dir
+  file:
+   path: "{{agentTrap}}"
+   state: directory
+
+- name: unpack the fault_monitoring file
+  unarchive: src=/opt/software_package/componet/bigscreen-server-1.0.0.tar.gz dest=/opt/K19AgentTrap copy=yes
+  #unarchive: src={{ all.pkgs_path }}/bigscreen-server-1.0.0.tar.gz dest=/opt/K19AgentTrap copy=yes
+
+- name: config application
+  template: src="templates/application.yml.j2" dest="/opt/K19AgentTrap/bigscreen-server-1.0.0/conf/application.yml" owner=root group=root mode=0644
+
+- name: start service
+  shell:
+    cd /opt/K19AgentTrap/bigscreen-server-1.0.0/bin
+    /usr/bin/sh start.sh
+
+- name: Check if fault_monitoring is accessible
+  wait_for:
+    port: 8384
+    state: started
+    delay: 30
+    #timeout时间一定要大于上面的delay时间，否则会出现错误的检测结果
+    timeout: 45
+    connect_timeout: 5
+
+
+
+

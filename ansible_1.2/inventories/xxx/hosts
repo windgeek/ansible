@@ -1,0 +1,1032 @@
+[all:vars]
+ansible_ssh_user=root
+# 服务器root密码
+ansible_ssh_pass=111111
+# # 服务器ssh端口
+ansible_ssh_port=22
+
+# 同名变量的情况下，主机变量优先级高于主机组变量，给定的主机组变量优先级高于all特殊组
+[kafka_zk:vars]
+ansible_ssh_pass=111112
+
+[kafka_zk]
+10.4.70.145 myid="1"
+10.4.70.146 myid="2"
+10.4.70.147 myid="3"
+
+[kafka_hosts]
+10.4.70.121	brokerid="0"
+10.4.70.122	brokerid="1"
+10.4.70.123	brokerid="2"
+10.4.70.124	brokerid="3"
+10.4.70.125	brokerid="4"
+10.4.70.126	brokerid="5"
+10.4.70.127	brokerid="6"
+10.4.70.128	brokerid="7"
+10.4.70.129	brokerid="8"
+10.4.70.130	brokerid="9"
+10.4.70.131	brokerid="10"
+10.4.70.132	brokerid="11"
+10.4.70.133	brokerid="12"
+10.4.70.134	brokerid="13"
+10.4.70.135	brokerid="14"
+10.4.70.136	brokerid="15"
+10.4.70.137	brokerid="16"
+10.4.70.137	brokerid="16"
+10.4.70.138	brokerid="17"
+10.4.70.139	brokerid="18"
+10.4.70.140	brokerid="19"
+10.4.70.141	brokerid="20"
+10.4.70.142	brokerid="21"
+10.4.70.143	brokerid="22"
+10.4.70.144	brokerid="23"
+
+[dataflow_hosts]
+10.4.67.11
+
+#es_hosts && es_query_hosts[31:84]
+[http_xxx_a1_master_hosts]
+10.4.69.[1:3]
+[http_xxx_a1_co_hosts]
+10.4.69.[4:9]
+[http_xxx_a1_data_hosts]
+10.4.69.[9:79]
+
+[http_xxx_a2_master_hosts]
+10.4.69.1[11:13]
+[http_xxx_a2_co_hosts]
+10.4.69.1[14:19]
+[http_xxx_a2_data_hosts]
+10.4.69.1[20:89]
+
+[http_xxx_a3_master_hosts]
+10.4.70.[1:3]
+[http_xxx_a3_co_hosts]
+10.4.70.[4:9]
+[http_xxx_a3_data_hosts]
+10.4.70.[10:79]
+
+[mail_xxx_a1_master_hosts]
+10.4.71.[1:3]
+[mail_xxx_a1_co_hosts]
+10.4.71.[4:9]
+[mail_xxx_a1_data_hosts]
+10.4.71.[10:93]
+
+[struct_xxx_a1_master_hosts]
+10.4.72.[1:3]
+[struct_xxx_a1_co_hosts]
+10.4.72.[4:9]
+[struct_xxx_a1_data_hosts]
+10.4.72.[10:33]
+
+[monitor_xxx_a1_master_hosts]
+10.4.72.8[3:5]
+[monitor_xxx_a1_data_hosts]
+10.4.72.8[6:8]
+
+[http_xxx_query_master_hosts]
+10.4.70.[104:106]
+[http_xxx_query_co_hosts]
+10.4.70.1[07:16]
+
+[mail_xxx_query_master_hosts]
+10.4.71.1[30:32]
+[mail_xxx_query_co_hosts]
+10.4.71.1[33:42]
+
+[struct_xxx_query_master_hosts]
+10.4.72.[70:72]
+[struct_xxx_query_co_hosts]
+10.4.72.[73:82]
+
+###做raid && 挂盘[87:128](ceph机器不用挂盘)
+[6_raid0_hosts]
+10.4.67.[11:52]
+10.4.68.[6:32]
+10.4.68.[55:64]   #[55:62]不挂盘
+10.4.69.[1:79]
+10.4.69.1[11:89]
+10.4.70.[1:79]
+10.4.70.1[04:16]
+10.4.70.1[21:44]
+10.4.71.[1:93]
+10.4.71.1[30:42]
+10.4.72.[1:33]
+10.4.72.[70:88]
+10.4.73.[22:31]
+10.4.73.[36:40]
+
+[5_raid1_0_hosts]
+10.4.68.[79:80]
+10.4.73.[1:11]
+
+[3_raid1_hosts]
+10.4.66.[50:51]
+10.4.68.[44:54]
+
+[2_raid10_1_hosts]
+10.4.65.[1:3]
+10.4.66.[1:3]
+10.4.67.[1:10]
+10.4.68.[1:5]
+10.4.70.1[45:47]
+10.4.73.[19:21]
+10.4.73.[34:35]
+
+[1_raid5_hosts]
+10.4.64.[1:131]
+10.4.65.[4:41]
+10.4.66.[4:49]
+10.4.66.5[2:5]
+10.4.68.[65:78]
+10.4.73.[12:18]
+10.4.73.[32:33]
+10.4.73.[41:46]
+
+###app基础组件
+[app_es_master_hosts]
+10.4.73.[22:24]
+[app_es_data_hosts]
+10.4.73.[25:31]
+[app_mysql5.6_hosts]
+10.4.73.12
+10.4.73.13
+[app_mysql5.7_hosts]
+10.4.73.17
+10.4.73.18
+[app_postgresql_hosts]
+10.4.73.14
+10.4.73.15
+[app_neo4j_hosts]
+10.4.73.16
+[app_redis_hosts]
+10.4.73.19
+10.4.73.20
+10.4.73.21
+
+[app_nginx_hosts]
+10.4.73.32
+10.4.73.33
+
+
+[zabbix_server_hosts]
+10.4.73.[41:42]
+
+#mysql主主
+[zabbix_mysql_hosts]
+10.4.73.41
+10.4.73.42
+
+[grafana_hosts]
+10.4.73.43
+
+[prometheus_hosts]
+10.4.73.44
+
+[zabbix_proxy_hosts]
+10.4.73.45   zabbix_proxy="zabbix_proxy01"
+10.4.73.47   zabbix_proxy="zabbix_proxy02"
+
+[proxy1_mysql_hosts]
+10.4.73.45
+10.4.73.46
+
+[proxy2_mysql_hosts]
+10.4.73.47
+10.4.73.48
+
+#545 刨除zabbix-server 中所在的zabbix-agent  这个单独安装
+[zabbix_agent1]
+10.4.64.[1:115] 
+10.4.65.[1:95]
+10.4.66.[1:17]
+10.4.67.[1:76]
+10.4.68.[1:100]
+10.4.72.[1:88]
+10.4.73.[1:40]
+10.4.73.[43:44]
+10.4.73.46
+10.4.73.[48:56]
+
+#512
+[zabbix_agent2]
+10.4.69.[1:213]
+10.4.70.[1:147]
+10.4.71.[1:142]
+10.4.74.[1:10]
+
+
+[burrow_hosts]
+10.4.70.121
+
+[clickhouse_exporter_hosts]
+10.4.64.[1:186]
+10.4.65.[10:91]
+10.4.66.[3:12]
+10.4.66.[30:33]
+
+[ceph_exporter_hosts]
+10.4.68.[55:62]
+
+[host_name]
+10.4.64.1	host_name=xxx-bd-ckAserver-1
+#ambari所依赖的mysql主从
+[oss_ambari_mysql_hosts]
+10.4.68.4
+10.4.68.5
+
+#mysql主从
+[dataflow_ambari_mysql_hosts]
+10.4.67.[1:2]
+
+[dataflow_ambari_server]
+10.4.67.1 host_name=xxx-bd-hdpserver-01
+
+[app_ambari_mysql_hosts]
+10.4.73.34
+10.4.73.35
+
+[app_ambari_server]
+10.4.73.34
+
+#oss-tomcat 集群
+[oss_tomcat_cluster]
+10.4.68.[44:50]
+
+#oss-tomcat 分流集群1
+[oss_tomcat_cluster1]
+10.4.68.[44:46]
+
+#oss-tomcat 分流集群1
+[oss_tomcat_cluster2]
+10.4.68.[47:50]
+
+#只写ceph集群的第一个节点即可，这个会是主节点
+[oss_ceph_cluster]
+10.4.68.55
+
+[ceph_all]
+xxx-bd-ossserver-55
+xxx-bd-ossserver-56
+xxx-bd-ossserver-57
+xxx-bd-ossserver-58
+xxx-bd-ossserver-59
+xxx-bd-ossserver-60
+xxx-bd-ossserver-61
+xxx-bd-ossserver-62
+
+[ceph_rgw_hosts]
+xxx-bd-ossserver-55
+xxx-bd-ossserver-56
+xxx-bd-ossserver-57
+
+#nginx_ceph+keepalived
+[oss_nginx]
+10.4.68.6[3:4]
+
+
+#lvs结合keepalived keepalived的服务器ip
+[keepalived_hosts]
+10.4.68.5[1:2]
+
+
+
+[clickhouse_cluster_big_hosts]
+10.4.64.1
+10.4.64.2
+10.4.64.3
+10.4.64.4
+10.4.64.5
+10.4.64.6
+10.4.64.7
+10.4.64.8
+10.4.64.9
+10.4.64.10
+10.4.64.11
+10.4.64.12
+10.4.64.13
+10.4.64.14
+10.4.64.15
+10.4.64.16
+10.4.64.17
+10.4.64.18
+10.4.64.19
+10.4.64.20
+10.4.64.21
+10.4.64.22
+10.4.64.23
+10.4.64.24
+10.4.64.25
+10.4.64.26
+10.4.64.27
+10.4.64.28
+10.4.64.29
+10.4.64.30
+10.4.64.31
+10.4.64.32
+10.4.64.33
+10.4.64.34
+10.4.64.35
+10.4.64.36
+10.4.64.37
+10.4.64.38
+10.4.64.39
+10.4.64.40
+10.4.64.41
+10.4.64.42
+10.4.64.43
+10.4.64.44
+10.4.64.45
+10.4.64.46
+10.4.64.47
+10.4.64.48
+10.4.64.49
+10.4.64.50
+10.4.64.51
+10.4.64.52
+10.4.64.53
+10.4.64.54
+10.4.64.55
+10.4.64.56
+10.4.64.57
+10.4.64.58
+10.4.64.59
+10.4.64.60
+10.4.64.61
+10.4.64.62
+10.4.64.63
+10.4.64.64
+10.4.64.65
+10.4.64.66
+10.4.64.67
+10.4.64.68
+10.4.64.69
+10.4.64.70
+10.4.64.71
+10.4.64.72
+10.4.64.73
+10.4.64.74
+10.4.64.75
+10.4.64.76
+10.4.64.77
+10.4.64.78
+10.4.64.79
+10.4.64.80
+10.4.64.81
+10.4.64.82
+10.4.64.83
+10.4.64.84
+10.4.64.85
+10.4.64.86
+10.4.64.87
+10.4.64.88
+10.4.64.89
+10.4.64.90
+10.4.64.91
+10.4.64.92
+10.4.64.93
+10.4.64.94
+10.4.64.95
+10.4.64.96
+10.4.64.97
+10.4.64.98
+10.4.64.99
+10.4.64.100
+10.4.64.101
+10.4.64.102
+10.4.64.103
+10.4.64.104
+10.4.64.105
+10.4.64.106
+10.4.64.107
+10.4.64.108
+10.4.64.109
+10.4.64.110
+10.4.64.111
+10.4.64.112
+10.4.64.113
+10.4.64.114
+10.4.64.115
+10.4.64.116
+10.4.64.117
+10.4.64.118
+10.4.64.119
+10.4.64.120
+10.4.64.121
+10.4.64.122
+10.4.64.123
+10.4.64.124
+10.4.64.125
+10.4.64.126
+10.4.64.127
+10.4.64.128
+10.4.64.129
+10.4.64.130
+10.4.64.131
+10.4.64.132
+10.4.64.133
+10.4.64.134
+10.4.64.135
+10.4.64.136
+10.4.64.137
+10.4.64.138
+10.4.64.139
+10.4.64.140
+10.4.64.141
+10.4.64.142
+10.4.64.143
+10.4.64.144
+10.4.64.145
+10.4.64.146
+10.4.64.147
+10.4.64.148
+10.4.64.149
+10.4.64.150
+10.4.64.151
+10.4.64.152
+10.4.64.153
+10.4.64.154
+10.4.64.155
+10.4.64.156
+10.4.64.157
+10.4.64.158
+10.4.64.159
+10.4.64.160
+10.4.64.161
+10.4.64.162
+10.4.64.163
+10.4.64.164
+10.4.64.165
+10.4.64.166
+10.4.64.167
+10.4.64.168
+10.4.64.169
+10.4.64.170
+10.4.64.171
+10.4.64.172
+10.4.64.173
+10.4.64.174
+10.4.64.175
+10.4.64.176
+10.4.64.177
+10.4.64.178
+10.4.64.179
+10.4.64.180
+10.4.64.181
+10.4.64.182
+10.4.64.183
+10.4.64.184
+10.4.64.185
+10.4.64.186
+
+[clickhouse_cluster_small_hosts]
+10.4.65.10	    macros_shard="1"	 macros_replica='01'	
+10.4.65.11	    macros_shard="1"	 macros_replica='02'	
+10.4.65.12	    macros_shard="2"	 macros_replica='01'	
+10.4.65.13	    macros_shard="2"	 macros_replica='02'	
+10.4.65.14	    macros_shard="3"	 macros_replica='01'	
+10.4.65.15	    macros_shard="3"	 macros_replica='02'	
+10.4.65.16	    macros_shard="4"	 macros_replica='01'	
+10.4.65.17	    macros_shard="4"	 macros_replica='02'	
+10.4.65.18	    macros_shard="5"	 macros_replica='01'	
+10.4.65.19	    macros_shard="5"	 macros_replica='02'	
+10.4.65.20	    macros_shard="6"	 macros_replica='01'	
+10.4.65.21	    macros_shard="6"	 macros_replica='02'	
+10.4.65.22	    macros_shard="7"	 macros_replica='01'	
+10.4.65.23	    macros_shard="7"	 macros_replica='02'	
+10.4.65.24	    macros_shard="8"	 macros_replica='01'	
+10.4.65.25	    macros_shard="8"	 macros_replica='02'	
+10.4.65.26	    macros_shard="9"	 macros_replica='01'	
+10.4.65.27	    macros_shard="9"	 macros_replica='02'	
+10.4.65.28	    macros_shard="10"	 macros_replica='01'	
+10.4.65.29	    macros_shard="10"	 macros_replica='02'	
+10.4.65.30	    macros_shard="11"	 macros_replica='01'	
+10.4.65.31	    macros_shard="11"	 macros_replica='02'	
+10.4.65.32	    macros_shard="12"	 macros_replica='01'	
+10.4.65.33	    macros_shard="12"	 macros_replica='02'	
+10.4.65.34	    macros_shard="13"	 macros_replica='01'	
+10.4.65.35	    macros_shard="13"	 macros_replica='02'	
+10.4.65.36	    macros_shard="14"	 macros_replica='01'	
+10.4.65.37	    macros_shard="14"	 macros_replica='02'	
+10.4.65.38	    macros_shard="15"	 macros_replica='01'	
+10.4.65.39	    macros_shard="15"	 macros_replica='02'	
+10.4.65.40	    macros_shard="16"	 macros_replica='01'	
+10.4.65.41	    macros_shard="16"	 macros_replica='02'	
+10.4.65.42	    macros_shard="17"	 macros_replica='01'	
+10.4.65.43	    macros_shard="17"	 macros_replica='02'	
+10.4.65.44	    macros_shard="18"	 macros_replica='01'	
+10.4.65.45	    macros_shard="18"	 macros_replica='02'	
+10.4.65.46	    macros_shard="19"	 macros_replica='01'	
+10.4.65.47	    macros_shard="19"	 macros_replica='02'	
+10.4.65.48	    macros_shard="20"	 macros_replica='01'	
+10.4.65.49	    macros_shard="20"	 macros_replica='02'	
+10.4.65.50	    macros_shard="21"	 macros_replica='01'	
+10.4.65.51	    macros_shard="21"	 macros_replica='02'	
+10.4.65.52	    macros_shard="22"	 macros_replica='01'	
+10.4.65.53	    macros_shard="22"	 macros_replica='02'	
+10.4.65.54	    macros_shard="23"	 macros_replica='01'	
+10.4.65.55	    macros_shard="23"	 macros_replica='02'	
+10.4.65.56	    macros_shard="24"	 macros_replica='01'	
+10.4.65.57	    macros_shard="24"	 macros_replica='02'	
+10.4.65.58	    macros_shard="25"	 macros_replica='01'	
+10.4.65.59	    macros_shard="25"	 macros_replica='02'	
+10.4.65.60	    macros_shard="26"	 macros_replica='01'	
+10.4.65.61	    macros_shard="26"	 macros_replica='02'	
+10.4.65.62	    macros_shard="27"	 macros_replica='01'	
+10.4.65.63	    macros_shard="27"	 macros_replica='02'	
+10.4.65.64	    macros_shard="28"	 macros_replica='01'	
+10.4.65.65	    macros_shard="28"	 macros_replica='02'	
+10.4.65.66	    macros_shard="29"	 macros_replica='01'	
+10.4.65.67	    macros_shard="29"	 macros_replica='02'	
+10.4.65.68	    macros_shard="30"	 macros_replica='01'	
+10.4.65.69	    macros_shard="30"	 macros_replica='02'	
+10.4.65.70	    macros_shard="31"	 macros_replica='01'	
+10.4.65.71	    macros_shard="31"	 macros_replica='02'	
+10.4.65.72	    macros_shard="32"	 macros_replica='01'	
+10.4.65.73	    macros_shard="32"	 macros_replica='02'	
+10.4.65.74	    macros_shard="33"	 macros_replica='01'	
+10.4.65.75	    macros_shard="33"	 macros_replica='02'	
+10.4.65.76	    macros_shard="34"	 macros_replica='01'	
+10.4.65.77	    macros_shard="34"	 macros_replica='02'	
+10.4.65.78	    macros_shard="35"	 macros_replica='01'	
+10.4.65.79	    macros_shard="35"	 macros_replica='02'	
+10.4.65.80	    macros_shard="36"	 macros_replica='01'	
+10.4.65.81	    macros_shard="36"	 macros_replica='02'	
+10.4.65.82	    macros_shard="37"	 macros_replica='01'	
+10.4.65.83	    macros_shard="37"	 macros_replica='02'	
+10.4.65.84	    macros_shard="38"	 macros_replica='01'	
+10.4.65.85	    macros_shard="38"	 macros_replica='02'	
+10.4.65.86	    macros_shard="39"	 macros_replica='01'	
+10.4.65.87	    macros_shard="39"	 macros_replica='02'	
+10.4.65.88	    macros_shard="40"	 macros_replica='01'	
+10.4.65.89	    macros_shard="40"	 macros_replica='02'	
+10.4.65.90	    macros_shard="41"	 macros_replica='01'	
+10.4.65.91	    macros_shard="41"	 macros_replica='02'	
+
+[clickhouse_distribute_cluster_hosts]
+10.4.66.[3:12]
+
+[clickhouse_nginx]
+10.4.66.1
+10.4.66.2
+
+[clickhouse_cluster_monitor_hosts]
+10.4.66.[30:33]
+
+[clickhouse_small_zk]	
+10.4.65.1	myid="1"
+10.4.65.2	myid="2"
+10.4.65.3	myid="3"
+
+[hbase_monitor_hosts]
+10.4.68.[4:32]
+10.4.73.[34:40]
+
+[ceph_downgrade]
+10.4.68.[55:62]
+
+[keepalived_downgrade]
+10.4.66.12
+10.4.66.13
+10.4.68.6[3:4]
+10.4.68.5[1:2]
+10.4.73.41
+10.4.73.42
+
+[analysis_warn_hosts]
+10.4.73.[1:2]
+[ontology_bi_hosts]
+10.4.73.[3:4]
+[rule_schedule_hosts]
+10.4.73.[7:8]
+[word_cloud_hosts]
+10.4.73.[9:10]
+[synonym_hosts]
+10.4.73.[9:10]
+[network_hosts]
+10.4.73.[9:10]
+[system_hosts]
+10.4.73.[5:6]
+[xxljob_aim_hosts]
+10.4.73.11
+[ftp2kafka_hosts]
+#dmhost 只是实例，目前尚未拿到dm的ip
+10.3.68.90      dmhost="10.0.40.1"
+10.3.68.91      dmhost="10.0.40.2"
+10.3.68.92      dmhost="10.0.40.3"
+10.3.68.93      dmhost="10.0.40.4"
+10.3.68.94      dmhost="10.0.40.5"
+10.3.68.95      dmhost="10.0.40.6"
+10.3.68.96      dmhost="10.0.40.7"
+10.3.68.97      dmhost="10.0.40.8"
+10.3.68.98      dmhost="10.0.40.9"
+10.3.68.99      dmhost="10.0.40.10"
+
+
+[fault_monitor_hosts]
+# 注  此处为举例说明，并不是大屏实际ip
+10.3.68.90     serverId=1 
+10.3.68.91     serverId=2
+[ipmi_ck]
+10.4.64.1	ipmi_ip=10.4.192.1	    gateway=
+10.4.64.2	ipmi_ip=10.4.192.2	    gateway=
+10.4.64.3	ipmi_ip=10.4.192.3	    gateway=
+10.4.64.4	ipmi_ip=10.4.192.4	    gateway=
+10.4.64.5	ipmi_ip=10.4.192.5	    gateway=
+10.4.64.6	ipmi_ip=10.4.192.6	    gateway=
+10.4.64.7	ipmi_ip=10.4.192.7	    gateway=
+10.4.64.8	ipmi_ip=10.4.192.8	    gateway=
+10.4.64.9	ipmi_ip=10.4.192.9	    gateway=
+10.4.64.10	ipmi_ip=10.4.192.10	    gateway=
+10.4.64.11	ipmi_ip=10.4.192.11	    gateway=
+10.4.64.12	ipmi_ip=10.4.192.12	    gateway=
+10.4.64.13	ipmi_ip=10.4.192.13	    gateway=
+10.4.64.14	ipmi_ip=10.4.192.14	    gateway=
+10.4.64.15	ipmi_ip=10.4.192.15	    gateway=
+10.4.64.16	ipmi_ip=10.4.192.16	    gateway=
+10.4.64.17	ipmi_ip=10.4.192.17	    gateway=
+10.4.64.18	ipmi_ip=10.4.192.18	    gateway=
+10.4.64.19	ipmi_ip=10.4.192.19	    gateway=
+10.4.64.20	ipmi_ip=10.4.192.20	    gateway=
+10.4.64.21	ipmi_ip=10.4.192.21	    gateway=
+10.4.64.22	ipmi_ip=10.4.192.22	    gateway=
+10.4.64.23	ipmi_ip=10.4.192.23	    gateway=
+10.4.64.24	ipmi_ip=10.4.192.24	    gateway=
+10.4.64.25	ipmi_ip=10.4.192.25	    gateway=
+10.4.64.26	ipmi_ip=10.4.192.26	    gateway=
+10.4.64.27	ipmi_ip=10.4.192.27	    gateway=
+10.4.64.28	ipmi_ip=10.4.192.28	    gateway=
+10.4.64.29	ipmi_ip=10.4.192.29	    gateway=
+10.4.64.30	ipmi_ip=10.4.192.30	    gateway=
+10.4.64.31	ipmi_ip=10.4.192.31	    gateway=
+10.4.64.32	ipmi_ip=10.4.192.32	    gateway=
+10.4.64.33	ipmi_ip=10.4.192.33	    gateway=
+10.4.64.34	ipmi_ip=10.4.192.34	    gateway=
+10.4.64.35	ipmi_ip=10.4.192.35	    gateway=
+10.4.64.36	ipmi_ip=10.4.192.36	    gateway=
+10.4.64.37	ipmi_ip=10.4.192.37	    gateway=
+10.4.64.38	ipmi_ip=10.4.192.38	    gateway=
+10.4.64.39	ipmi_ip=10.4.192.39	    gateway=
+10.4.64.40	ipmi_ip=10.4.192.40	    gateway=
+10.4.64.41	ipmi_ip=10.4.192.41	    gateway=
+10.4.64.42	ipmi_ip=10.4.192.42	    gateway=
+10.4.64.43	ipmi_ip=10.4.192.43	    gateway=
+10.4.64.44	ipmi_ip=10.4.192.44	    gateway=
+10.4.64.45	ipmi_ip=10.4.192.45	    gateway=
+10.4.64.46	ipmi_ip=10.4.192.46	    gateway=
+10.4.64.47	ipmi_ip=10.4.192.47	    gateway=
+10.4.64.48	ipmi_ip=10.4.192.48	    gateway=
+10.4.64.49	ipmi_ip=10.4.192.49	    gateway=
+10.4.64.50	ipmi_ip=10.4.192.50	    gateway=
+10.4.64.51	ipmi_ip=10.4.192.51	    gateway=
+10.4.64.52	ipmi_ip=10.4.192.52	    gateway=
+10.4.64.53	ipmi_ip=10.4.192.53	    gateway=
+10.4.64.54	ipmi_ip=10.4.192.54	    gateway=
+10.4.64.55	ipmi_ip=10.4.192.55	    gateway=
+10.4.64.56	ipmi_ip=10.4.192.56	    gateway=
+10.4.64.57	ipmi_ip=10.4.192.57	    gateway=
+10.4.64.58	ipmi_ip=10.4.192.58	    gateway=
+10.4.64.59	ipmi_ip=10.4.192.59	    gateway=
+10.4.64.60	ipmi_ip=10.4.192.60	    gateway=
+10.4.64.61	ipmi_ip=10.4.192.61	    gateway=
+10.4.64.62	ipmi_ip=10.4.192.62	    gateway=
+10.4.64.63	ipmi_ip=10.4.192.63	    gateway=
+10.4.64.64	ipmi_ip=10.4.192.64	    gateway=
+10.4.64.65	ipmi_ip=10.4.192.65	    gateway=
+10.4.64.66	ipmi_ip=10.4.192.66	    gateway=
+10.4.64.67	ipmi_ip=10.4.192.67	    gateway=
+10.4.64.68	ipmi_ip=10.4.192.68	    gateway=
+10.4.64.69	ipmi_ip=10.4.192.69	    gateway=
+10.4.64.70	ipmi_ip=10.4.192.70	    gateway=
+10.4.64.71	ipmi_ip=10.4.192.71	    gateway=
+10.4.64.72	ipmi_ip=10.4.192.72	    gateway=
+10.4.64.73	ipmi_ip=10.4.192.73	    gateway=
+10.4.64.74	ipmi_ip=10.4.192.74	    gateway=
+10.4.64.75	ipmi_ip=10.4.192.75	    gateway=
+10.4.64.76	ipmi_ip=10.4.192.76	    gateway=
+10.4.64.77	ipmi_ip=10.4.192.77	    gateway=
+10.4.64.78	ipmi_ip=10.4.192.78	    gateway=
+10.4.64.79	ipmi_ip=10.4.192.79	    gateway=
+10.4.64.80	ipmi_ip=10.4.192.80	    gateway=
+10.4.64.81	ipmi_ip=10.4.192.81	    gateway=
+10.4.64.82	ipmi_ip=10.4.192.82	    gateway=
+10.4.64.83	ipmi_ip=10.4.192.83	    gateway=
+10.4.64.84	ipmi_ip=10.4.192.84	    gateway=
+10.4.64.85	ipmi_ip=10.4.192.85	    gateway=
+10.4.64.86	ipmi_ip=10.4.192.86	    gateway=
+10.4.64.87	ipmi_ip=10.4.192.87	    gateway=
+10.4.64.88	ipmi_ip=10.4.192.88	    gateway=
+10.4.64.89	ipmi_ip=10.4.192.89	    gateway=
+10.4.64.90	ipmi_ip=10.4.192.90	    gateway=
+10.4.64.91	ipmi_ip=10.4.192.91	    gateway=
+10.4.64.92	ipmi_ip=10.4.192.92	    gateway=
+10.4.64.93	ipmi_ip=10.4.192.93	    gateway=
+10.4.64.94	ipmi_ip=10.4.192.94	    gateway=
+10.4.64.95	ipmi_ip=10.4.192.95	    gateway=
+10.4.64.96	ipmi_ip=10.4.192.96	    gateway=
+10.4.64.97	ipmi_ip=10.4.192.97	    gateway=
+10.4.64.98	ipmi_ip=10.4.192.98	    gateway=
+10.4.64.99	ipmi_ip=10.4.192.99	    gateway=
+10.4.64.100	ipmi_ip=10.4.192.100     gateway=
+10.4.64.101	ipmi_ip=10.4.192.101     gateway=
+10.4.64.102	ipmi_ip=10.4.192.102     gateway=
+10.4.64.103	ipmi_ip=10.4.192.103     gateway=
+10.4.64.104	ipmi_ip=10.4.192.104     gateway=
+10.4.64.105	ipmi_ip=10.4.192.105    gateway=
+10.4.64.106	ipmi_ip=10.4.192.106    gateway=
+10.4.64.107	ipmi_ip=10.4.192.107    gateway=
+10.4.64.108	ipmi_ip=10.4.192.108    gateway=
+10.4.64.109	ipmi_ip=10.4.192.109    gateway=
+10.4.64.110	ipmi_ip=10.4.192.110    gateway=
+10.4.64.111	ipmi_ip=10.4.192.111    gateway=
+10.4.64.112	ipmi_ip=10.4.192.112    gateway=
+10.4.64.113	ipmi_ip=10.4.192.113    gateway=
+10.4.64.114	ipmi_ip=10.4.192.114    gateway=
+10.4.64.115	ipmi_ip=10.4.192.115    gateway=
+10.4.64.116	ipmi_ip=10.4.192.116    gateway=
+10.4.64.117	ipmi_ip=10.4.192.117    gateway=
+10.4.64.118	ipmi_ip=10.4.192.118    gateway=
+10.4.64.119	ipmi_ip=10.4.192.119    gateway=
+10.4.64.120	ipmi_ip=10.4.192.120    gateway=
+10.4.64.121	ipmi_ip=10.4.192.121    gateway=
+10.4.64.122	ipmi_ip=10.4.192.122    gateway=
+10.4.64.123	ipmi_ip=10.4.192.123    gateway=
+10.4.64.124	ipmi_ip=10.4.192.124    gateway=
+10.4.64.125	ipmi_ip=10.4.192.125    gateway=
+10.4.64.126	ipmi_ip=10.4.192.126    gateway=
+10.4.64.127	ipmi_ip=10.4.192.127    gateway=
+10.4.64.128	ipmi_ip=10.4.192.128    gateway=
+10.4.64.129	ipmi_ip=10.4.192.129    gateway=
+10.4.64.130	ipmi_ip=10.4.192.130    gateway=
+10.4.64.131	ipmi_ip=10.4.192.131    gateway=
+10.4.64.132	ipmi_ip=10.4.192.132    gateway=
+10.4.64.133	ipmi_ip=10.4.192.133    gateway=
+10.4.64.134	ipmi_ip=10.4.192.134    gateway=
+10.4.64.135	ipmi_ip=10.4.192.135    gateway=
+10.4.64.136	ipmi_ip=10.4.192.136    gateway=
+10.4.64.137	ipmi_ip=10.4.192.137    gateway=
+10.4.64.138	ipmi_ip=10.4.192.138    gateway=
+10.4.64.139	ipmi_ip=10.4.192.139    gateway=
+10.4.64.140	ipmi_ip=10.4.192.140    gateway=
+10.4.64.141	ipmi_ip=10.4.192.141    gateway=
+10.4.64.142	ipmi_ip=10.4.192.142    gateway=
+10.4.64.143	ipmi_ip=10.4.192.143    gateway=
+10.4.64.144	ipmi_ip=10.4.192.144    gateway=
+10.4.64.145	ipmi_ip=10.4.192.145    gateway=
+10.4.64.146	ipmi_ip=10.4.192.146    gateway=
+10.4.64.147	ipmi_ip=10.4.192.147    gateway=
+10.4.64.148	ipmi_ip=10.4.192.148    gateway=
+10.4.64.149	ipmi_ip=10.4.192.149    gateway=
+10.4.64.150	ipmi_ip=10.4.192.150    gateway=
+10.4.64.151	ipmi_ip=10.4.192.151    gateway=
+10.4.64.152	ipmi_ip=10.4.192.152    gateway=
+10.4.64.153	ipmi_ip=10.4.192.153    gateway=
+10.4.64.154	ipmi_ip=10.4.192.154    gateway=
+10.4.64.155	ipmi_ip=10.4.192.155    gateway=
+10.4.64.156	ipmi_ip=10.4.192.156    gateway=
+10.4.64.157	ipmi_ip=10.4.192.157    gateway=
+10.4.64.158	ipmi_ip=10.4.192.158    gateway=
+10.4.64.159	ipmi_ip=10.4.192.159    gateway=
+10.4.64.160	ipmi_ip=10.4.192.160    gateway=
+10.4.64.161	ipmi_ip=10.4.192.161    gateway=
+10.4.64.162	ipmi_ip=10.4.192.162    gateway=
+10.4.64.163	ipmi_ip=10.4.192.163    gateway=
+10.4.64.164	ipmi_ip=10.4.192.164    gateway=
+10.4.64.165	ipmi_ip=10.4.192.165    gateway=
+10.4.64.166	ipmi_ip=10.4.192.166    gateway=
+10.4.64.167	ipmi_ip=10.4.192.167    gateway=
+10.4.64.168	ipmi_ip=10.4.192.168    gateway=
+10.4.64.169	ipmi_ip=10.4.192.169    gateway=
+10.4.64.170	ipmi_ip=10.4.192.170    gateway=
+10.4.64.171	ipmi_ip=10.4.192.171    gateway=
+10.4.64.172	ipmi_ip=10.4.192.172    gateway=
+10.4.64.173	ipmi_ip=10.4.192.173    gateway=
+10.4.64.174	ipmi_ip=10.4.192.174    gateway=
+10.4.64.175	ipmi_ip=10.4.192.175    gateway=
+10.4.64.176	ipmi_ip=10.4.192.176    gateway=
+10.4.64.177	ipmi_ip=10.4.192.177    gateway=
+10.4.64.178	ipmi_ip=10.4.192.178    gateway=
+10.4.64.179	ipmi_ip=10.4.192.179    gateway=
+10.4.64.180	ipmi_ip=10.4.192.180    gateway=
+10.4.64.181	ipmi_ip=10.4.192.181    gateway=
+10.4.64.182	ipmi_ip=10.4.192.182    gateway=
+10.4.64.183	ipmi_ip=10.4.192.183    gateway=
+10.4.64.184	ipmi_ip=10.4.192.184    gateway=
+10.4.64.185	ipmi_ip=10.4.192.185    gateway=
+10.4.64.186	ipmi_ip=10.4.192.186    gateway=    
+10.4.65.1 	ipmi_ip=10.4.193.1	    gateway= 
+10.4.65.2	ipmi_ip=10.4.193.2	    gateway= 
+10.4.65.3	ipmi_ip=10.4.193.3	    gateway= 
+10.4.65.10	ipmi_ip=10.4.193.10	    gateway= 
+10.4.65.11	ipmi_ip=10.4.193.11	    gateway= 
+10.4.65.12	ipmi_ip=10.4.193.12	    gateway= 
+10.4.65.13	ipmi_ip=10.4.193.13	    gateway= 
+10.4.65.14	ipmi_ip=10.4.193.14	    gateway= 
+10.4.65.15	ipmi_ip=10.4.193.15	    gateway= 
+10.4.65.16	ipmi_ip=10.4.193.16	    gateway= 
+10.4.65.17	ipmi_ip=10.4.193.17	    gateway= 
+10.4.65.18	ipmi_ip=10.4.193.18	    gateway= 
+10.4.65.19	ipmi_ip=10.4.193.19	    gateway= 
+10.4.65.20	ipmi_ip=10.4.193.20	    gateway= 
+10.4.65.21	ipmi_ip=10.4.193.21	    gateway= 
+10.4.65.22	ipmi_ip=10.4.193.22	    gateway= 
+10.4.65.23	ipmi_ip=10.4.193.23	    gateway= 
+10.4.65.24	ipmi_ip=10.4.193.24	    gateway= 
+10.4.65.25	ipmi_ip=10.4.193.25	    gateway= 
+10.4.65.26	ipmi_ip=10.4.193.26	    gateway= 
+10.4.65.27	ipmi_ip=10.4.193.27	    gateway= 
+10.4.65.28	ipmi_ip=10.4.193.28	    gateway= 
+10.4.65.29	ipmi_ip=10.4.193.29	    gateway= 
+10.4.65.30	ipmi_ip=10.4.193.30	    gateway= 
+10.4.65.31	ipmi_ip=10.4.193.31	    gateway= 
+10.4.65.32	ipmi_ip=10.4.193.32	    gateway= 
+10.4.65.33	ipmi_ip=10.4.193.33	    gateway= 
+10.4.65.34	ipmi_ip=10.4.193.34	    gateway= 
+10.4.65.35	ipmi_ip=10.4.193.35	    gateway= 
+10.4.65.36	ipmi_ip=10.4.193.36	    gateway= 
+10.4.65.37	ipmi_ip=10.4.193.37	    gateway= 
+10.4.65.38	ipmi_ip=10.4.193.38	    gateway= 
+10.4.65.39	ipmi_ip=10.4.193.39	    gateway= 
+10.4.65.40	ipmi_ip=10.4.193.40	    gateway= 
+10.4.65.41	ipmi_ip=10.4.193.41	    gateway= 
+10.4.65.42	ipmi_ip=10.4.193.42	    gateway= 
+10.4.65.43	ipmi_ip=10.4.193.43	    gateway= 
+10.4.65.44	ipmi_ip=10.4.193.44	    gateway= 
+10.4.65.45	ipmi_ip=10.4.193.45	    gateway= 
+10.4.65.46	ipmi_ip=10.4.193.46	    gateway= 
+10.4.65.47	ipmi_ip=10.4.193.47	    gateway= 
+10.4.65.48	ipmi_ip=10.4.193.48	    gateway= 
+10.4.65.49	ipmi_ip=10.4.193.49	    gateway= 
+10.4.65.50	ipmi_ip=10.4.193.50	    gateway= 
+10.4.65.51	ipmi_ip=10.4.193.51	    gateway= 
+10.4.65.52	ipmi_ip=10.4.193.52	    gateway= 
+10.4.65.53	ipmi_ip=10.4.193.53	    gateway= 
+10.4.65.54	ipmi_ip=10.4.193.54	    gateway= 
+10.4.65.55	ipmi_ip=10.4.193.55	    gateway= 
+10.4.65.56	ipmi_ip=10.4.193.56	    gateway= 
+10.4.65.57	ipmi_ip=10.4.193.57	    gateway= 
+10.4.65.58	ipmi_ip=10.4.193.58	    gateway= 
+10.4.65.59	ipmi_ip=10.4.193.59	    gateway= 
+10.4.65.60	ipmi_ip=10.4.193.60	    gateway= 
+10.4.65.61	ipmi_ip=10.4.193.61	    gateway= 
+10.4.65.62	ipmi_ip=10.4.193.62	    gateway= 
+10.4.65.63	ipmi_ip=10.4.193.63	    gateway= 
+10.4.65.64	ipmi_ip=10.4.193.64	    gateway= 
+10.4.65.65	ipmi_ip=10.4.193.65	    gateway= 
+10.4.65.66	ipmi_ip=10.4.193.66	    gateway= 
+10.4.65.67	ipmi_ip=10.4.193.67	    gateway= 
+10.4.65.68	ipmi_ip=10.4.193.68	    gateway= 
+10.4.65.69	ipmi_ip=10.4.193.69	    gateway= 
+10.4.65.70	ipmi_ip=10.4.193.70	    gateway= 
+10.4.65.71	ipmi_ip=10.4.193.71	    gateway= 
+10.4.65.72	ipmi_ip=10.4.193.72	    gateway= 
+10.4.65.73	ipmi_ip=10.4.193.73	    gateway= 
+10.4.65.74	ipmi_ip=10.4.193.74	    gateway= 
+10.4.65.75	ipmi_ip=10.4.193.75	    gateway= 
+10.4.65.76	ipmi_ip=10.4.193.76	    gateway= 
+10.4.65.77	ipmi_ip=10.4.193.77	    gateway= 
+10.4.65.78	ipmi_ip=10.4.193.78	    gateway= 
+10.4.65.79	ipmi_ip=10.4.193.79	    gateway= 
+10.4.65.80	ipmi_ip=10.4.193.80	    gateway= 
+10.4.65.81	ipmi_ip=10.4.193.81	    gateway= 
+10.4.65.82	ipmi_ip=10.4.193.82	    gateway= 
+10.4.65.83	ipmi_ip=10.4.193.83	    gateway= 
+10.4.65.84	ipmi_ip=10.4.193.84	    gateway= 
+10.4.65.85	ipmi_ip=10.4.193.85	    gateway= 
+10.4.65.86	ipmi_ip=10.4.193.86	    gateway= 
+10.4.65.87	ipmi_ip=10.4.193.87	    gateway= 
+10.4.65.88	ipmi_ip=10.4.193.88	    gateway= 
+10.4.65.89	ipmi_ip=10.4.193.89	    gateway= 
+10.4.65.90	ipmi_ip=10.4.193.90	    gateway= 
+10.4.65.91	ipmi_ip=10.4.193.91	    gateway= 
+10.4.66.1	ipmi_ip=10.4.194.1	gateway= 
+10.4.66.2	ipmi_ip=10.4.194.2	gateway= 
+10.4.66.3	ipmi_ip=10.4.194.3	gateway= 
+10.4.66.4	ipmi_ip=10.4.194.4	gateway= 
+10.4.66.5	ipmi_ip=10.4.194.5	gateway= 
+10.4.66.6	ipmi_ip=10.4.194.6	gateway= 
+10.4.66.7	ipmi_ip=10.4.194.7	gateway= 
+10.4.66.8	ipmi_ip=10.4.194.8	gateway= 
+10.4.66.9	ipmi_ip=10.4.194.9	gateway= 
+10.4.66.10	ipmi_ip=10.4.194.10	gateway= 
+10.4.66.11	ipmi_ip=10.4.194.11	gateway= 
+10.4.66.12	ipmi_ip=10.4.194.12	gateway= 
+10.4.66.30	ipmi_ip=10.4.194.30	gateway= 
+10.4.66.31	ipmi_ip=10.4.194.31	gateway= 
+10.4.66.32	ipmi_ip=10.4.194.32	gateway= 
+10.4.66.33	ipmi_ip=10.4.194.33	gateway= 
+
+[ipmi_bigdata]
+10.4.67.1	ipmi_ip=10.4.195.1	gateway=
+10.4.67.2	ipmi_ip=10.4.195.2	gateway=
+10.4.67.3	ipmi_ip=10.4.195.3	gateway=
+10.4.67.4	ipmi_ip=10.4.195.4	gateway=
+10.4.67.5	ipmi_ip=10.4.195.5	gateway=
+10.4.67.6	ipmi_ip=10.4.195.6	gateway=
+10.4.67.7	ipmi_ip=10.4.195.7	gateway=
+10.4.67.8	ipmi_ip=10.4.195.8	gateway=
+10.4.67.9	ipmi_ip=10.4.195.9	gateway=
+10.4.67.10	ipmi_ip=10.4.195.10	gateway=
+10.4.67.11	ipmi_ip=10.4.195.11	gateway=
+10.4.67.12	ipmi_ip=10.4.195.12	gateway=
+10.4.67.13	ipmi_ip=10.4.195.13	gateway=
+10.4.67.14	ipmi_ip=10.4.195.14	gateway=
+10.4.67.15	ipmi_ip=10.4.195.15	gateway=
+10.4.67.16	ipmi_ip=10.4.195.16	gateway=
+10.4.67.17	ipmi_ip=10.4.195.17	gateway=
+10.4.67.18	ipmi_ip=10.4.195.18	gateway=
+10.4.67.19	ipmi_ip=10.4.195.19	gateway=
+10.4.67.20	ipmi_ip=10.4.195.20	gateway=
+10.4.67.21	ipmi_ip=10.4.195.21	gateway=
+10.4.67.22	ipmi_ip=10.4.195.22	gateway=
+10.4.67.23	ipmi_ip=10.4.195.23	gateway=
+10.4.67.24	ipmi_ip=10.4.195.24	gateway=
+10.4.67.25	ipmi_ip=10.4.195.25	gateway=
+10.4.67.26	ipmi_ip=10.4.195.26	gateway=
+10.4.67.27	ipmi_ip=10.4.195.27	gateway=
+10.4.67.28	ipmi_ip=10.4.195.28	gateway=
+10.4.67.29	ipmi_ip=10.4.195.29	gateway=
+10.4.67.30	ipmi_ip=10.4.195.30	gateway=
+10.4.67.31	ipmi_ip=10.4.195.31	gateway=
+10.4.67.32	ipmi_ip=10.4.195.32	gateway=
+10.4.67.33	ipmi_ip=10.4.195.33	gateway=
+10.4.67.34	ipmi_ip=10.4.195.34	gateway=
+10.4.67.35	ipmi_ip=10.4.195.35	gateway=
+10.4.67.36	ipmi_ip=10.4.195.36	gateway=
+10.4.67.37	ipmi_ip=10.4.195.37	gateway=
+10.4.67.38	ipmi_ip=10.4.195.38	gateway=
+10.4.67.39	ipmi_ip=10.4.195.39	gateway=
+10.4.67.40	ipmi_ip=10.4.195.40	gateway=
+10.4.67.41	ipmi_ip=10.4.195.41	gateway=
+10.4.67.42	ipmi_ip=10.4.195.42	gateway=
+10.4.67.43	ipmi_ip=10.4.195.43	gateway=
+10.4.67.44	ipmi_ip=10.4.195.44	gateway=
+10.4.67.45	ipmi_ip=10.4.195.45	gateway=
+10.4.67.46	ipmi_ip=10.4.195.46	gateway=
+10.4.67.47	ipmi_ip=10.4.195.47	gateway=
+10.4.67.48	ipmi_ip=10.4.195.48	gateway=
+10.4.67.49	ipmi_ip=10.4.195.49	gateway=
+10.4.67.50	ipmi_ip=10.4.195.50	gateway=
+10.4.67.51	ipmi_ip=10.4.195.51	gateway=
+10.4.67.52	ipmi_ip=10.4.195.52	gateway=
+10.4.67.53	ipmi_ip=10.4.195.53	gateway=
+10.4.67.54	ipmi_ip=10.4.195.54	gateway=
+10.4.67.55	ipmi_ip=10.4.195.55	gateway=
+
+[ipmi_oss]
+10.4.68.1	ipmi_ip=10.4.196.1	gateway=
+10.4.68.2	ipmi_ip=10.4.196.2	gateway=
+10.4.68.3	ipmi_ip=10.4.196.3	gateway=
+10.4.68.4	ipmi_ip=10.4.196.4	gateway=
+10.4.68.5	ipmi_ip=10.4.196.5	gateway=
+10.4.68.6	ipmi_ip=10.4.196.6	gateway=
+10.4.68.7	ipmi_ip=10.4.196.7	gateway=
+10.4.68.8	ipmi_ip=10.4.196.8	gateway=
+10.4.68.9	ipmi_ip=10.4.196.9	gateway=
+10.4.68.10	ipmi_ip=10.4.196.10	gateway=
+10.4.68.11	ipmi_ip=10.4.196.11	gateway=
+10.4.68.12	ipmi_ip=10.4.196.12	gateway=
+10.4.68.13	ipmi_ip=10.4.196.13	gateway=
+10.4.68.14	ipmi_ip=10.4.196.14	gateway=
+10.4.68.15	ipmi_ip=10.4.196.15	gateway=
+10.4.68.16	ipmi_ip=10.4.196.16	gateway=
+10.4.68.17	ipmi_ip=10.4.196.17	gateway=
+10.4.68.18	ipmi_ip=10.4.196.18	gateway=
+10.4.68.19	ipmi_ip=10.4.196.19	gateway=
+10.4.68.20	ipmi_ip=10.4.196.20	gateway=
+10.4.68.21	ipmi_ip=10.4.196.21	gateway=
+10.4.68.22	ipmi_ip=10.4.196.22	gateway=
+10.4.68.23	ipmi_ip=10.4.196.23	gateway=
+10.4.68.24	ipmi_ip=10.4.196.24	gateway=
+10.4.68.25	ipmi_ip=10.4.196.25	gateway=
+10.4.68.26	ipmi_ip=10.4.196.26	gateway=
+10.4.68.27	ipmi_ip=10.4.196.27	gateway=
+10.4.68.28	ipmi_ip=10.4.196.28	gateway=
+10.4.68.29	ipmi_ip=10.4.196.29	gateway=
+10.4.68.30	ipmi_ip=10.4.196.30	gateway=
+10.4.68.31	ipmi_ip=10.4.196.31	gateway=
+10.4.68.32	ipmi_ip=10.4.196.32	gateway=
+10.4.68.44	ipmi_ip=10.4.196.44	gateway=
+10.4.68.45	ipmi_ip=10.4.196.45	gateway=
+10.4.68.46	ipmi_ip=10.4.196.46	gateway=
+10.4.68.47	ipmi_ip=10.4.196.47	gateway=
+10.4.68.48	ipmi_ip=10.4.196.48	gateway=
+10.4.68.49	ipmi_ip=10.4.196.49	gateway=
+10.4.68.50	ipmi_ip=10.4.196.50	gateway=
+10.4.68.51	ipmi_ip=10.4.196.51	gateway=
+10.4.68.52	ipmi_ip=10.4.196.52	gateway=
+10.4.68.53	ipmi_ip=10.4.196.53	gateway=
+10.4.68.54	ipmi_ip=10.4.196.54	gateway=
+10.4.68.55	ipmi_ip=10.4.196.55	gateway=
+10.4.68.56	ipmi_ip=10.4.196.56	gateway=
+10.4.68.57	ipmi_ip=10.4.196.57	gateway=
+10.4.68.58	ipmi_ip=10.4.196.58	gateway=
+10.4.68.59	ipmi_ip=10.4.196.59	gateway=
+10.4.68.60	ipmi_ip=10.4.196.60	gateway=
+10.4.68.61	ipmi_ip=10.4.196.61	gateway=
+10.4.68.62	ipmi_ip=10.4.196.62	gateway=
+10.4.68.63	ipmi_ip=10.4.196.63	gateway=
+10.4.68.64	ipmi_ip=10.4.196.64	gateway=6
+
+

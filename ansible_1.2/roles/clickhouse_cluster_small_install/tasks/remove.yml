@@ -1,0 +1,5 @@
+- name: install clickhouse
+  shell: |
+   # remove clickhouse
+   ps -ef |grep clickhouse-server |grep -v grep | awk '{print $2}' |xargs kill -9
+   rpm -qa |grep clickhouse | xargs rpm -e

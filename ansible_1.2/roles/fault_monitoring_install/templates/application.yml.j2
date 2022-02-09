@@ -1,0 +1,193 @@
+server:
+   tomcat:
+      uri-encoding: UTF-8
+      max-threads: 1000
+      min-spare-threads: 30
+   port: 8384
+   servlet:
+      context-path: /
+base:
+# 工程默认数据采用h2，此数据库适用于工程单机部署，如果工程集群部署可切换为mysql
+   datasource:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://10.3.45.125:3306/k19base?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+      username: k18
+      password: k18k18
+      initialSize: 10
+      minIdle: 10
+      maxActive: 100
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 AS T
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+#platform: h2
+mybatis:
+   mapperLocations: classpath:mybatis/mapper/**/*.xml
+   configLocation: classpath:mybatis.xml
+spring:
+   devtools:
+      restart:
+         enabled: false
+   messages:
+      basename: i18n/messages
+      cache-seconds: 3600
+      encoding: UTF-8
+   jackson:
+      serialization:
+         write-dates-as-timestamps: true
+#单机版
+#   redis:
+#      host: 172.24.4.237
+#      port: 6379
+#      password:
+#      timeout: 50000
+#      pool:
+#         max-active: 200
+#         max-idle: 10
+#         min-idle: 0
+#         max-wait: -1
+#集群版
+   redis:
+      password: {{password}} 
+      timeout: 6000  # 连接超时时长（毫秒）
+      cluster:
+         nodes: {{fault_monitor.redis_hosts}} 
+         max-redirects: 3  # 获取失败 最大重定向次数
+      pool:
+         max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+         max-idle: 10    # 连接池中的最大空闲连接
+         max-wait: -1   # 连接池最大阻塞等待时间（使用负值表示没有限制）
+         min-idle:  5     # 连接池中的最小空闲连接
+datasources:
+   storehouse:
+      driverClassName: ru.yandex.clickhouse.ClickHouseDriver
+      url: jdbc:clickhouse://{{fault_monitor.clickhouse_ip}}:8123/k19_ods
+      username: {{fault_monitor.clickhouse_user}}
+      password: {{fault_monitor.clickhouse_pwd}}
+   geo:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://10.3.45.125:3306/geo_ip?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+      username: k18
+      password: k18k18
+      initialSize: 10
+      minIdle: 10
+      maxActive: 100
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 AS T
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+   screen:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://{{fault_monitor.mysql_vip}}:3306/k19bigscreen?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B6
+      username: {{fault_monitor.mysql_user}}
+      password: {{fault_monitor.mysql_pwd}}
+      initialSize: 10
+      minIdle: 10
+      maxActive: 100
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 AS T
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+constant:
+  maps:
+    region: {{region_code}}
+    taskTime: "10 * 60 * 1000"
+    serverId: {{serverId}}
+  taskMethodIsRunMap:
+    SnmpTask:
+      generateTasHardwareRanking: false
+      generateAdcHardwareRanking: false
+    SshBdTask:
+      generateBdHardwareRanking: false
+    AdcAlarmBatchDeleteTask:
+      adcAlarmBatchDelete: true
+    CheckDeviceConnectTask:
+      checkDeviceConnectRanking: false
+  trap:
+    dpi:
+      isRun: true
+      ipTrap: {{fault_monitor_vip}} 
+      portTrap: 162
+    tas:
+      isRun: true
+      ipTrap: {{fault_monitor_vip}} 
+      portTrap: 163
+    adc:
+      isRun: true
+      ipTrap: {{fault_monitor_vip}} 
+      portTrap: 164
+      deviceUserName: root
+      devicePassword: l4lnCsf0I4M=
+      devicePort: 3222
+  dpialarm:
+    10: ExternalDataSourceDown
+    21: DeviceStatusDown
+    30: LinkDown
+    100: ServerUnreachable
+    102: DeviceUnreachable
+    127: DeviceDeleteDromDystem
+    128: ServerDeleteFromSystem
+    160: IntegratedServiceServerDown
+  tasalarm:
+    5004011: CpuAlarm
+    5004012: MemoryAlarm
+    400318: CardTemperature
+    400303: FanAlarm
+    150402: FlowOverflow
+    540103: DeviceColdHotStart
+  adcalarm:
+    Fan_3_threshold: FanAlarm
+    COME_TEMP_threshold: HardwareTemperature
+    PVCCIO_threshold: Voltage
+    ssCpuIdle_threshold: CpuAlarm
+    memPercent_threshold: MemoryAlarm
+    dskPercent_threshold: DiskAlarm
+  bdalarm:
+    MemoryUsage: MemoryUsage
+    CpuUsage: CpuUsage
+    DiskUsage: DiskUsage
+    RaidStatus: RaidStatus
+    DiskError: DiskError
+    Hostname: Hostname
+    PowerStatus: PowerStatus
+    BoardInletStatus: BoardInletStatus
+    BoardExhautStatus: BoardExhautStatus
+    CpuStatus: CpuStatus
+    FanStatus: FanStatus
+    OfflineEquipment: OfflineEquipment
+  threshold:
+    bd:
+      cpuUsage: 90
+      memoryUsage: 90
+  alarmDescription:
+    MemoryUsageAlarmDescription: Memory usage exceeds the set threshold
+    CpuUsageAlarmDescription: CPU usage exceeded the set threshold
+    DiskAlarmDescription: Disk usage is 100%
+    RaidAlarmDescription: Raid disk failure
+    DiskErrorAlarmDescription: Disk bad way
+    PowerAlarmDescription: The power supply is damaged
+    BoardInletAlarmDescription: System board entrance alarm
+    BoardExhautAlarmDescription: System board exhaust alarm
+    CpuAlarmDescription: CPU fault
+    FanAlarmDescription: Fan fault
+    OfflineEquipment: Offline equipment
+  vendor:
+    TAS: TAS
+    ADC: ADC
+    ALLOT: ALLOT
+    BD: BD

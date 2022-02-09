@@ -1,0 +1,6 @@
+- name: ntp_install
+  hosts: ntp
+  remote_user: root
+  roles:
+  - roles/ntp
+

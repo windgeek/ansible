@@ -1,0 +1,10 @@
+---
+- name: install racadm
+  yum:
+    name: srvadmin-all
+
+- name: set ipmi:ip,NetMask,Gateway
+  shell: |
+        racadm set iDRAC.IPv4.Address {{ ipmi_ip }}
+        racadm set iDRAC.IPv4.Netmask 255.255.255.0
+        racadm set iDRAC.IPv4.Gateway {{ gateway }}

@@ -1,0 +1,6 @@
+- name: Install dataflow_content2es
+  hosts: dataflow_hosts 
+  remote_user: root
+  roles:
+  - dataflow_content2es
+  tags: dataflow_content2es

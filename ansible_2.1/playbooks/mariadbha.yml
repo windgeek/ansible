@@ -1,0 +1,6 @@
+- name: Install MySQL
+  hosts: mariadbha
+  become: yes
+  become_method: sudo
+  roles:
+  - roles/mariadbha

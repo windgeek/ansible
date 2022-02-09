@@ -1,0 +1,68 @@
+---
+- name: create  dataflow.install_path
+  file:
+    path: "{{ dataflow.install_path }}"
+    state: directory
+    owner: "{{ all.service_user }}"
+    group: "{{ all.service_group }}"
+
+- name: unpack the kafka2ck file
+  unarchive:
+    src: "{{ all.pkgs_path }}/dataflow/{{ dataflow.content2es_name }}.tar.gz"
+    dest: "{{ dataflow.install_path }}"
+    copy: yes
+
+- name: chown
+  shell: chown k19:k19 -R {{dataflow.install_path}}
+
+- name: template big and small yaml ABCD
+  template:
+    src: templates/common.yaml.j2
+    dest: "{{ dataflow.install_path }}/content2es/{{ item.key }}/conf/common.yaml"
+  loop: "{{ lookup('dict',regiones_dict) }}"
+
+- name: template big and small yaml FG
+  template:
+    src: templates/common.yaml.j2
+    dest: "{{ dataflow.install_path }}/content2es/{{item.key}}/conf/common.yaml"
+  loop: "{{ lookup('dict',regionesfg_dict) }}"
+
+- name: replace start script
+  replace:
+    path: "{{ dataflow.install_path }}/content2es/{{ item.key }}/bin/{{ item.value.stat }}"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',regiones_dict) }}"
+
+- name: replace start script FG
+  replace:
+    path: "{{ dataflow.install_path }}/content2es/{{ item.key }}/bin/{{ item.value.stat }}"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',regionesfg_dict) }}"
+  
+- name: replace start script FG
+  replace:
+    path: "{{ dataflow.install_path }}/content2es/{{ item.key }}/bin/{{ item.value.stata }}"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',regionesfg_dict) }}"
+
+- name: replace start script FG
+  replace:
+    path: "{{ dataflow.install_path }}/content2es/{{ item.key }}/bin/{{ item.value.statb }}"
+    regexp: "192.168.162.95"
+    replace: "{{ dataflow.namenode }}"
+  loop: "{{ lookup('dict',regionesfg_dict) }}"
+
+
+- name: start ntc_collect_account task
+  shell: su k19 -c "nohup sh {{ dataflow.install_path }}/content2es/{{ item.key }}/bin/{{item.value.stat}} > /dev/null &"
+  loop: "{{ lookup('dict',regiones_dict) }}"
+
+- name: start ntc_collect_account task  FG
+  shell: |
+        su k19 -c "nohup sh {{ dataflow.install_path }}/content2es/{{ item.key }}/bin/{{item.value.stat}} > /dev/null &"
+        su k19 -c "nohup sh {{ dataflow.install_path }}/content2es/{{ item.key }}/bin/{{item.value.stata}} > /dev/null &"
+        su k19 -c "nohup sh {{ dataflow.install_path }}/content2es/{{ item.key }}/bin/{{item.value.statb}} > /dev/null &"
+  loop: "{{ lookup('dict',regionesfg_dict) }}"

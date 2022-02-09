@@ -1,0 +1,61 @@
+#active application-{{environment}}.yml
+env_tag: dev
+#ceph_endpoint: 10.4.68.55:8899
+## ceph's rgw ip/port 逗号分割，有较高的优先级
+# s3用户信息
+ceph_accessKey: 
+# s3用户信息
+ceph_accessKeySecret: 
+# 存储桶
+ceph_bucketName: ntc-oss-large-file
+# s3池的默认连接数
+ceph_maxConnections: 2048
+# hbase zookeeper quorum
+#努尔苏丹为hbase提供的zk集群
+hbase_zkQuorum: 10.4.68.1,10.4.68.2,10.4.68.3
+#阿拉木图为hbase提供的zk集群
+#hbase_zkQuorum: 10.3.67.3,10.3.67.4,10.3.67.5
+#阿克套为hbase提供的ZK集群
+#hbase_zkQuorum: 10.1.64.1,10.1.64.2,10.1.64.3
+# zookeeper parent path
+hbase_zkParent: /hbase-unsecure
+# zk client port
+hbase_zk_port: 2181
+# hbase命名空间
+hbase_namespace: k19_media
+# hbase认证用户(不配置或者配置default为使用默认)
+hbase_User: k19
+# 数据库创建连接时线程数
+hbase_threadNum: 150
+# hbase 表名,默认ntc_oss_small_file
+hbase_tableName: ntc_oss_small_file
+# hbase 对应列簇,默认sf
+hbase_columnFamily: sf
+# hbase 对应字段名字（用途: 1:ceph；2:hbase）,默认sign
+hbase_columnSign: sign
+# hbase 对应字段名字（用途:1：阻断；2：监测）,默认ntc
+hbase_columnNtc: ntc
+# hbase 对应字段名字（用途:1：邮件；2：网页）,默认filetype
+hbase_columnFileType: filetype
+# hbase 对应字段名字(用途:存储二进制文件byte[]),默认content
+hbase_columnContent: content
+# 文件阈值单位KB,超过这个大写将存储到ceph，仅支持默认1024
+hbase_MaxFileSize: 1024
+
+
+# 指定kafka 代理地址，可以多个
+
+#老的oss给ES数据流传递数据的Topic
+kafka_Topic: 
+#新的oss给ES数据流传递数据的Topic
+kafka_ossForESTopic: K19-OSS-CONTENT
+# oss 监控日志kafka topic
+kafka_ossLogKafkaTopic: K19-OSS-MONITOR-LOG
+# oss 限流监控日志kafka topic
+kafka_ossRateLimiterKafkaTopic: K19-OSS-RATELIMITER-LOG
+kafka_ossRegionCode: TSE
+
+# oss 监控日志kafka开关，默认false
+oss_LogOpen: true
+# oss 监控日志kafka采集数据需要：用于标识本机是音视频机器
+machineType: none

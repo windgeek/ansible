@@ -1,0 +1,5 @@
+lowercaseOutputName: true
+
+rules:
+- pattern: ".*"
+

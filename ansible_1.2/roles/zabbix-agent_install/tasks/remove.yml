@@ -1,0 +1,6 @@
+#- name: remove zabbix-agent
+#  shell: |
+#    systemctl stop zabbix-agent
+#    rm -rf /etc/zabbix
+- name: rpm  zabbix
+  shell: rpm -qa |grep zabbix-agent |xargs rpm -e 

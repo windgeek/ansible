@@ -1,0 +1,6 @@
+- name: Install oss
+  hosts: "{{hosts}}"
+  remote_user: root
+  roles:
+  - oss_install
+  tags: oss_install

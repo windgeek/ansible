@@ -1,0 +1,6 @@
+- name: Install keepalived_fault
+  hosts: "{{hosts}}"
+  remote_user: root
+  roles:
+  - keepalived_fault_install
+  tags: keepalived_fault
